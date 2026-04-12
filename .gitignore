@@ -1,0 +1,43 @@
+# ==================== General ====================
+.DS_Store
+*.log
+*.tmp
+*.swp
+*~
+
+# ==================== IDE ====================
+.idea/
+*.iml
+.vscode/
+*.code-workspace
+.project
+.classpath
+.settings/
+
+# ==================== Environment ====================
+.env
+.env.local
+.env.*.local
+
+# ==================== Frontend ====================
+frontend/node_modules/
+frontend/dist/
+frontend/.cache/
+frontend/coverage/
+frontend/playwright-report/
+frontend/test-results/
+
+# ==================== Backend ====================
+backend/target/
+backend/*.jar
+backend/*.war
+backend/*.class
+backend/.mvn/wrapper/maven-wrapper.jar
+
+# ==================== Docker ====================
+docker-compose.override.yml
+
+# ==================== Secrets ====================
+*.pem
+*.key
+credentials.json

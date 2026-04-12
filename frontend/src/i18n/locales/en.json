@@ -1,0 +1,438 @@
+{
+  "nav": {
+    "flights": "Flights",
+    "transport": "Ground Transport",
+    "myBookings": "My Bookings",
+    "services": "Services",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "common": {
+    "search": "Search",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "loading": "Loading...",
+    "noResults": "No results",
+    "error": "An error occurred",
+    "success": "Operation successful",
+    "close": "Close",
+    "add": "Add",
+    "remove": "Remove",
+    "select": "Select",
+    "total": "Total",
+    "price": "Price",
+    "from": "From",
+    "to": "To",
+    "date": "Date",
+    "time": "Time",
+    "status": "Status",
+    "details": "Details",
+    "download": "Download",
+    "or": "or",
+    "and": "and",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "home": {
+    "hero": {
+      "title": "Cheap flights, door-to-door peace of mind",
+      "subtitle": "Find the lowest fares across hundreds of airlines, then let us handle the rest — a taxi waiting at the kerb with your name on a placard, or a city ride the moment you land.",
+      "cta": "Search for a flight"
+    },
+    "stats": {
+      "flights": "Available flights",
+      "destinations": "Destinations",
+      "customers": "Happy customers",
+      "airlines": "Airlines"
+    },
+    "services": {
+      "title": "Our Services",
+      "subtitle": "Everything you need for a perfect trip",
+      "taxi": {
+        "title": "Taxi at the kerb",
+        "description": "Pre-book a driver to wait for you at arrivals — name placard included — or rent a cab in the city you're flying to"
+      },
+      "baggage": {
+        "title": "Baggage Declaration",
+        "description": "Declare your baggage in advance and avoid surprises at the airport"
+      },
+      "checkin": {
+        "title": "Online Check-in",
+        "description": "Check in online and save time at the airport"
+      },
+      "insurance": {
+        "title": "Travel Insurance",
+        "description": "Protect your trip with our comprehensive insurance"
+      }
+    },
+    "airlines": {
+      "title": "Partner Airlines",
+      "subtitle": "Travel with the world's best airlines"
+    }
+  },
+  "flight": {
+    "search": {
+      "origin": "Departure city",
+      "destination": "Arrival city",
+      "departureDate": "Departure date",
+      "returnDate": "Return date",
+      "passengers": "Passengers",
+      "class": "Class",
+      "oneWay": "One way",
+      "roundTrip": "Round trip",
+      "searchButton": "Search flights",
+      "swap": "Swap"
+    },
+    "class": {
+      "ECONOMY": "Economy",
+      "BUSINESS": "Business",
+      "FIRST": "First"
+    },
+    "status": {
+      "SCHEDULED": "Scheduled",
+      "DELAYED": "Delayed",
+      "CANCELLED": "Cancelled",
+      "BOARDING": "Boarding",
+      "IN_FLIGHT": "In Flight",
+      "LANDED": "Landed"
+    },
+    "card": {
+      "direct": "Direct",
+      "stop": "stop",
+      "stops": "stops",
+      "duration": "Duration",
+      "seatsLeft": "seats left",
+      "selectFlight": "Select this flight",
+      "perPerson": "/ person"
+    },
+    "filters": {
+      "title": "Filters",
+      "airline": "Airline",
+      "stops": "Stops",
+      "anyStops": "Any",
+      "directOnly": "Direct only",
+      "oneStop": "1 stop max",
+      "priceRange": "Price range",
+      "departureTime": "Departure time",
+      "morning": "Morning (06:00-12:00)",
+      "afternoon": "Afternoon (12:00-18:00)",
+      "evening": "Evening (18:00-00:00)",
+      "reset": "Reset filters"
+    },
+    "sort": {
+      "title": "Sort by",
+      "price": "Price",
+      "duration": "Duration",
+      "departure": "Departure"
+    },
+    "results": {
+      "title": "Search Results",
+      "found": "{{count}} flight(s) found",
+      "noResults": "No flights found for these criteria",
+      "tryAgain": "Try modifying your search criteria"
+    }
+  },
+  "booking": {
+    "steps": {
+      "search": "Search",
+      "selectFlight": "Flight selection",
+      "selectSeats": "Seat selection",
+      "passengerInfo": "Passenger info",
+      "arrivalTransport": "Arrival transport",
+      "services": "Services",
+      "payment": "Payment",
+      "confirmation": "Confirmation"
+    },
+    "arrivalTransport": {
+      "eyebrow": "Step IV · The other half",
+      "title": "What's waiting on the other side?",
+      "subtitle": "A driver holding a placard with your name. Or a set of keys and an open road. Pick one — or skip and figure it out at the kerb.",
+      "skip": "Skip — I'll figure it out",
+      "pickOne": "Pick one to continue",
+      "taxi": {
+        "eyebrow": "Driver with a placard",
+        "title": "Meet me at arrivals",
+        "description": "A driver waiting at your arrival gate with your name printed on a placard. Door-to-door, fixed fare.",
+        "priceLabel": "Flat fare",
+        "priceStubLabel": "Driver waiting · all-in",
+        "formTitle": "Driver brief",
+        "formSubtitle": "Tell us who to look for",
+        "placardName": "Name on placard",
+        "contactPhone": "Contact phone",
+        "meetingPoint": "Meeting point",
+        "defaultMeetingPoint": "Arrivals hall — exit gate",
+        "dropoffAddress": "Drop-off address"
+      },
+      "rental": {
+        "eyebrow": "Self-drive rental",
+        "title": "Keys at the airport",
+        "description": "Pick up a rental car the moment you land — return it where you like, when you like.",
+        "priceLabel": "From / day",
+        "priceStubLabel": "Rental · {{days}} day(s)",
+        "formTitle": "Rental brief",
+        "formSubtitle": "Pick your wheels",
+        "carClass": "Car class",
+        "pickupDate": "Pickup date",
+        "returnDate": "Return date",
+        "returnLocation": "Return location",
+        "classes": {
+          "ECONOMY": "Economy",
+          "COMPACT": "Compact",
+          "SUV": "SUV",
+          "PREMIUM": "Premium"
+        },
+        "return": {
+          "SAME": "Same airport",
+          "DIFFERENT": "Different city"
+        }
+      }
+    },
+    "seats": {
+      "title": "Choose your seats",
+      "legend": {
+        "available": "Available",
+        "occupied": "Occupied",
+        "selected": "Selected",
+        "premium": "Premium"
+      },
+      "info": {
+        "row": "Row",
+        "seat": "Seat",
+        "class": "Class",
+        "window": "Window",
+        "aisle": "Aisle",
+        "exit": "Exit row"
+      },
+      "selected": "Selected seats",
+      "noSelection": "No seats selected"
+    },
+    "passenger": {
+      "title": "Passenger Information",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "phone": "Phone",
+      "dateOfBirth": "Date of birth",
+      "passportNumber": "Passport number",
+      "addPassenger": "Add passenger",
+      "removePassenger": "Remove this passenger",
+      "passenger": "Passenger"
+    },
+    "services": {
+      "title": "Additional Services",
+      "subtitle": "Add services to your booking",
+      "taxi": "Taxi Booking",
+      "baggage": "Baggage Declaration",
+      "insurance": "Travel Insurance",
+      "priorityBoarding": "Priority Boarding",
+      "added": "Added",
+      "notAdded": "Not added"
+    },
+    "confirmation": {
+      "title": "Booking Confirmed!",
+      "subtitle": "Your booking has been successfully completed",
+      "reference": "Booking reference",
+      "flightSummary": "Flight summary",
+      "passengers": "Passengers",
+      "totalPrice": "Total price",
+      "downloadBoardingPass": "Download boarding pass",
+      "backToDashboard": "Back to dashboard",
+      "bookAnother": "Book another flight"
+    },
+    "status": {
+      "PENDING": "Pending",
+      "CONFIRMED": "Confirmed",
+      "CANCELLED": "Cancelled",
+      "COMPLETED": "Completed"
+    }
+  },
+  "payment": {
+    "title": "Payment",
+    "subtitle": "Finalize your booking",
+    "orderSummary": "Order summary",
+    "flight": "Flight",
+    "seats": "Seats",
+    "services": "Services",
+    "subtotal": "Subtotal",
+    "taxes": "Taxes and fees",
+    "total": "Total",
+    "cardDetails": "Card details",
+    "payButton": "Pay {{amount}}",
+    "processing": "Processing...",
+    "success": "Payment successful!",
+    "failed": "Payment failed",
+    "retry": "Retry",
+    "secure": "Secure payment by Stripe"
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "subtitle": "Sign in to your Fly & Taxi account",
+      "email": "Email address",
+      "password": "Password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "loginButton": "Sign in",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "orContinueWith": "Or continue with"
+    },
+    "register": {
+      "title": "Register",
+      "subtitle": "Create your Fly & Taxi account",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email address",
+      "phone": "Phone",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "terms": "I accept the terms of service and privacy policy",
+      "registerButton": "Sign up",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "orContinueWith": "Or continue with"
+    },
+    "validation": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Email is not valid",
+      "passwordRequired": "Password is required",
+      "passwordMin": "Password must be at least 8 characters",
+      "passwordMatch": "Passwords do not match",
+      "firstNameRequired": "First name is required",
+      "lastNameRequired": "Last name is required",
+      "termsRequired": "You must accept the terms"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome, {{name}}!",
+    "overview": {
+      "upcomingFlights": "Upcoming flights",
+      "pastBookings": "Past bookings",
+      "totalSpent": "Total spent"
+    },
+    "upcoming": {
+      "title": "Upcoming Flights",
+      "noFlights": "No upcoming flights",
+      "bookNow": "Book a flight now"
+    },
+    "recent": {
+      "title": "Recent Bookings",
+      "noBookings": "No bookings",
+      "viewAll": "View all"
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "newBooking": "New Booking",
+      "checkIn": "Check-in",
+      "manageProfile": "Manage Profile"
+    }
+  },
+  "services": {
+    "taxi": {
+      "title": "Taxi Reservation",
+      "pickupAddress": "Pickup address",
+      "pickupDate": "Pickup date",
+      "pickupTime": "Pickup time",
+      "estimatedPrice": "Estimated price",
+      "estimatedDuration": "Estimated duration",
+      "mapPlaceholder": "Mapbox map integration will be available soon",
+      "addToBooking": "Add to booking"
+    },
+    "baggage": {
+      "title": "Baggage Declaration",
+      "type": "Baggage type",
+      "cabin": "Cabin baggage",
+      "checked": "Checked baggage",
+      "special": "Special baggage",
+      "weight": "Weight (kg)",
+      "dimensions": "Dimensions (L x W x H cm)",
+      "addBag": "Add baggage",
+      "totalCharge": "Extra charges"
+    }
+  },
+  "transport": {
+    "eyebrow": "Door-to-door · without a flight",
+    "title": "On the ground, on your terms",
+    "subtitle": "Book a driver waiting at any airport with your name on a placard, or grab a rental car and head wherever the road takes you. No flight required.",
+    "modes": {
+      "taxi": "Airport pickup",
+      "rental": "Rent a car"
+    },
+    "form": {
+      "pickupAirport": "Pickup airport",
+      "rentalAirport": "Rental location · airport",
+      "pickupDate": "Pickup date",
+      "rentalPickupDate": "Rental start",
+      "returnDate": "Return date",
+      "passengers": "Travellers",
+      "ready": "Ready to roll",
+      "search": "Search"
+    },
+    "empty": {
+      "taxi": "Tell us where to meet you.",
+      "rental": "Tell us where you're landing.",
+      "helper": "Pick an airport above to see live offers."
+    },
+    "results": {
+      "taxiHeader": "Drivers available",
+      "rentalHeader": "Rental cars at",
+      "count": "{{count}} offer(s)",
+      "none": "No offers for that airport — try another."
+    },
+    "card": {
+      "placard": "With placard",
+      "vehicle": "Vehicle",
+      "car": "Car",
+      "capacity": "Up to {{count}} pax",
+      "flatFare": "Flat fare",
+      "perDay": "Per day",
+      "book": "Book"
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "subtitle": "The page you are looking for does not exist or has been moved",
+    "backHome": "Back to home"
+  },
+  "footer": {
+    "about": "About",
+    "aboutText": "Fly & Taxi is your online flight booking platform. Find the best prices and travel with peace of mind.",
+    "links": {
+      "title": "Useful links",
+      "flights": "Search a flight",
+      "services": "Our services",
+      "faq": "FAQ",
+      "contact": "Contact"
+    },
+    "legal": {
+      "title": "Legal information",
+      "terms": "Terms of service",
+      "privacy": "Privacy policy",
+      "cookies": "Cookie policy"
+    },
+    "social": {
+      "title": "Follow us"
+    },
+    "copyright": "Fly & Taxi. All rights reserved."
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "language": {
+    "fr": "Francais",
+    "en": "English"
+  }
+}
