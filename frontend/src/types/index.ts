@@ -289,3 +289,45 @@ export interface PaginatedResponse<T> {
   totalPages: number;
   last: boolean;
 }
+
+// AI-powered destination concierge
+export type SafetyLevel = "LOW" | "MODERATE" | "ELEVATED" | "HIGH";
+
+export interface DestinationInsights {
+  iata: string;
+  city: string;
+  country: string;
+  tagline: string;
+  safety: {
+    level: SafetyLevel;
+    summary: string;
+    watchouts: string[];
+  };
+  events: Array<{
+    title: string;
+    window: string;
+    location: string;
+    description: string;
+  }>;
+  mustDo: Array<{
+    title: string;
+    category: string;
+    description: string;
+    neighbourhood: string;
+  }>;
+  dailyTips: Array<{
+    icon: string;
+    title: string;
+    detail: string;
+  }>;
+  practical: {
+    currency: string;
+    language: string;
+    timezone: string;
+    plug: string;
+    tipping: string;
+    transportTip: string;
+  };
+  source: "claude" | "stub";
+  generatedAt: string;
+}

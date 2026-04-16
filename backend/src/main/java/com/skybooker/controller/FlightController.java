@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -43,6 +44,14 @@ public class FlightController {
         );
         FlightSearchResponse response = flightService.searchFlights(request, page, size);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/deals")
+    @Operation(summary = "Top flight deals across airlines and OTAs")
+    public ResponseEntity<List<FlightResponse>> getDeals(
+            @RequestParam(defaultValue = "6") int limit
+    ) {
+        return ResponseEntity.ok(flightService.getTopDeals(Math.min(Math.max(limit, 1), 12)));
     }
 
     @GetMapping("/{id}")

@@ -50,7 +50,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/flights/search").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/flights/deals").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/flights/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/destinations/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/destinations/**").permitAll()
                         .requestMatchers("/api/v1/payments/webhook").permitAll()
                         .requestMatchers(
                                 "/swagger-ui/**",

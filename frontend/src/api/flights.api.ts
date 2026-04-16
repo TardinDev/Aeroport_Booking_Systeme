@@ -51,6 +51,13 @@ export const flightsApi = {
     return response.data.data;
   },
 
+  getDeals: async (limit: number = 6): Promise<Flight[]> => {
+    const response = await apiClient.get<Flight[]>("/flights/deals", {
+      params: { limit },
+    });
+    return response.data;
+  },
+
   getAirports: async (
     query: string
   ): Promise<Array<{ code: string; name: string; city: string; country: string }>> => {

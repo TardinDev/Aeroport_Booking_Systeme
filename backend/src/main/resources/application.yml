@@ -54,6 +54,20 @@ app:
     secret-key: ${STRIPE_SECRET_KEY:sk_test_xxxx}
     webhook-secret: ${STRIPE_WEBHOOK_SECRET:whsec_xxxx}
 
+skybooker:
+  integrations:
+    amadeus:
+      enabled: ${AMADEUS_ENABLED:false}
+      base-url: ${AMADEUS_BASE_URL:https://test.api.amadeus.com}
+      api-key: ${AMADEUS_API_KEY:}
+      api-secret: ${AMADEUS_API_SECRET:}
+    ai:
+      enabled: ${AI_ENABLED:false}
+      base-url: ${ANTHROPIC_BASE_URL:https://api.anthropic.com}
+      api-key: ${ANTHROPIC_API_KEY:}
+      model: ${ANTHROPIC_MODEL:claude-sonnet-4-6}
+      max-tokens: 1200
+
 springdoc:
   api-docs:
     path: /api-docs

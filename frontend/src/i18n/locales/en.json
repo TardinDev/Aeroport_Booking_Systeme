@@ -45,15 +45,153 @@
   },
   "home": {
     "hero": {
-      "title": "Cheap flights, door-to-door peace of mind",
+      "eyebrow": "The travel essay · Departures",
+      "title": "The art of taking off.",
+      "titlePre": "The",
+      "titleItalicA": "art",
+      "titleOf": "of",
+      "titleItalicB": "taking",
+      "titlePost": "off.",
       "subtitle": "Find the lowest fares across hundreds of airlines, then let us handle the rest — a taxi waiting at the kerb with your name on a placard, or a city ride the moment you land.",
+      "lede": "We hunt the cheapest fares across one hundred and twenty airlines, stitch together itineraries in five hundred cities — and arrange a taxi that meets you at arrivals with your name on a placard, or a metered cab to rent in the city you've just landed in. All that remains of the airport is the window seat.",
+      "readOn": "Read on",
+      "meta": "10 minutes · 4 sections",
       "cta": "Search for a flight"
     },
+    "request": {
+      "titlePre": "Request a",
+      "titleItalic": "flight.",
+      "description": "Fill in the coupons below as you would on a paper ticket. Departure, arrival, dates, party — the essentials of any itinerary, no more, no less. We search one hundred and twenty airlines on your behalf.",
+      "byEditors": "by the editors",
+      "formHeader": "Form № 001 · Travel request",
+      "formReceived": "Received · __ / __ / 26"
+    },
+    "deals": {
+      "eyebrow": "Live fares",
+      "titlePre": "Fares,",
+      "titleItalic": "live from",
+      "titlePost": "the wire.",
+      "caption": "Updated every half-hour. One cheapest offer per route, across carriers and agencies.",
+      "error": "The wire is quiet — please refresh in a moment.",
+      "direct": "Direct",
+      "stopOne": "{{count}} stop",
+      "stopOther": "{{count}} stops",
+      "directAirline": "Direct airline",
+      "viaAgency": "Via agency",
+      "from": "From",
+      "book": "Book"
+    },
+    "numbers": {
+      "titlePre": "By the",
+      "titleItalic": "numbers.",
+      "caption": "A small compendium of figures, compiled with modest pride."
+    },
     "stats": {
-      "flights": "Available flights",
+      "flights": "Flights daily",
       "destinations": "Destinations",
-      "customers": "Happy customers",
-      "airlines": "Airlines"
+      "airlines": "Partner airlines",
+      "customers": "Travellers served"
+    },
+    "spotlight": {
+      "eyebrow": "Concierge",
+      "titlePre": "A city,",
+      "titleItalic": "fully briefed",
+      "titleDot": ".",
+      "description": "Our concierge reads the room for you. Safety at a glance, what's on this season, the five things locals would do before leaving town — all in one page, no tabs, no ads.",
+      "safetySnapshot": "Safety snapshot",
+      "whatNotToMiss": "What not to miss",
+      "inSeason": "In season",
+      "dailyTips": "Daily tips",
+      "currency": "Currency",
+      "language": "Language",
+      "timezone": "Time zone",
+      "plug": "Plug",
+      "transport": "Transport",
+      "airportLabel": "Airport {{iata}}",
+      "concierge": "Concierge",
+      "briefingBy": "Briefing by",
+      "byAI": "SkyBooker AI concierge",
+      "byEditors": "SkyBooker editors",
+      "verifyNotice": "Verify with official sources before travel",
+      "error": "The concierge desk is unreachable. Please try again."
+    },
+    "kindnesses": {
+      "titlePre": "Small",
+      "titleItalic": "kindnesses",
+      "titlePost": ", at every step.",
+      "learnMore": "Learn more",
+      "items": {
+        "taxi": {
+          "title": "Taxi at the kerb",
+          "lede": "A driver waits with your name on a card. No hailing, no queuing, no haggling — only the soft thud of the boot closing."
+        },
+        "baggage": {
+          "title": "Baggage, accounted for",
+          "lede": "Declare your luggage in advance. Avoid the surcharge, the lost-and-found, the uneasy wait at the carousel."
+        },
+        "checkin": {
+          "title": "Check-in on your phone",
+          "lede": "Forty-eight hours before departure, a boarding pass lands in your inbox. Walk past the queue. Find a coffee."
+        },
+        "insurance": {
+          "title": "Insured, reassured",
+          "lede": "Lost passports, delayed flights, an umbrella stolen in Lisbon. Our policies cover the small catastrophes of travel."
+        }
+      }
+    },
+    "dispatches": {
+      "titlePre": "Three",
+      "titleItalic": "dispatches",
+      "titlePost": "to consider.",
+      "caption": "Curated by our editors this month. All prices per person, return.",
+      "nightsMinimum": "{{count}} nights minimum",
+      "fromPrice": "from",
+      "readDispatch": "Read dispatch",
+      "items": {
+        "nyc": {
+          "note": "The classic crossing. Eight hours above the Atlantic, then the skyline.",
+          "nights": "3 nights minimum"
+        },
+        "tokyo": {
+          "note": "A quiet morning in Shinjuku, a bowl of ramen before midnight.",
+          "nights": "7 nights minimum"
+        },
+        "buenosAires": {
+          "note": "Tango on cobblestones. Malbec and steak at half past ten.",
+          "nights": "10 nights minimum"
+        }
+      }
+    },
+    "taxiSection": {
+      "titlePre": "The other half:",
+      "titleItalic": "a taxi",
+      "titlePost": ", waiting.",
+      "description": "Anyone can sell you a cheap flight. We do something quietly more useful: we make sure a driver is there when the cabin doors open. Reserve a meet-and-greet at arrivals, or a metered cab to rent in the destination city — both attached to the same booking, both billed in the currency of your choosing.",
+      "citiesAvailable": "Available in 220+ cities",
+      "items": {
+        "arrivals": {
+          "title": "A driver waiting at arrivals",
+          "lede": "Step out of customs and find your name on a card. The boot is open, the engine is warm, the city is twenty minutes away."
+        },
+        "cityRental": {
+          "title": "A cab to rent in the city",
+          "lede": "Need wheels for a day, a week, a month? Reserve a metered cab in your destination city — same booking, same currency, same trust."
+        }
+      }
+    },
+    "payments": {
+      "titlePre": "Pay the way",
+      "titleItalic": "you prefer",
+      "titleDot": ".",
+      "description": "From a Visa swipe in Paris to Alipay in Shanghai or M-Pesa in Nairobi — we accept the world's payment methods, in any of twelve currencies."
+    },
+    "closing": {
+      "eyebrow": "A closing word",
+      "quoteLead": "Travel makes",
+      "quoteItalic": "one modest",
+      "quoteTail": ". You see what a tiny place you occupy in the world.",
+      "author": "— Gustave Flaubert, 1849",
+      "cta": "Begin your journey"
     },
     "services": {
       "title": "Our Services",
@@ -78,6 +216,32 @@
     "airlines": {
       "title": "Partner Airlines",
       "subtitle": "Travel with the world's best airlines"
+    }
+  },
+  "header": {
+    "tagline": "Cheap flights · Door-to-door · Est. MMXXVI"
+  },
+  "concierge": {
+    "openLabel": "Ask the concierge",
+    "brand": "SkyBooker",
+    "panelTitle": "Travel concierge",
+    "searchLabel": "Any city in the world",
+    "searchPlaceholder": "Tokyo, Paris, BCN…",
+    "jumpTo": "Or jump to —",
+    "safety": "Safety",
+    "events": "Events",
+    "whatLocalsDo": "What locals would do",
+    "dailyTips": "Daily tips",
+    "footerAi": "Answer generated by SkyBooker AI — verify before travel",
+    "footerStub": "Answers curated by SkyBooker editors",
+    "error": "The concierge desk is closed for the moment.",
+    "close": "Close",
+    "clear": "Clear",
+    "safetyLevels": {
+      "LOW": "Low concern",
+      "MODERATE": "Standard caution",
+      "ELEVATED": "Elevated alert",
+      "HIGH": "High alert"
     }
   },
   "flight": {
@@ -432,7 +596,17 @@
     "system": "System"
   },
   "language": {
-    "fr": "Francais",
-    "en": "English"
+    "fr": "Français",
+    "en": "English",
+    "es": "Español",
+    "zh": "中文",
+    "picker": {
+      "eyebrow": "Welcome aboard",
+      "title": "Choose your language",
+      "subtitle": "You can change this at any moment from the header.",
+      "continue": "Continue",
+      "skip": "Skip for now",
+      "menuLabel": "Language"
+    }
   }
 }

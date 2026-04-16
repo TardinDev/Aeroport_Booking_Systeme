@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { LanguagePicker } from "@/components/layout/LanguagePicker";
 
 export function Layout() {
   return (
@@ -10,6 +11,7 @@ export function Layout() {
         <Outlet />
       </main>
       <Footer />
+      <LanguagePicker />
     </div>
   );
 }

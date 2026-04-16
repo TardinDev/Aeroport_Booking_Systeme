@@ -45,15 +45,153 @@
   },
   "home": {
     "hero": {
-      "title": "Vols pas chers, du depart a l'arrivee",
-      "subtitle": "Trouvez les prix les plus bas parmi des centaines de compagnies, puis laissez-nous nous occuper du reste — un taxi qui vous attend avec une pancarte a votre nom, ou une voiture a louer des votre arrivee en ville.",
+      "eyebrow": "L'essai voyage · Départs",
+      "title": "L'art de décoller.",
+      "titlePre": "L'",
+      "titleItalicA": "art",
+      "titleOf": "de",
+      "titleItalicB": "décoller",
+      "titlePost": ".",
+      "subtitle": "Trouvez les prix les plus bas parmi des centaines de compagnies, puis laissez-nous nous occuper du reste — un taxi qui vous attend avec une pancarte à votre nom, ou une voiture à louer dès votre arrivée en ville.",
+      "lede": "Nous traquons les tarifs les plus bas chez cent vingt compagnies, tissons des itinéraires dans cinq cents villes — et commandons un taxi qui vous attend à l'arrivée avec votre nom sur une pancarte, ou une voiture à louer dans la ville que vous venez d'atteindre. De l'aéroport, il ne reste que la place côté hublot.",
+      "readOn": "Lire la suite",
+      "meta": "10 minutes · 4 sections",
       "cta": "Rechercher un vol"
     },
+    "request": {
+      "titlePre": "Demander un",
+      "titleItalic": "vol.",
+      "description": "Remplissez les coupons ci-dessous comme sur un billet papier. Départ, arrivée, dates, voyageurs — l'essentiel d'un itinéraire, rien de plus, rien de moins. Nous interrogeons cent vingt compagnies pour vous.",
+      "byEditors": "par les éditeurs",
+      "formHeader": "Formulaire № 001 · Demande de voyage",
+      "formReceived": "Reçu · __ / __ / 26"
+    },
+    "deals": {
+      "eyebrow": "Tarifs en direct",
+      "titlePre": "Tarifs,",
+      "titleItalic": "en direct",
+      "titlePost": "du fil.",
+      "caption": "Actualisé toutes les demi-heures. Le tarif le plus bas pour chaque liaison, chez les compagnies et les agences.",
+      "error": "Le fil est silencieux — veuillez actualiser dans un instant.",
+      "direct": "Direct",
+      "stopOne": "{{count}} escale",
+      "stopOther": "{{count}} escales",
+      "directAirline": "Compagnie directe",
+      "viaAgency": "Via agence",
+      "from": "À partir de",
+      "book": "Réserver"
+    },
+    "numbers": {
+      "titlePre": "En",
+      "titleItalic": "chiffres.",
+      "caption": "Un petit compendium de données, compilées avec une modeste fierté."
+    },
     "stats": {
-      "flights": "Vols disponibles",
+      "flights": "Vols par jour",
       "destinations": "Destinations",
-      "customers": "Clients satisfaits",
-      "airlines": "Compagnies aeriennes"
+      "airlines": "Compagnies partenaires",
+      "customers": "Voyageurs servis"
+    },
+    "spotlight": {
+      "eyebrow": "Concierge",
+      "titlePre": "Une ville,",
+      "titleItalic": "entièrement briefée",
+      "titleDot": ".",
+      "description": "Notre concierge prend la mesure du lieu pour vous. La sécurité d'un coup d'œil, ce qui se passe en ce moment, les cinq choses que feraient les habitants avant de quitter la ville — tout sur une page, sans onglets, sans publicité.",
+      "safetySnapshot": "Sécurité en bref",
+      "whatNotToMiss": "À ne pas manquer",
+      "inSeason": "En ce moment",
+      "dailyTips": "Conseils du jour",
+      "currency": "Devise",
+      "language": "Langue",
+      "timezone": "Fuseau horaire",
+      "plug": "Prise",
+      "transport": "Transport",
+      "airportLabel": "Aéroport {{iata}}",
+      "concierge": "Concierge",
+      "briefingBy": "Briefing par",
+      "byAI": "Concierge IA SkyBooker",
+      "byEditors": "Rédaction SkyBooker",
+      "verifyNotice": "Vérifiez auprès des sources officielles avant de partir",
+      "error": "Le bureau du concierge est injoignable. Veuillez réessayer."
+    },
+    "kindnesses": {
+      "titlePre": "De petites",
+      "titleItalic": "attentions",
+      "titlePost": ", à chaque étape.",
+      "learnMore": "En savoir plus",
+      "items": {
+        "taxi": {
+          "title": "Taxi au trottoir",
+          "lede": "Un chauffeur vous attend avec votre nom sur une pancarte. Pas de hélage, pas de queue, pas de marchandage — seulement le coffre qui se referme doucement."
+        },
+        "baggage": {
+          "title": "Bagages, déclarés",
+          "lede": "Déclarez vos bagages à l'avance. Évitez le supplément, les objets trouvés, l'attente anxieuse au tapis."
+        },
+        "checkin": {
+          "title": "Enregistrement au téléphone",
+          "lede": "Quarante-huit heures avant le départ, une carte d'embarquement arrive dans votre boîte. Dépassez la file. Prenez un café."
+        },
+        "insurance": {
+          "title": "Assuré, rassuré",
+          "lede": "Passeports perdus, vols retardés, un parapluie volé à Lisbonne. Nos polices couvrent les petites catastrophes du voyage."
+        }
+      }
+    },
+    "dispatches": {
+      "titlePre": "Trois",
+      "titleItalic": "dépêches",
+      "titlePost": "à considérer.",
+      "caption": "Sélectionné par nos éditeurs ce mois-ci. Tous les prix sont par personne, aller-retour.",
+      "nightsMinimum": "{{count}} nuits minimum",
+      "fromPrice": "à partir de",
+      "readDispatch": "Lire la dépêche",
+      "items": {
+        "nyc": {
+          "note": "La traversée classique. Huit heures au-dessus de l'Atlantique, puis les gratte-ciel.",
+          "nights": "3 nuits minimum"
+        },
+        "tokyo": {
+          "note": "Un matin calme à Shinjuku, un bol de rāmen avant minuit.",
+          "nights": "7 nuits minimum"
+        },
+        "buenosAires": {
+          "note": "Tango sur pavés. Malbec et steak à dix heures et demie.",
+          "nights": "10 nuits minimum"
+        }
+      }
+    },
+    "taxiSection": {
+      "titlePre": "L'autre moitié :",
+      "titleItalic": "un taxi",
+      "titlePost": ", qui attend.",
+      "description": "N'importe qui peut vous vendre un vol pas cher. Nous faisons quelque chose de plus discrètement utile : nous veillons à ce qu'un chauffeur soit là quand les portes de la cabine s'ouvrent. Réservez un accueil à l'arrivée, ou une voiture avec compteur à louer dans la ville de destination — même réservation, même devise, même confiance.",
+      "citiesAvailable": "Disponible dans plus de 220 villes",
+      "items": {
+        "arrivals": {
+          "title": "Un chauffeur vous attend à l'arrivée",
+          "lede": "Sortez de la douane et trouvez votre nom sur une pancarte. Le coffre est ouvert, le moteur est chaud, la ville est à vingt minutes."
+        },
+        "cityRental": {
+          "title": "Un taxi à louer en ville",
+          "lede": "Besoin de roues pour un jour, une semaine, un mois ? Réservez un taxi avec compteur dans votre ville de destination — même réservation, même devise, même confiance."
+        }
+      }
+    },
+    "payments": {
+      "titlePre": "Payez comme",
+      "titleItalic": "vous préférez",
+      "titleDot": ".",
+      "description": "Du coup de carte Visa à Paris à Alipay à Shanghai ou M-Pesa à Nairobi — nous acceptons les moyens de paiement du monde entier, dans douze devises."
+    },
+    "closing": {
+      "eyebrow": "Un mot de clôture",
+      "quoteLead": "Voyager rend",
+      "quoteItalic": "modeste",
+      "quoteTail": ". On voit quelle petite place on occupe dans le monde.",
+      "author": "— Gustave Flaubert, 1849",
+      "cta": "Commencer le voyage"
     },
     "services": {
       "title": "Nos Services",
@@ -78,6 +216,32 @@
     "airlines": {
       "title": "Compagnies Partenaires",
       "subtitle": "Voyagez avec les meilleures compagnies aeriennes du monde"
+    }
+  },
+  "header": {
+    "tagline": "Vols pas chers · Porte à porte · Est. MMXXVI"
+  },
+  "concierge": {
+    "openLabel": "Demander au concierge",
+    "brand": "SkyBooker",
+    "panelTitle": "Concierge voyage",
+    "searchLabel": "Une ville, n'importe laquelle",
+    "searchPlaceholder": "Tokyo, Paris, BCN…",
+    "jumpTo": "Ou passez à —",
+    "safety": "Sécurité",
+    "events": "Événements",
+    "whatLocalsDo": "Ce que feraient les habitants",
+    "dailyTips": "Conseils du jour",
+    "footerAi": "Réponse générée par l'IA SkyBooker — vérifiez avant de voyager",
+    "footerStub": "Réponses curatées par la rédaction SkyBooker",
+    "error": "Le bureau du concierge est fermé pour l'instant.",
+    "close": "Fermer",
+    "clear": "Effacer",
+    "safetyLevels": {
+      "LOW": "Faible préoccupation",
+      "MODERATE": "Prudence standard",
+      "ELEVATED": "Alerte élevée",
+      "HIGH": "Alerte importante"
     }
   },
   "flight": {
@@ -432,7 +596,17 @@
     "system": "Systeme"
   },
   "language": {
-    "fr": "Francais",
-    "en": "English"
+    "fr": "Français",
+    "en": "English",
+    "es": "Español",
+    "zh": "中文",
+    "picker": {
+      "eyebrow": "Bienvenue à bord",
+      "title": "Choisissez votre langue",
+      "subtitle": "Vous pouvez la modifier à tout moment depuis l'en-tête.",
+      "continue": "Continuer",
+      "skip": "Plus tard",
+      "menuLabel": "Langue"
+    }
   }
 }

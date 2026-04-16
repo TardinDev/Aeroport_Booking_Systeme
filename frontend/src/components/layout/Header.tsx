@@ -7,7 +7,6 @@ import {
   X,
   Moon,
   Sun,
-  Globe,
   User,
   LogOut,
   LayoutDashboard,
@@ -29,9 +28,10 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { useTheme } from "@/providers/ThemeProvider";
 import { cn } from "@/lib/utils";
 import { CurrencySelector } from "@/components/shared/CurrencySelector";
+import { LanguageMenu } from "@/components/layout/LanguageMenu";
 
 export function Header() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const { user, isAuthenticated, logout } = useAuthStore();
@@ -48,11 +48,6 @@ export function Header() {
 
   const isActive = (to: string) =>
     location.pathname === to || location.pathname.startsWith(`${to}/`);
-
-  const toggleLanguage = () => {
-    const newLang = i18n.language === "fr" ? "en" : "fr";
-    i18n.changeLanguage(newLang);
-  };
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
@@ -96,7 +91,7 @@ export function Header() {
               <span className="display-serif-italic">Taxi</span>
             </span>
             <span className="small-caps mt-1 text-[0.55rem] text-ink-faded">
-              CHEAP FLIGHTS · DOOR-TO-DOOR · EST. MMXXVI
+              {t("header.tagline")}
             </span>
           </Link>
 
@@ -129,15 +124,7 @@ export function Header() {
           <div className="hidden items-center gap-1 md:flex">
             <CurrencySelector />
 
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleLanguage}
-              className="rounded-none text-ink hover:bg-ink/5"
-            >
-              <Globe className="h-4 w-4" />
-              <span className="sr-only">Switch language</span>
-            </Button>
+            <LanguageMenu compact />
 
             <Button
               variant="ghost"
@@ -277,15 +264,7 @@ export function Header() {
 
               <div className="rule-top flex flex-wrap items-center gap-3 pt-4">
                 <CurrencySelector variant="editorial" />
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={toggleLanguage}
-                  className="small-caps rounded-none"
-                >
-                  <Globe className="mr-2 h-4 w-4" />
-                  {i18n.language === "fr" ? "EN" : "FR"}
-                </Button>
+                <LanguageMenu />
                 <Button
                   variant="ghost"
                   size="sm"
@@ -297,7 +276,7 @@ export function Header() {
                   ) : (
                     <Moon className="mr-2 h-4 w-4" />
                   )}
-                  {theme === "dark" ? "Light" : "Dark"}
+                  {theme === "dark" ? t("theme.light") : t("theme.dark")}
                 </Button>
               </div>
 

@@ -15,6 +15,7 @@ import com.skybooker.mapper.SeatMapper;
 import com.skybooker.repository.FlightRepository;
 import com.skybooker.repository.SeatRepository;
 import com.skybooker.service.flight.FlightGeneratorService;
+import com.skybooker.service.integration.AmadeusClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -24,8 +25,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,6 +42,7 @@ public class FlightService {
     private final FlightMapper flightMapper;
     private final SeatMapper seatMapper;
     private final FlightGeneratorService flightGeneratorService;
+    private final AmadeusClient amadeusClient;
 
     @Transactional(readOnly = true)
     public FlightSearchResponse searchFlights(FlightSearchRequest request, int page, int size) {
@@ -76,14 +80,28 @@ public class FlightService {
                 .map(flightMapper::toResponse)
                 .toList();
 
-        // Fallback — if the DB returned nothing, generate plausible flights
-        // on the fly so the user always sees real-looking results with
-        // working booking deep-links. Only runs when the caller provided
-        // both endpoints (otherwise we can't generate anything meaningful).
+        // Fallback ladder when the DB returned nothing:
+        //   1. Amadeus (if enabled + keys configured)
+        //   2. On-demand generator (always available)
+        // Both require a resolvable origin + destination.
         if (flights.isEmpty()
                 && request.origin() != null && !request.origin().isBlank()
                 && request.destination() != null && !request.destination().isBlank()) {
-            log.info("No DB match for {} → {}; generating mock results",
+
+            List<FlightResponse> external = amadeusClient.searchOffers(
+                    request.origin(),
+                    request.destination(),
+                    request.departureDate(),
+                    request.seatClass(),
+                    request.passengers() != null ? request.passengers() : 1,
+                    size
+            ).orElse(null);
+
+            if (external != null && !external.isEmpty()) {
+                return new FlightSearchResponse(external, external.size(), page, size, 1);
+            }
+
+            log.info("No DB/Amadeus match for {} → {}; generating mock results",
                     request.origin(), request.destination());
             List<FlightResponse> generated = flightGeneratorService.generate(
                     request.origin(),
@@ -145,5 +163,35 @@ public class FlightService {
         flight = flightRepository.save(flight);
         log.info("Flight created: {}", flight.getFlightNumber());
         return flightMapper.toResponse(flight);
+    }
+
+    /**
+     * Curated "deals" strip for the home page — one cheapest offer per
+     * popular route, spanning airlines and OTAs. Cached daily.
+     */
+    @Transactional(readOnly = true)
+    @Cacheable(value = "flight-deals", key = "#limit")
+    public List<FlightResponse> getTopDeals(int limit) {
+        String[][] routes = {
+                {"CDG", "JFK"},
+                {"LHR", "DXB"},
+                {"AMS", "NRT"},
+                {"BCN", "ICN"},
+                {"FRA", "SIN"},
+                {"CDG", "GIG"},
+                {"MAD", "MEX"},
+                {"LHR", "BKK"},
+        };
+        LocalDate date = LocalDate.now().plusDays(21);
+        List<FlightResponse> deals = new ArrayList<>();
+        for (int i = 0; i < Math.min(limit, routes.length); i++) {
+            List<FlightResponse> generated = flightGeneratorService.generate(
+                    routes[i][0], routes[i][1], date, null, 1, 3
+            );
+            generated.stream()
+                    .min((a, b) -> a.basePrice().compareTo(b.basePrice()))
+                    .ifPresent(deals::add);
+        }
+        return deals;
     }
 }

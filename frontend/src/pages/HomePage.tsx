@@ -5,8 +5,10 @@ import { motion } from "framer-motion";
 import { ArrowRight, Compass } from "lucide-react";
 
 import { FlightSearchForm } from "@/components/flights/FlightSearchForm";
+import { LiveDealsSection } from "@/components/home/LiveDealsSection";
+import { DestinationSpotlight } from "@/components/home/DestinationSpotlight";
+import { AIConcierge } from "@/components/home/AIConcierge";
 import { MagazineHeader } from "@/components/ui/magazine-header";
-import { SplitTitle } from "@/components/ui/split-title";
 import { DropCap } from "@/components/ui/drop-cap";
 import { Postmark } from "@/components/ui/postmark";
 import { TicketStub } from "@/components/ui/ticket-stub";
@@ -43,63 +45,36 @@ const FEATURED_DESTINATIONS = [
     code: "CDG → JFK",
     city: "New York",
     country: "United States",
-    nights: "3 nights minimum",
     priceEur: 389,
-    note: "The classic crossing. Eight hours above the Atlantic, then the skyline.",
+    key: "nyc",
   },
   {
     code: "LHR → HND",
     city: "Tōkyō",
     country: "Japan",
-    nights: "7 nights minimum",
     priceEur: 712,
-    note: "A quiet morning in Shinjuku, a bowl of ramen before midnight.",
+    key: "tokyo",
   },
   {
     code: "MAD → EZE",
     city: "Buenos Aires",
     country: "Argentina",
-    nights: "10 nights minimum",
     priceEur: 598,
-    note: "Tango on cobblestones. Malbec and steak at half past ten.",
+    key: "buenosAires",
   },
-];
+] as const;
 
 const TAXI_FEATURES = [
-  {
-    number: "α.",
-    title: "A driver waiting at arrivals",
-    lede: "Step out of customs and find your name on a card. The boot is open, the engine is warm, the city is twenty minutes away.",
-  },
-  {
-    number: "β.",
-    title: "A cab to rent in the city",
-    lede: "Need wheels for a day, a week, a month? Reserve a metered cab in your destination city — same booking, same currency, same trust.",
-  },
-];
+  { number: "α.", key: "arrivals" },
+  { number: "β.", key: "cityRental" },
+] as const;
 
 const SERVICES = [
-  {
-    number: "I.",
-    title: "Taxi at the kerb",
-    lede: "A driver waits with your name on a card. No hailing, no queuing, no haggling — only the soft thud of the boot closing.",
-  },
-  {
-    number: "II.",
-    title: "Baggage, accounted for",
-    lede: "Declare your luggage in advance. Avoid the surcharge, the lost-and-found, the uneasy wait at the carousel.",
-  },
-  {
-    number: "III.",
-    title: "Check-in on your phone",
-    lede: "Forty-eight hours before departure, a boarding pass lands in your inbox. Walk past the queue. Find a coffee.",
-  },
-  {
-    number: "IV.",
-    title: "Insured, reassured",
-    lede: "Lost passports, delayed flights, an umbrella stolen in Lisbon. Our policies cover the small catastrophes of travel.",
-  },
-];
+  { number: "I.", key: "taxi" },
+  { number: "II.", key: "baggage" },
+  { number: "III.", key: "checkin" },
+  { number: "IV.", key: "insurance" },
+] as const;
 
 export function HomePage() {
   const { t } = useTranslation();
@@ -157,7 +132,7 @@ export function HomePage() {
               className="small-caps mb-6 flex items-center gap-3 text-coral"
             >
               <span className="h-px w-10 bg-coral" />
-              The travel essay · Departures
+              {t("home.hero.eyebrow")}
             </motion.p>
 
             <motion.div
@@ -165,17 +140,17 @@ export function HomePage() {
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             >
-              <SplitTitle
-                as="h1"
-                className="text-6xl leading-[0.88] sm:text-7xl lg:text-[7.5rem]"
-                segments={[
-                  { text: "The", break: true },
-                  { text: "art", italic: true, tone: "coral" },
-                  { text: "of", break: true },
-                  { text: "taking", italic: true },
-                  { text: "off." },
-                ]}
-              />
+              <h1 className="display-serif text-6xl leading-[0.88] sm:text-7xl lg:text-[7.5rem]">
+                {t("home.hero.titlePre")}{" "}
+                <span className="display-serif-italic text-coral">
+                  {t("home.hero.titleItalicA")}
+                </span>{" "}
+                {t("home.hero.titleOf")}{" "}
+                <span className="display-serif-italic">
+                  {t("home.hero.titleItalicB")}
+                </span>
+                {t("home.hero.titlePost")}
+              </h1>
             </motion.div>
 
             <motion.div
@@ -184,14 +159,7 @@ export function HomePage() {
               transition={{ duration: 0.8, delay: 0.35 }}
               className="mt-10 max-w-xl"
             >
-              <DropCap>
-                {t("home.hero.subtitle")} We hunt the cheapest fares across
-                one hundred and twenty airlines, stitch together itineraries
-                in five hundred cities — and arrange a taxi that meets you at
-                arrivals with your name on a placard, or a metered cab to
-                rent in the city you've just landed in. All that remains of
-                the airport is the window seat.
-              </DropCap>
+              <DropCap>{t("home.hero.lede")}</DropCap>
             </motion.div>
 
             <motion.div
@@ -209,7 +177,9 @@ export function HomePage() {
                 }
                 className="group link-ink inline-flex items-center gap-3 text-lg text-ink"
               >
-                <span className="editorial-italic">Read on</span>
+                <span className="editorial-italic">
+                  {t("home.hero.readOn")}
+                </span>
                 <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </button>
               <span className="h-5 w-px bg-ink/40" />
@@ -218,7 +188,7 @@ export function HomePage() {
               <CurrencySelector />
               <span className="h-5 w-px bg-ink/40" />
               <span className="small-caps text-ink-faded">
-                10 minutes · 4 sections
+                {t("home.hero.meta")}
               </span>
             </motion.div>
           </div>
@@ -336,20 +306,19 @@ export function HomePage() {
           <div className="lg:col-span-4">
             <p className="small-caps mb-4 text-coral">Section I</p>
             <h2 className="display-serif mb-6 text-5xl leading-[0.95] sm:text-6xl">
-              Request a{" "}
-              <span className="display-serif-italic text-coral">flight.</span>
+              {t("home.request.titlePre")}{" "}
+              <span className="display-serif-italic text-coral">
+                {t("home.request.titleItalic")}
+              </span>
             </h2>
             <p className="body-serif text-pretty">
-              Fill in the coupons below as you would on a paper ticket.
-              Departure, arrival, dates, party — the essentials of any
-              itinerary, no more, no less. We search one hundred and twenty
-              airlines on your behalf.
+              {t("home.request.description")}
             </p>
             <div className="mt-8 flex items-center gap-3">
               <span className="small-caps text-ink-faded">Est. 2026</span>
               <span className="h-px flex-1 bg-ink/30" />
               <span className="editorial-italic text-ink-faded">
-                by the editors
+                {t("home.request.byEditors")}
               </span>
             </div>
           </div>
@@ -361,8 +330,8 @@ export function HomePage() {
           >
             <div className="rule-top-thick rule-bottom relative border-x-2 border-ink bg-card p-6 shadow-[8px_8px_0_0_var(--ink)] lg:p-10">
               <div className="small-caps mb-6 flex items-center justify-between text-ink-faded">
-                <span>Form № 001 · Travel request</span>
-                <span>Received · __ / __ / 26</span>
+                <span>{t("home.request.formHeader")}</span>
+                <span>{t("home.request.formReceived")}</span>
               </div>
               <FlightSearchForm onSearch={handleSearch} />
             </div>
@@ -378,6 +347,11 @@ export function HomePage() {
       </section>
 
       {/* ============================================================
+          LIVE FARES — cheapest deals across airlines & OTAs
+          ============================================================ */}
+      <LiveDealsSection />
+
+      {/* ============================================================
           BY THE NUMBERS — huge display numerals
           ============================================================ */}
       <section className="border-y-2 border-ink bg-paper-deep py-20">
@@ -386,23 +360,23 @@ export function HomePage() {
             <div>
               <p className="small-caps mb-2 text-coral">Section II</p>
               <h2 className="display-serif text-5xl sm:text-6xl">
-                By the{" "}
+                {t("home.numbers.titlePre")}{" "}
                 <span className="display-serif-italic text-coral">
-                  numbers.
+                  {t("home.numbers.titleItalic")}
                 </span>
               </h2>
             </div>
             <p className="editorial-italic max-w-md text-ink-faded">
-              A small compendium of figures, compiled with modest pride.
+              {t("home.numbers.caption")}
             </p>
           </div>
 
           <div className="grid grid-cols-1 gap-0 divide-y divide-ink/30 sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4">
             {[
-              { value: 10000, suffix: "+", label: "Flights daily" },
-              { value: 500, suffix: "+", label: "Destinations" },
-              { value: 120, suffix: "+", label: "Partner airlines" },
-              { value: 1, suffix: "M+", label: "Travellers served" },
+              { value: 10000, suffix: "+", label: t("home.stats.flights") },
+              { value: 500, suffix: "+", label: t("home.stats.destinations") },
+              { value: 120, suffix: "+", label: t("home.stats.airlines") },
+              { value: 1, suffix: "M+", label: t("home.stats.customers") },
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}
@@ -437,18 +411,18 @@ export function HomePage() {
           <div className="mb-14 max-w-2xl">
             <p className="small-caps mb-3 text-coral">Section III</p>
             <h2 className="display-serif text-5xl leading-[0.95] sm:text-6xl">
-              Small{" "}
+              {t("home.kindnesses.titlePre")}{" "}
               <span className="display-serif-italic text-coral">
-                kindnesses
+                {t("home.kindnesses.titleItalic")}
               </span>
-              , at every step.
+              {t("home.kindnesses.titlePost")}
             </h2>
           </div>
 
           <div className="grid grid-cols-1 gap-0 divide-y-2 divide-ink/80 md:grid-cols-2 md:divide-y-0 md:divide-x-2 lg:grid-cols-4">
             {SERVICES.map((service, i) => (
               <motion.article
-                key={service.title}
+                key={service.key}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: i * 0.08 }}
@@ -459,13 +433,15 @@ export function HomePage() {
                   {service.number}
                 </p>
                 <h3 className="display-serif mb-3 text-3xl leading-tight">
-                  {service.title}
+                  {t(`home.kindnesses.items.${service.key}.title`)}
                 </h3>
                 <p className="body-serif text-sm text-pretty">
-                  {service.lede}
+                  {t(`home.kindnesses.items.${service.key}.lede`)}
                 </p>
                 <div className="mt-6 flex items-center gap-2 text-ink">
-                  <span className="small-caps link-ink">Learn more</span>
+                  <span className="small-caps link-ink">
+                    {t("home.kindnesses.learnMore")}
+                  </span>
                   <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
                 </div>
               </motion.article>
@@ -483,16 +459,15 @@ export function HomePage() {
             <div className="max-w-2xl">
               <p className="small-caps mb-3 text-coral">Section IV</p>
               <h2 className="display-serif text-5xl leading-[0.95] sm:text-6xl">
-                Three{" "}
+                {t("home.dispatches.titlePre")}{" "}
                 <span className="display-serif-italic text-coral">
-                  dispatches
+                  {t("home.dispatches.titleItalic")}
                 </span>{" "}
-                to consider.
+                {t("home.dispatches.titlePost")}
               </h2>
             </div>
             <p className="editorial-italic max-w-sm text-ink-faded">
-              Curated by our editors this month. All prices per person,
-              return.
+              {t("home.dispatches.caption")}
             </p>
           </div>
 
@@ -521,15 +496,18 @@ export function HomePage() {
                     {dest.country}
                   </p>
 
-                  <p className="body-serif mt-6 text-sm">{dest.note}</p>
+                  <p className="body-serif mt-6 text-sm">
+                    {t(`home.dispatches.items.${dest.key}.note`)}
+                  </p>
 
                   <div className="mt-6 flex items-end justify-between">
                     <div>
                       <p className="small-caps text-ink-faded">
-                        {dest.nights}
+                        {t(`home.dispatches.items.${dest.key}.nights`)}
                       </p>
                       <p className="display-serif text-2xl text-ink">
-                        from {formatCurrency(dest.priceEur, currency)}
+                        {t("home.dispatches.fromPrice")}{" "}
+                        {formatCurrency(dest.priceEur, currency)}
                       </p>
                     </div>
                     <button
@@ -537,7 +515,9 @@ export function HomePage() {
                       onClick={() => navigate("/flights")}
                       className="group/btn flex items-center gap-2 text-ink link-ink"
                     >
-                      <span className="editorial-italic">Read dispatch</span>
+                      <span className="editorial-italic">
+                        {t("home.dispatches.readDispatch")}
+                      </span>
                       <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
                     </button>
                   </div>
@@ -557,6 +537,11 @@ export function HomePage() {
       </section>
 
       {/* ============================================================
+          CONCIERGE — AI-powered destination insights
+          ============================================================ */}
+      <DestinationSpotlight />
+
+      {/* ============================================================
           TAXI EMPHASIS — the second half of the brand promise
           ============================================================ */}
       <section className="border-t-2 border-ink py-20 lg:py-28">
@@ -564,23 +549,18 @@ export function HomePage() {
           <div className="lg:col-span-5">
             <p className="small-caps mb-4 text-coral">Section V</p>
             <h2 className="display-serif text-5xl leading-[0.95] sm:text-6xl">
-              The other half:{" "}
+              {t("home.taxiSection.titlePre")}{" "}
               <span className="display-serif-italic text-coral">
-                a taxi
+                {t("home.taxiSection.titleItalic")}
               </span>
-              , waiting.
+              {t("home.taxiSection.titlePost")}
             </h2>
             <p className="body-serif mt-6 text-pretty">
-              Anyone can sell you a cheap flight. We do something
-              quietly more useful: we make sure a driver is there when
-              the cabin doors open. Reserve a meet-and-greet at
-              arrivals, or a metered cab to rent in the destination
-              city — both attached to the same booking, both billed in
-              the currency of your choosing.
+              {t("home.taxiSection.description")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <span className="small-caps text-ink-faded">
-                Available in 220+ cities
+                {t("home.taxiSection.citiesAvailable")}
               </span>
               <span className="h-px flex-1 bg-ink/30" />
               <CurrencySelector />
@@ -590,7 +570,7 @@ export function HomePage() {
           <div className="grid grid-cols-1 gap-0 divide-y-2 divide-ink/80 sm:grid-cols-2 sm:divide-y-0 sm:divide-x-2 lg:col-span-7">
             {TAXI_FEATURES.map((feature, i) => (
               <motion.article
-                key={feature.title}
+                key={feature.key}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
@@ -601,10 +581,10 @@ export function HomePage() {
                   {feature.number}
                 </p>
                 <h3 className="display-serif mb-3 text-3xl leading-tight">
-                  {feature.title}
+                  {t(`home.taxiSection.items.${feature.key}.title`)}
                 </h3>
                 <p className="body-serif text-sm text-pretty">
-                  {feature.lede}
+                  {t(`home.taxiSection.items.${feature.key}.lede`)}
                 </p>
               </motion.article>
             ))}
@@ -620,16 +600,14 @@ export function HomePage() {
           <div className="mb-12 max-w-2xl">
             <p className="small-caps mb-3 text-coral">Section VI</p>
             <h2 className="display-serif text-5xl leading-[0.95] sm:text-6xl">
-              Pay the way{" "}
+              {t("home.payments.titlePre")}{" "}
               <span className="display-serif-italic text-coral">
-                you prefer
+                {t("home.payments.titleItalic")}
               </span>
-              .
+              {t("home.payments.titleDot")}
             </h2>
             <p className="body-serif mt-4 text-pretty text-ink-soft">
-              From a Visa swipe in Paris to Alipay in Shanghai or M-Pesa
-              in Nairobi — we accept the world's payment methods, in any
-              of twelve currencies.
+              {t("home.payments.description")}
             </p>
           </div>
           <PaymentMethods />
@@ -641,16 +619,18 @@ export function HomePage() {
           ============================================================ */}
       <section className="py-20">
         <div className="container mx-auto max-w-3xl px-6 text-center">
-          <p className="small-caps mb-6 text-coral">A closing word</p>
+          <p className="small-caps mb-6 text-coral">
+            {t("home.closing.eyebrow")}
+          </p>
           <p className="display-serif text-3xl leading-snug text-balance sm:text-4xl">
-            “Travel makes{" "}
+            “{t("home.closing.quoteLead")}{" "}
             <span className="display-serif-italic text-coral">
-              one modest
+              {t("home.closing.quoteItalic")}
             </span>
-            . You see what a tiny place you occupy in the world.”
+            {t("home.closing.quoteTail")}”
           </p>
           <p className="small-caps mt-6 text-ink-faded">
-            — Gustave Flaubert, 1849
+            {t("home.closing.author")}
           </p>
 
           <div className="mx-auto mt-10 h-px w-24 bg-ink" />
@@ -665,11 +645,14 @@ export function HomePage() {
             whileHover={{ y: -2 }}
             className="mt-10 inline-flex items-center gap-3 border-2 border-ink bg-paper px-8 py-4 shadow-[4px_4px_0_0_var(--ink)] transition-shadow hover:shadow-[6px_6px_0_0_var(--coral)]"
           >
-            <span className="small-caps">Begin your journey</span>
+            <span className="small-caps">{t("home.closing.cta")}</span>
             <ArrowRight className="h-4 w-4" />
           </motion.button>
         </div>
       </section>
+
+      {/* Floating AI concierge — available on every scroll position */}
+      <AIConcierge />
     </div>
   );
 }
