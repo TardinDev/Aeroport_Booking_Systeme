@@ -182,8 +182,8 @@ export function PaymentForm({
                       {t("payment.flight")}
                     </span>
                     <span>
-                      {selectedFlight.origin.code} -{" "}
-                      {selectedFlight.destination.code}
+                      {selectedFlight.originCode} -{" "}
+                      {selectedFlight.destinationCode}
                     </span>
                   </div>
                   <div className="flex justify-between text-sm">
@@ -192,7 +192,7 @@ export function PaymentForm({
                     </span>
                     <span>
                       {formatCurrency(
-                        selectedFlight.price * Math.max(passengers.length, 1),
+                        selectedFlight.basePrice * Math.max(passengers.length, 1),
                         selectedFlight.currency
                       )}
                     </span>

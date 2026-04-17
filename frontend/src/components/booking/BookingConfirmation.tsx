@@ -116,7 +116,7 @@ export function BookingConfirmation() {
                 <div className="flex items-center gap-2">
                   <Plane className="h-4 w-4 text-muted-foreground" />
                   <span className="font-medium">
-                    {selectedFlight.airline.name}
+                    {selectedFlight.airlineName}
                   </span>
                   <Badge variant="outline">{selectedFlight.flightNumber}</Badge>
                 </div>
@@ -126,10 +126,10 @@ export function BookingConfirmation() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-lg font-bold">
-                    {selectedFlight.origin.code}
+                    {selectedFlight.originCode}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    {selectedFlight.origin.city}
+                    {selectedFlight.originCity}
                   </p>
                   <p className="text-sm">
                     {formatTime(selectedFlight.departureTime)}
@@ -143,10 +143,10 @@ export function BookingConfirmation() {
                 </div>
                 <div className="text-right">
                   <p className="text-lg font-bold">
-                    {selectedFlight.destination.code}
+                    {selectedFlight.destinationCode}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    {selectedFlight.destination.city}
+                    {selectedFlight.destinationCity}
                   </p>
                   <p className="text-sm">
                     {formatTime(selectedFlight.arrivalTime)}
@@ -209,7 +209,7 @@ export function BookingConfirmation() {
                 <span>{t("payment.flight")}</span>
                 <span>
                   {formatCurrency(
-                    (selectedFlight?.price ?? 0) *
+                    (selectedFlight?.basePrice ?? 0) *
                       Math.max(passengers.length, 1),
                     selectedFlight?.currency
                   )}

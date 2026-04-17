@@ -1,7 +1,12 @@
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import { ArrowRight, Compass } from "lucide-react";
 
 import { FlightSearchForm } from "@/components/flights/FlightSearchForm";
@@ -18,6 +23,10 @@ import { NumberTicker } from "@/components/ui/number-ticker";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { ScrollPlane } from "@/components/ui/scroll-plane";
 import { ScrollCar } from "@/components/ui/scroll-car";
+import { ReadingProgress } from "@/components/ui/reading-progress";
+import { Magnetic } from "@/components/ui/magnetic";
+import { TiltCard } from "@/components/ui/tilt-card";
+import { InkWash } from "@/components/ui/ink-wash";
 import { CurrencySelector } from "@/components/shared/CurrencySelector";
 import { PaymentMethods } from "@/components/shared/PaymentMethods";
 
@@ -89,6 +98,14 @@ export function HomePage() {
     city: string;
   } | null>(null);
 
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const parallaxUp = useTransform(heroProgress, [0, 1], [0, -60]);
+  const parallaxDown = useTransform(heroProgress, [0, 1], [0, 40]);
+  const washRotate = useTransform(heroProgress, [0, 1], [0, 18]);
+
   const handleSearch = (data: FlightSearchParams) => {
     setSearchParams(data);
     navigate("/flights");
@@ -96,6 +113,8 @@ export function HomePage() {
 
   return (
     <div className="paper-bg grain min-h-screen">
+      {/* Reading progress — thin coral meridian */}
+      <ReadingProgress />
       {/* Scroll-driven plane + taxi — together they spell out
           "Fly & Taxi" without a single word being written. */}
       <ScrollPlane targetRef={heroRef} />
@@ -119,6 +138,22 @@ export function HomePage() {
           HERO — editorial title + search stub
           ============================================================ */}
       <section ref={heroRef} className="relative overflow-hidden">
+        {/* Hand-drawn compass-rose watermark, slowly rotating with scroll */}
+        <motion.div
+          aria-hidden
+          style={{ rotate: washRotate }}
+          className="pointer-events-none absolute -right-40 top-10 hidden h-[680px] w-[680px] text-ink lg:block"
+        >
+          <InkWash className="h-full w-full" />
+        </motion.div>
+        <motion.div
+          aria-hidden
+          style={{ rotate: washRotate, scale: 0.6 }}
+          className="pointer-events-none absolute -left-40 -bottom-40 hidden h-[520px] w-[520px] text-coral opacity-70 md:block lg:hidden"
+        >
+          <InkWash className="h-full w-full" />
+        </motion.div>
+
         {/* Corner page numbers */}
         <span className="page-corner absolute left-6 top-6 hidden md:block">
           FOLIO · 001
@@ -260,8 +295,11 @@ export function HomePage() {
                   </div>
                 </TicketStub>
 
-                {/* Postmark over the ticket */}
-                <div className="pointer-events-none absolute -right-4 -top-6 z-20">
+                {/* Postmark over the ticket — soft parallax */}
+                <motion.div
+                  style={{ y: parallaxUp }}
+                  className="pointer-events-none absolute -right-4 -top-6 z-20"
+                >
                   <Postmark
                     label="Par Avion"
                     sublabel="PARIS · CDG"
@@ -270,8 +308,11 @@ export function HomePage() {
                     size="lg"
                     className="animate-stamp-land"
                   />
-                </div>
-                <div className="pointer-events-none absolute -bottom-6 -left-6 z-20 hidden sm:block">
+                </motion.div>
+                <motion.div
+                  style={{ y: parallaxDown }}
+                  className="pointer-events-none absolute -bottom-6 -left-6 z-20 hidden sm:block"
+                >
                   <Postmark
                     label="Certified"
                     sublabel="MMXXVI"
@@ -279,7 +320,7 @@ export function HomePage() {
                     rotate={8}
                     size="sm"
                   />
-                </div>
+                </motion.div>
               </motion.div>
             </motion.div>
           )}
@@ -393,8 +434,12 @@ export function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
                 viewport={{ once: true }}
-                className="flex flex-col items-start px-6 py-8 sm:px-8"
+                className="group relative flex flex-col items-start px-6 py-8 transition-colors duration-300 hover:bg-paper sm:px-8"
               >
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-y-6 left-0 w-[2px] origin-top scale-y-0 bg-coral transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-y-100"
+                />
                 <p className="page-corner mb-3">{`0${i + 1}`.slice(-2)}</p>
                 <p className="display-serif tabular text-7xl leading-none text-ink sm:text-8xl">
                   <NumberTicker
@@ -436,9 +481,15 @@ export function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: i * 0.08 }}
                 viewport={{ once: true, margin: "-10%" }}
-                className="group relative flex flex-col px-6 py-8 md:py-0 md:pt-0 md:first:pl-0 md:last:pr-0 lg:px-8"
+                whileHover={{ y: -4 }}
+                className="group relative flex flex-col px-6 py-8 transition-colors duration-300 hover:bg-paper-deep/60 md:py-0 md:pt-0 md:first:pl-0 md:last:pr-0 lg:px-8"
               >
-                <p className="display-serif mb-6 text-6xl text-coral">
+                {/* coral top accent, scale-x on hover */}
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-coral transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100"
+                />
+                <p className="display-serif mb-6 text-6xl text-coral transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-0.5">
                   {service.number}
                 </p>
                 <h3 className="display-serif mb-3 text-3xl leading-tight">
@@ -490,7 +541,10 @@ export function HomePage() {
                 viewport={{ once: true, margin: "-10%" }}
                 className="group relative"
               >
-                <div className="rule-top-thick border-b border-ink pb-8 pt-6">
+                <TiltCard
+                className="rule-top-thick border-b border-ink pb-8 pt-6 transition-[border-color,background-color] duration-300 group-hover:border-coral"
+                max={5}
+              >
                   <div className="mb-3 flex items-center justify-between">
                     <span className="font-mono text-xs tracking-wider text-ink-faded">
                       {dest.code}
@@ -530,14 +584,14 @@ export function HomePage() {
                       <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
                     </button>
                   </div>
-                </div>
+                </TiltCard>
 
                 <Postmark
                   label={dest.code.split(" → ")[1]}
                   sublabel={dest.city}
                   tone={i === 1 ? "navy" : i === 2 ? "gold" : "red"}
                   rotate={i === 1 ? 10 : i === 2 ? -6 : -14}
-                  className="absolute -right-2 -top-2 opacity-90 transition-transform duration-500 group-hover:rotate-[-22deg]"
+                  className="absolute -right-2 -top-2 z-20 opacity-90 transition-transform duration-500 group-hover:rotate-[-22deg]"
                 />
               </motion.article>
             ))}
@@ -644,19 +698,22 @@ export function HomePage() {
 
           <div className="mx-auto mt-10 h-px w-24 bg-ink" />
 
-          <motion.button
-            type="button"
-            onClick={() =>
-              document
-                .getElementById("request-a-flight")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
-            whileHover={{ y: -2 }}
-            className="mt-10 inline-flex items-center gap-3 border-2 border-ink bg-paper px-8 py-4 shadow-[4px_4px_0_0_var(--ink)] transition-shadow hover:shadow-[6px_6px_0_0_var(--coral)]"
-          >
-            <span className="small-caps">{t("home.closing.cta")}</span>
-            <ArrowRight className="h-4 w-4" />
-          </motion.button>
+          <Magnetic strength={14} className="mt-10">
+            <motion.button
+              type="button"
+              onClick={() =>
+                document
+                  .getElementById("request-a-flight")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              className="group/cta inline-flex items-center gap-3 border-2 border-ink bg-paper px-8 py-4 shadow-[4px_4px_0_0_var(--ink)] transition-shadow hover:shadow-[6px_6px_0_0_var(--coral)]"
+            >
+              <span className="small-caps">{t("home.closing.cta")}</span>
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/cta:translate-x-1" />
+            </motion.button>
+          </Magnetic>
         </div>
       </section>
 
