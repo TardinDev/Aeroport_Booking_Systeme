@@ -1,6 +1,8 @@
 package com.skybooker.controller;
 
+import com.skybooker.dto.response.DestinationEventsResponse;
 import com.skybooker.dto.response.DestinationInsightsResponse;
+import com.skybooker.service.DestinationEventsService;
 import com.skybooker.service.DestinationInsightsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,10 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class DestinationController {
 
     private final DestinationInsightsService insightsService;
+    private final DestinationEventsService eventsService;
 
     @GetMapping("/{iata}/insights")
     @Operation(summary = "Safety, events, things to do and daily tips for a destination")
     public ResponseEntity<DestinationInsightsResponse> getInsights(@PathVariable String iata) {
         return ResponseEntity.ok(insightsService.getInsights(iata));
+    }
+
+    @GetMapping("/{iata}/events")
+    @Operation(summary = "What's on in the destination — rich events with images and dates")
+    public ResponseEntity<DestinationEventsResponse> getEvents(@PathVariable String iata) {
+        return ResponseEntity.ok(eventsService.getEvents(iata));
     }
 }

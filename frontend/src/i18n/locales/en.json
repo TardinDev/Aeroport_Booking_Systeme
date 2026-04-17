@@ -221,6 +221,38 @@
   "header": {
     "tagline": "Cheap flights · Door-to-door · Est. MMXXVI"
   },
+  "events": {
+    "gate": {
+      "eyebrow": "Start here",
+      "title": "Where are you going?",
+      "subtitle": "Pick a city and we'll show you what's on — festivals, concerts, carnivals, races — with dates, venues and photos.",
+      "placeholder": "Type a city or airport code",
+      "cta": "Show me what's on",
+      "reset": "Pick another city"
+    },
+    "loading": "Pulling the listings…",
+    "error": "We couldn't reach the listings desk. Please try again.",
+    "noEvents": "No curated events yet for this destination.",
+    "featured": "Featured",
+    "upcoming": "Coming up",
+    "whenLabel": "When",
+    "whereLabel": "Where",
+    "buyTickets": "Tickets",
+    "free": "Free",
+    "from": "from",
+    "allDay": "All day",
+    "multiDay": "Multi-day",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "categories": {
+      "festival": "Festival",
+      "music": "Music",
+      "sports": "Sports",
+      "cultural": "Cultural",
+      "food": "Food",
+      "seasonal": "Seasonal"
+    }
+  },
   "concierge": {
     "openLabel": "Ask the concierge",
     "brand": "SkyBooker",

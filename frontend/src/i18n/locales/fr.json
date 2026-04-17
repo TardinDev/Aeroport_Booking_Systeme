@@ -221,6 +221,38 @@
   "header": {
     "tagline": "Vols pas chers · Porte à porte · Est. MMXXVI"
   },
+  "events": {
+    "gate": {
+      "eyebrow": "Commencez ici",
+      "title": "Où allez-vous ?",
+      "subtitle": "Choisissez une ville et nous vous montrerons ce qui s'y passe — festivals, concerts, carnavals, courses — avec dates, lieux et photos.",
+      "placeholder": "Tapez une ville ou un code aéroport",
+      "cta": "Voir ce qui s'y passe",
+      "reset": "Changer de ville"
+    },
+    "loading": "On interroge les programmes…",
+    "error": "Impossible de joindre la rédaction. Veuillez réessayer.",
+    "noEvents": "Pas encore d'agenda curaté pour cette destination.",
+    "featured": "À la une",
+    "upcoming": "Prochainement",
+    "whenLabel": "Quand",
+    "whereLabel": "Où",
+    "buyTickets": "Billets",
+    "free": "Gratuit",
+    "from": "à partir de",
+    "allDay": "Toute la journée",
+    "multiDay": "Plusieurs jours",
+    "today": "Aujourd'hui",
+    "tomorrow": "Demain",
+    "categories": {
+      "festival": "Festival",
+      "music": "Musique",
+      "sports": "Sport",
+      "cultural": "Culture",
+      "food": "Gastronomie",
+      "seasonal": "Saisonnier"
+    }
+  },
   "concierge": {
     "openLabel": "Demander au concierge",
     "brand": "SkyBooker",

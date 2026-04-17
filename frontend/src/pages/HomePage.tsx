@@ -1,15 +1,16 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Compass } from "lucide-react";
 
 import { FlightSearchForm } from "@/components/flights/FlightSearchForm";
 import { LiveDealsSection } from "@/components/home/LiveDealsSection";
 import { DestinationSpotlight } from "@/components/home/DestinationSpotlight";
 import { AIConcierge } from "@/components/home/AIConcierge";
+import { DestinationGate } from "@/components/home/DestinationGate";
+import { EventsHeroShowcase } from "@/components/home/EventsHeroShowcase";
 import { MagazineHeader } from "@/components/ui/magazine-header";
-import { DropCap } from "@/components/ui/drop-cap";
 import { Postmark } from "@/components/ui/postmark";
 import { TicketStub } from "@/components/ui/ticket-stub";
 import { DestinationPath } from "@/components/ui/destination-path";
@@ -83,6 +84,10 @@ export function HomePage() {
   // Subscribe to currency code so all prices below re-render on switch.
   const currency = useCurrencyStore((s) => s.code);
   const heroRef = useRef<HTMLElement>(null);
+  const [pickedDest, setPickedDest] = useState<{
+    iata: string;
+    city: string;
+  } | null>(null);
 
   const handleSearch = (data: FlightSearchParams) => {
     setSearchParams(data);
@@ -122,159 +127,163 @@ export function HomePage() {
           N° 37 / MMXXVI
         </span>
 
-        <div className="container mx-auto grid grid-cols-1 gap-10 px-6 py-14 lg:grid-cols-12 lg:gap-12 lg:py-24">
-          {/* LEFT — Title + lede */}
-          <div className="lg:col-span-7">
-            <motion.p
-              initial={{ opacity: 0, y: 8 }}
+        <AnimatePresence mode="wait">
+          {pickedDest ? (
+            <motion.div
+              key="picked"
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="small-caps mb-6 flex items-center gap-3 text-coral"
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              className="container mx-auto px-6 py-10 lg:py-14"
             >
-              <span className="h-px w-10 bg-coral" />
-              {t("home.hero.eyebrow")}
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <h1 className="display-serif text-6xl leading-[0.88] sm:text-7xl lg:text-[7.5rem]">
-                {t("home.hero.titlePre")}{" "}
-                <span className="display-serif-italic text-coral">
-                  {t("home.hero.titleItalicA")}
-                </span>{" "}
-                {t("home.hero.titleOf")}{" "}
-                <span className="display-serif-italic">
-                  {t("home.hero.titleItalicB")}
-                </span>
-                {t("home.hero.titlePost")}
-              </h1>
+              <div className="mb-10">
+                <DestinationGate
+                  onSelect={(iata, city) => setPickedDest({ iata, city })}
+                  selected={pickedDest}
+                  onReset={() => setPickedDest(null)}
+                />
+              </div>
+              <EventsHeroShowcase
+                iata={pickedDest.iata}
+                city={pickedDest.city}
+              />
             </motion.div>
-
+          ) : (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.35 }}
-              className="mt-10 max-w-xl"
-            >
-              <DropCap>{t("home.hero.lede")}</DropCap>
-            </motion.div>
-
-            <motion.div
+              key="gate"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.55 }}
-              className="mt-8 flex flex-wrap items-center gap-4"
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.35 }}
+              className="container mx-auto grid grid-cols-1 gap-10 px-6 py-14 lg:grid-cols-12 lg:gap-12 lg:py-24"
             >
-              <button
-                type="button"
-                onClick={() =>
-                  document
-                    .getElementById("request-a-flight")
-                    ?.scrollIntoView({ behavior: "smooth", block: "center" })
-                }
-                className="group link-ink inline-flex items-center gap-3 text-lg text-ink"
-              >
-                <span className="editorial-italic">
-                  {t("home.hero.readOn")}
-                </span>
-                <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-              </button>
-              <span className="h-5 w-px bg-ink/40" />
-              {/* Currency picker — sets the display currency for every
-                  price across the site, persisted in localStorage. */}
-              <CurrencySelector />
-              <span className="h-5 w-px bg-ink/40" />
-              <span className="small-caps text-ink-faded">
-                {t("home.hero.meta")}
-              </span>
-            </motion.div>
-          </div>
+              {/* LEFT — "Where are you going?" gate */}
+              <div className="lg:col-span-7">
+                <DestinationGate
+                  onSelect={(iata, city) => setPickedDest({ iata, city })}
+                />
 
-          {/* RIGHT — Ticket stub with destination path */}
-          <motion.div
-            initial={{ opacity: 0, y: 40, rotate: -1 }}
-            animate={{ opacity: 1, y: 0, rotate: 1.5 }}
-            transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="relative lg:col-span-5"
-          >
-            <TicketStub perforationAt={68} className="paper-tilt">
-              <div className="grid grid-cols-[1fr_auto]">
-                {/* Left — main stub */}
-                <div className="p-6 lg:p-8">
-                  <div className="small-caps mb-4 flex items-center justify-between text-ink-faded">
-                    <span>Boarding pass · Specimen</span>
-                    <span>FAT · 2026</span>
-                  </div>
-
-                  <div className="mb-6 flex items-end justify-between gap-6">
-                    <div>
-                      <p className="small-caps text-ink-faded">From</p>
-                      <p className="display-serif text-4xl">CDG</p>
-                      <p className="text-xs text-ink-faded">Paris, FR</p>
-                    </div>
-                    <DestinationPath className="h-16 w-32 text-coral" />
-                    <div className="text-right">
-                      <p className="small-caps text-ink-faded">To</p>
-                      <p className="display-serif text-4xl">JFK</p>
-                      <p className="text-xs text-ink-faded">New York, US</p>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-3 border-t border-dashed border-ink/40 pt-4">
-                    <div>
-                      <p className="small-caps text-ink-faded">Date</p>
-                      <p className="font-mono text-sm">14 · APR · 26</p>
-                    </div>
-                    <div>
-                      <p className="small-caps text-ink-faded">Gate</p>
-                      <p className="font-mono text-sm">A · 14</p>
-                    </div>
-                    <div>
-                      <p className="small-caps text-ink-faded">Seat</p>
-                      <p className="font-mono text-sm">12 · K</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Right — tear-off stub */}
-                <div className="flex flex-col items-center justify-between gap-2 bg-ink py-6 pl-5 pr-6 text-paper">
-                  <Compass className="h-5 w-5" />
-                  <p
-                    className="text-xs font-mono uppercase tracking-[0.3em]"
-                    style={{ writingMode: "vertical-rl" }}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.6, delay: 0.55 }}
+                  className="mt-10 flex flex-wrap items-center gap-4"
+                >
+                  <button
+                    type="button"
+                    onClick={() =>
+                      document
+                        .getElementById("request-a-flight")
+                        ?.scrollIntoView({
+                          behavior: "smooth",
+                          block: "center",
+                        })
+                    }
+                    className="group link-ink inline-flex items-center gap-3 text-base text-ink"
                   >
-                    Fly · Taxi
-                  </p>
-                  <p className="font-display text-2xl italic">A14</p>
-                </div>
+                    <span className="editorial-italic">
+                      {t("home.hero.readOn")}
+                    </span>
+                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  </button>
+                  <span className="h-5 w-px bg-ink/40" />
+                  <span className="small-caps text-ink-faded">
+                    {t("home.hero.meta")}
+                  </span>
+                </motion.div>
               </div>
-            </TicketStub>
 
-            {/* Postmark over the ticket */}
-            <div className="pointer-events-none absolute -right-4 -top-6 z-20">
-              <Postmark
-                label="Par Avion"
-                sublabel="PARIS · CDG"
-                tone="red"
-                rotate={-18}
-                size="lg"
-                className="animate-stamp-land"
-              />
-            </div>
-            <div className="pointer-events-none absolute -bottom-6 -left-6 z-20 hidden sm:block">
-              <Postmark
-                label="Certified"
-                sublabel="MMXXVI"
-                tone="navy"
-                rotate={8}
-                size="sm"
-              />
-            </div>
-          </motion.div>
-        </div>
+              {/* RIGHT — Ticket stub with destination path */}
+              <motion.div
+                initial={{ opacity: 0, y: 40, rotate: -1 }}
+                animate={{ opacity: 1, y: 0, rotate: 1.5 }}
+                transition={{
+                  duration: 1,
+                  delay: 0.4,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                className="relative lg:col-span-5"
+              >
+                <TicketStub perforationAt={68} className="paper-tilt">
+                  <div className="grid grid-cols-[1fr_auto]">
+                    {/* Left — main stub */}
+                    <div className="p-6 lg:p-8">
+                      <div className="small-caps mb-4 flex items-center justify-between text-ink-faded">
+                        <span>Boarding pass · Specimen</span>
+                        <span>FAT · 2026</span>
+                      </div>
+
+                      <div className="mb-6 flex items-end justify-between gap-6">
+                        <div>
+                          <p className="small-caps text-ink-faded">From</p>
+                          <p className="display-serif text-4xl">CDG</p>
+                          <p className="text-xs text-ink-faded">Paris, FR</p>
+                        </div>
+                        <DestinationPath className="h-16 w-32 text-coral" />
+                        <div className="text-right">
+                          <p className="small-caps text-ink-faded">To</p>
+                          <p className="display-serif text-4xl">JFK</p>
+                          <p className="text-xs text-ink-faded">
+                            New York, US
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-3 border-t border-dashed border-ink/40 pt-4">
+                        <div>
+                          <p className="small-caps text-ink-faded">Date</p>
+                          <p className="font-mono text-sm">14 · APR · 26</p>
+                        </div>
+                        <div>
+                          <p className="small-caps text-ink-faded">Gate</p>
+                          <p className="font-mono text-sm">A · 14</p>
+                        </div>
+                        <div>
+                          <p className="small-caps text-ink-faded">Seat</p>
+                          <p className="font-mono text-sm">12 · K</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right — tear-off stub */}
+                    <div className="flex flex-col items-center justify-between gap-2 bg-ink py-6 pl-5 pr-6 text-paper">
+                      <Compass className="h-5 w-5" />
+                      <p
+                        className="text-xs font-mono uppercase tracking-[0.3em]"
+                        style={{ writingMode: "vertical-rl" }}
+                      >
+                        Fly · Taxi
+                      </p>
+                      <p className="font-display text-2xl italic">A14</p>
+                    </div>
+                  </div>
+                </TicketStub>
+
+                {/* Postmark over the ticket */}
+                <div className="pointer-events-none absolute -right-4 -top-6 z-20">
+                  <Postmark
+                    label="Par Avion"
+                    sublabel="PARIS · CDG"
+                    tone="red"
+                    rotate={-18}
+                    size="lg"
+                    className="animate-stamp-land"
+                  />
+                </div>
+                <div className="pointer-events-none absolute -bottom-6 -left-6 z-20 hidden sm:block">
+                  <Postmark
+                    label="Certified"
+                    sublabel="MMXXVI"
+                    tone="navy"
+                    rotate={8}
+                    size="sm"
+                  />
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </section>
 
       {/* ============================================================

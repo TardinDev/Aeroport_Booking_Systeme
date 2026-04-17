@@ -197,6 +197,38 @@
   "header": {
     "tagline": "特价航班 · 门到门 · Est. MMXXVI"
   },
+  "events": {
+    "gate": {
+      "eyebrow": "从这里开始",
+      "title": "您要去哪里?",
+      "subtitle": "选择一座城市,我们会为您呈现那里正在发生的一切 — 节庆、音乐会、嘉年华、赛事 — 附带日期、场地与图片。",
+      "placeholder": "输入城市或机场代码",
+      "cta": "查看当地活动",
+      "reset": "换一座城市"
+    },
+    "loading": "正在拉取本地活动列表……",
+    "error": "无法连接到编辑部,请稍后再试。",
+    "noEvents": "这座城市暂无精选活动日程。",
+    "featured": "重点活动",
+    "upcoming": "即将上演",
+    "whenLabel": "时间",
+    "whereLabel": "地点",
+    "buyTickets": "购票",
+    "free": "免费",
+    "from": "最低",
+    "allDay": "全天",
+    "multiDay": "多日",
+    "today": "今天",
+    "tomorrow": "明天",
+    "categories": {
+      "festival": "节庆",
+      "music": "音乐",
+      "sports": "体育",
+      "cultural": "文化",
+      "food": "美食",
+      "seasonal": "季节性"
+    }
+  },
   "concierge": {
     "openLabel": "向礼宾提问",
     "brand": "SkyBooker",

@@ -331,3 +331,45 @@ export interface DestinationInsights {
   source: "claude" | "stub";
   generatedAt: string;
 }
+
+// AI/curated destination events — richer than insights.events
+export type EventCategory =
+  | "festival"
+  | "music"
+  | "sports"
+  | "cultural"
+  | "food"
+  | "seasonal";
+
+export interface EventImage {
+  url: string;
+  alt: string;
+  credit: string;
+}
+
+export interface DestinationEvent {
+  id: string;
+  title: string;
+  category: EventCategory | string;
+  startDate: string;
+  endDate: string;
+  startTime: string;
+  venue: string;
+  neighbourhood: string;
+  description: string;
+  tagline: string;
+  image: EventImage | null;
+  ticketUrl: string | null;
+  priceFromEur: number | null;
+  featured: boolean;
+}
+
+export interface DestinationEventsResponse {
+  iata: string;
+  city: string;
+  country: string;
+  heroImage: EventImage | null;
+  events: DestinationEvent[];
+  source: "claude" | "stub";
+  generatedAt: string;
+}

@@ -35,6 +35,7 @@ public class RedisConfig {
         cacheConfigurations.put("airlines", defaultConfig.entryTtl(Duration.ofHours(1)));
         cacheConfigurations.put("flight-deals", defaultConfig.entryTtl(Duration.ofMinutes(30)));
         cacheConfigurations.put("destination-insights", defaultConfig.entryTtl(Duration.ofHours(12)));
+        cacheConfigurations.put("destination-events", defaultConfig.entryTtl(Duration.ofHours(6)));
 
         return RedisCacheManager.builder(connectionFactory)
                 .cacheDefaults(defaultConfig)
