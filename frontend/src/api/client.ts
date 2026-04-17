@@ -14,12 +14,20 @@ const apiClient = axios.create({
   timeout: 15000,
 });
 
-// Request interceptor: attach Bearer token
+// Request interceptor: attach Bearer token + user language
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const token = localStorage.getItem("accessToken");
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
+    }
+    // Propagate the user's chosen UI language so backend APIs
+    // (Wikipedia, OpenTripMap) can localise their responses.
+    const lang =
+      localStorage.getItem("skybooker.language-confirmed") ||
+      localStorage.getItem("i18nextLng");
+    if (lang && config.headers) {
+      config.headers["Accept-Language"] = lang;
     }
     return config;
   },

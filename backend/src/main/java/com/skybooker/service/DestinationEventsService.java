@@ -7,6 +7,9 @@ import com.skybooker.dto.response.DestinationEventsResponse.Event;
 import com.skybooker.dto.response.DestinationEventsResponse.Image;
 import com.skybooker.service.flight.CityDirectory;
 import com.skybooker.service.integration.AnthropicClient;
+import com.skybooker.service.integration.TicketmasterClient;
+import com.skybooker.service.integration.UnsplashClient;
+import com.skybooker.service.integration.WikipediaClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -23,13 +26,15 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Rich "what's on" events for a destination: current and upcoming
- * festivals, concerts, races, carnivals, etc. Every event carries
- * an image, dates, times and a venue so the frontend can render
- * a magazine-style hero section.
+ * Rich "what's on" events for a destination.
  *
- * Behaves like {@link DestinationInsightsService}: Claude in live
- * mode, curated stubs otherwise, with Redis cache.
+ * Fallback ladder, in order of preference:
+ *   1. Ticketmaster Discovery API (real events) + Unsplash/Wikipedia hero image
+ *   2. Claude live mode (when enabled) + real hero image on top
+ *   3. Hand-curated stubs (always available)
+ *
+ * Each layer is feature-flagged independently, so a mix is possible:
+ * e.g. Ticketmaster events + Unsplash image is fine even with Claude off.
  */
 @Service
 @RequiredArgsConstructor
@@ -37,6 +42,9 @@ import java.util.Optional;
 public class DestinationEventsService {
 
     private final AnthropicClient anthropic;
+    private final TicketmasterClient ticketmaster;
+    private final UnsplashClient unsplash;
+    private final WikipediaClient wikipedia;
     private final ObjectMapper mapper = new ObjectMapper();
 
     private static final String SYSTEM_PROMPT = """
@@ -75,22 +83,142 @@ public class DestinationEventsService {
             - Output must be valid JSON.
             """;
 
-    @Cacheable(value = "destination-events", key = "#iata.toUpperCase()")
-    public DestinationEventsResponse getEvents(String iata) {
+    @Cacheable(value = "destination-events", key = "#iata.toUpperCase() + ':' + #lang")
+    public DestinationEventsResponse getEvents(String iata, String lang) {
         String code = iata == null ? "" : iata.toUpperCase(Locale.ROOT);
         CityDirectory.AirportRef airport = CityDirectory.resolve(code)
                 .orElseGet(() -> CityDirectory.synthetic(code));
 
+        // 1. Ticketmaster — real events win
+        if (ticketmaster.isEnabled()) {
+            Optional<List<Event>> real = ticketmaster.searchEvents(
+                    airport.city(), countryCodeFor(airport.country()));
+            if (real.isPresent() && !real.get().isEmpty()) {
+                List<Event> events = markFirstFeatured(real.get());
+                return new DestinationEventsResponse(
+                        airport.iata(), airport.city(), airport.country(),
+                        resolveHero(airport, lang),
+                        events, "ticketmaster", Instant.now()
+                );
+            }
+        }
+
+        // 2. Claude live
         if (anthropic.isEnabled()) {
             Optional<DestinationEventsResponse> live = callClaude(airport);
-            if (live.isPresent()) return live.get();
-            log.info("Claude events call failed for {} — falling back to stub", code);
+            if (live.isPresent()) {
+                // Swap in a better hero image when available
+                Image enrichedHero = resolveHero(airport, lang);
+                if (enrichedHero != null) {
+                    return new DestinationEventsResponse(
+                            live.get().iata(), live.get().city(), live.get().country(),
+                            enrichedHero, live.get().events(), "claude", Instant.now()
+                    );
+                }
+                return live.get();
+            }
+            log.info("Claude events call failed for {} — falling back", code);
         }
-        return stubFor(airport);
+
+        // 3. Stubs — with a live hero image if we can get one
+        DestinationEventsResponse stub = stubFor(airport);
+        Image enrichedHero = resolveHero(airport, lang);
+        if (enrichedHero != null) {
+            return new DestinationEventsResponse(
+                    stub.iata(), stub.city(), stub.country(),
+                    enrichedHero, stub.events(), stub.source(), stub.generatedAt()
+            );
+        }
+        return stub;
+    }
+
+    /**
+     * Resolve the best hero image we can find, in order:
+     *   Unsplash → Wikipedia → null.
+     */
+    private Image resolveHero(CityDirectory.AirportRef airport, String lang) {
+        if (unsplash.isEnabled()) {
+            Optional<Image> u = unsplash.searchHeroImage(airport.city() + " " + airport.country());
+            if (u.isPresent()) return u.get();
+        }
+        if (wikipedia.isEnabled()) {
+            Optional<WikipediaClient.Summary> w = wikipedia.getSummary(airport.city(), lang);
+            if (w.isPresent() && w.get().imageUrl() != null) {
+                return new Image(
+                        w.get().imageUrl(),
+                        airport.city() + ", " + airport.country(),
+                        "Wikimedia Commons"
+                );
+            }
+        }
+        return null;
+    }
+
+    private List<Event> markFirstFeatured(List<Event> events) {
+        if (events.isEmpty()) return events;
+        List<Event> out = new ArrayList<>(events.size());
+        for (int i = 0; i < events.size(); i++) {
+            Event e = events.get(i);
+            out.add(new Event(
+                    e.id(), e.title(), e.category(), e.startDate(), e.endDate(),
+                    e.startTime(), e.venue(), e.neighbourhood(), e.description(),
+                    e.tagline(), e.image(), e.ticketUrl(), e.priceFromEur(),
+                    i == 0
+            ));
+        }
+        return out;
+    }
+
+    /**
+     * Quick ISO-3166 alpha-2 lookup for the countries we commonly see in
+     * {@link CityDirectory}. Falls back to {@code null} (Ticketmaster
+     * then searches by city alone).
+     */
+    private String countryCodeFor(String country) {
+        if (country == null) return null;
+        return switch (country) {
+            case "France" -> "FR";
+            case "United Kingdom" -> "GB";
+            case "Germany" -> "DE";
+            case "Netherlands" -> "NL";
+            case "Spain" -> "ES";
+            case "Italy" -> "IT";
+            case "Portugal" -> "PT";
+            case "Greece" -> "GR";
+            case "Austria" -> "AT";
+            case "Switzerland" -> "CH";
+            case "Denmark" -> "DK";
+            case "Sweden" -> "SE";
+            case "Norway" -> "NO";
+            case "Finland" -> "FI";
+            case "Ireland" -> "IE";
+            case "Turkey" -> "TR";
+            case "Poland" -> "PL";
+            case "Czech Republic" -> "CZ";
+            case "United States" -> "US";
+            case "Canada" -> "CA";
+            case "Mexico" -> "MX";
+            case "Brazil" -> "BR";
+            case "Argentina" -> "AR";
+            case "Japan" -> "JP";
+            case "South Korea" -> "KR";
+            case "China" -> "CN";
+            case "Singapore" -> "SG";
+            case "Thailand" -> "TH";
+            case "Vietnam" -> "VN";
+            case "Indonesia" -> "ID";
+            case "Australia" -> "AU";
+            case "New Zealand" -> "NZ";
+            case "United Arab Emirates" -> "AE";
+            case "South Africa" -> "ZA";
+            case "Egypt" -> "EG";
+            case "Morocco" -> "MA";
+            default -> null;
+        };
     }
 
     // --------------------------------------------------------------
-    // Live path
+    // Claude live path (unchanged)
     // --------------------------------------------------------------
 
     private Optional<DestinationEventsResponse> callClaude(CityDirectory.AirportRef airport) {

@@ -10,6 +10,8 @@ import com.skybooker.dto.response.DestinationInsightsResponse.SafetySnapshot;
 import com.skybooker.dto.response.DestinationInsightsResponse.TravelPractical;
 import com.skybooker.service.flight.CityDirectory;
 import com.skybooker.service.integration.AnthropicClient;
+import com.skybooker.service.integration.OpenTripMapClient;
+import com.skybooker.service.integration.WikipediaClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -38,6 +40,8 @@ import java.util.Optional;
 public class DestinationInsightsService {
 
     private final AnthropicClient anthropic;
+    private final WikipediaClient wikipedia;
+    private final OpenTripMapClient opentripmap;
     private final ObjectMapper mapper = new ObjectMapper();
 
     private static final String SYSTEM_PROMPT = """
@@ -78,19 +82,92 @@ public class DestinationInsightsService {
             - Output must be valid JSON.
             """;
 
-    @Cacheable(value = "destination-insights", key = "#iata.toUpperCase()")
-    public DestinationInsightsResponse getInsights(String iata) {
+    @Cacheable(value = "destination-insights", key = "#iata.toUpperCase() + ':' + #lang")
+    public DestinationInsightsResponse getInsights(String iata, String lang) {
         String code = iata == null ? "" : iata.toUpperCase(Locale.ROOT);
         CityDirectory.AirportRef airport = CityDirectory.resolve(code)
                 .orElseGet(() -> CityDirectory.synthetic(code));
 
+        DestinationInsightsResponse base;
         if (anthropic.isEnabled()) {
             Optional<DestinationInsightsResponse> live = callClaude(airport);
-            if (live.isPresent()) return live.get();
-            log.info("Claude call failed or empty for {} — falling back to stub", code);
+            if (live.isPresent()) {
+                base = live.get();
+            } else {
+                log.info("Claude call failed or empty for {} — falling back to stub", code);
+                base = stubFor(airport);
+            }
+        } else {
+            base = stubFor(airport);
         }
 
-        return stubFor(airport);
+        return enrich(base, airport, lang);
+    }
+
+    /**
+     * Layer real external data over whatever the base source produced:
+     *   • Wikipedia replaces the tagline with a richer city summary (user's language).
+     *   • OpenTripMap top POIs are appended to mustDo when enabled.
+     */
+    private DestinationInsightsResponse enrich(
+            DestinationInsightsResponse base,
+            CityDirectory.AirportRef airport,
+            String lang
+    ) {
+        String tagline = base.tagline();
+
+        if (wikipedia.isEnabled()) {
+            Optional<WikipediaClient.Summary> summary = wikipedia.getSummary(airport.city(), lang);
+            if (summary.isPresent()) {
+                String extract = summary.get().extract();
+                // Keep it to 2 sentences — Wikipedia extracts are often a paragraph.
+                tagline = firstTwoSentences(extract);
+            }
+        }
+
+        List<Experience> mustDo = base.mustDo();
+        if (opentripmap.isEnabled()) {
+            Optional<List<OpenTripMapClient.Poi>> pois = opentripmap.topPois(airport, lang);
+            if (pois.isPresent() && !pois.get().isEmpty()) {
+                List<Experience> merged = new ArrayList<>(mustDo == null ? List.of() : mustDo);
+                for (OpenTripMapClient.Poi p : pois.get()) {
+                    // Avoid dupes: skip if an existing entry already names this POI
+                    boolean already = merged.stream()
+                            .anyMatch(e -> e.title() != null
+                                    && e.title().equalsIgnoreCase(p.name()));
+                    if (already) continue;
+                    merged.add(new Experience(
+                            p.name(),
+                            p.category(),
+                            "Landmark in " + airport.city() + " — worth an hour in person.",
+                            ""
+                    ));
+                    if (merged.size() >= 8) break;
+                }
+                mustDo = merged;
+            }
+        }
+
+        return new DestinationInsightsResponse(
+                base.iata(),
+                base.city(),
+                base.country(),
+                tagline,
+                base.safety(),
+                base.events(),
+                mustDo,
+                base.dailyTips(),
+                base.practical(),
+                base.source(),
+                base.generatedAt()
+        );
+    }
+
+    private String firstTwoSentences(String s) {
+        if (s == null || s.isBlank()) return s;
+        String[] parts = s.split("(?<=[.!?])\\s+");
+        if (parts.length <= 2) return s;
+        return parts[0] + " " + parts[1];
     }
 
     // --------------------------------------------------------------

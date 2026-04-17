@@ -67,6 +67,20 @@ skybooker:
       api-key: ${ANTHROPIC_API_KEY:}
       model: ${ANTHROPIC_MODEL:claude-sonnet-4-6}
       max-tokens: 1200
+    unsplash:
+      enabled: ${UNSPLASH_ENABLED:false}
+      base-url: ${UNSPLASH_BASE_URL:https://api.unsplash.com}
+      access-key: ${UNSPLASH_ACCESS_KEY:}
+    ticketmaster:
+      enabled: ${TICKETMASTER_ENABLED:false}
+      base-url: ${TICKETMASTER_BASE_URL:https://app.ticketmaster.com/discovery/v2}
+      api-key: ${TICKETMASTER_API_KEY:}
+    opentripmap:
+      enabled: ${OPENTRIPMAP_ENABLED:false}
+      base-url: ${OPENTRIPMAP_BASE_URL:https://api.opentripmap.com/0.1}
+      api-key: ${OPENTRIPMAP_API_KEY:}
+    wikipedia:
+      enabled: ${WIKIPEDIA_ENABLED:true}
 
 springdoc:
   api-docs:
