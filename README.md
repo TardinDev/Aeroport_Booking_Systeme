@@ -1,12 +1,22 @@
 # SkyBooker — Airport Booking System
 
-> **Statut : MVP Phase 1 (v0.1.0-SNAPSHOT)** — projet de portfolio en construction active.
+> **Statut : MVP Phase 1 (v0.1.0-SNAPSHOT)** — projet de portfolio **2026**, en construction active.
 > Ce README reflète **uniquement** ce qui est réellement implémenté. Le reste est en "Roadmap" plus bas.
 
-[![Java](https://img.shields.io/badge/Java-21-007396?logo=openjdk)](https://adoptium.net/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2-6DB33F?logo=springboot)](https://spring.io/projects/spring-boot)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?logo=postgresql)](https://www.postgresql.org/)
-[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker)](https://docs.docker.com/compose/)
+[![Year](https://img.shields.io/badge/Year-2026-0ea5e9)](#)
+[![Java](https://img.shields.io/badge/Java-21-007396?logo=openjdk&logoColor=white)](https://adoptium.net/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.5-6DB33F?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![Spring Security](https://img.shields.io/badge/Spring%20Security-6-6DB33F?logo=springsecurity&logoColor=white)](https://spring.io/projects/spring-security)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Flyway](https://img.shields.io/badge/Flyway-10-CC0200?logo=flyway&logoColor=white)](https://flywaydb.org/)
+[![JWT](https://img.shields.io/badge/JWT-HS256-000000?logo=jsonwebtokens&logoColor=white)](https://jwt.io/)
+[![MapStruct](https://img.shields.io/badge/MapStruct-1.5-ff7f50)](https://mapstruct.org/)
+[![OpenAPI](https://img.shields.io/badge/OpenAPI-3.1-6BA539?logo=openapiinitiative&logoColor=white)](https://springdoc.org/)
+[![iText](https://img.shields.io/badge/iText-8-0f172a)](https://itextpdf.com/)
+[![JUnit 5](https://img.shields.io/badge/JUnit-5-25A162?logo=junit5&logoColor=white)](https://junit.org/junit5/)
+[![Testcontainers](https://img.shields.io/badge/Testcontainers-1.19-2496ED?logo=docker&logoColor=white)](https://java.testcontainers.org/)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](https://docs.docker.com/compose/)
+[![GitHub Actions](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)](./.github/workflows/ci-backend.yml)
 [![License](https://img.shields.io/badge/License-MIT-informational)](./LICENSE)
 
 ---
@@ -14,7 +24,7 @@
 ## À propos
 
 **SkyBooker** est une application fullstack de réservation de billets d'avion,
-développée dans le cadre d'un portfolio pour démontrer la maîtrise de :
+développée en **2026** dans le cadre d'un portfolio pour démontrer la maîtrise de :
 
 - une architecture backend Spring Boot moderne (Java 21, JPA, Security, MapStruct),
 - une stack frontend React 18 + TypeScript (en cours — voir Roadmap),
@@ -22,6 +32,37 @@ développée dans le cadre d'un portfolio pour démontrer la maîtrise de :
 
 Le code actuel priorise la **lisibilité, la testabilité et la sécurité de base**
 plutôt qu'une surface fonctionnelle large.
+
+---
+
+## 🧱 Briques clés du projet
+
+| Brique | Rôle concret dans SkyBooker | Version |
+|---|---|---|
+| **Java 21** | Langage — records, pattern matching, `var` pour un code moderne et concis | `21` |
+| **Spring Boot** | Framework backend — auto-configuration, démarrage rapide, convention over configuration | `3.2.5` |
+| **Spring Web MVC** | Controllers REST `/api/v1/*`, sérialisation JSON via Jackson | `3.2.5` |
+| **Spring Data JPA** | Repositories, `@Query`, JOIN FETCH, verrou pessimiste `PESSIMISTIC_WRITE` sur les sièges | `3.2.5` |
+| **Hibernate** | ORM JPA derrière Spring Data — gestion du cycle de vie des entités | `6.4` (managé) |
+| **Spring Security** | Filter chain stateless, JWT bearer, RBAC `USER/AGENT/ADMIN`, CORS, BCrypt cost 12 | `6.2` |
+| **jjwt** | Émission et validation des access/refresh tokens (HS256) | `0.12.5` |
+| **PostgreSQL** | Base de données relationnelle principale (schéma, FK, `generate_series` pour les sièges) | `16-alpine` |
+| **Flyway** | Migrations versionnées `V1__init_schema` + `V2__seed_data` (5 users, 10 airports, 20 flights, 1200 seats) | `10.10.0` |
+| **MapStruct** | Génération à la compilation des mappers DTO ↔ entité, zéro reflection | `1.5.5.Final` |
+| **Lombok** | Réduction du boilerplate (`@Getter/@Setter/@Builder` sur les entités, `@Slf4j` sur les services) | `1.18.38` |
+| **Bean Validation** | `@NotBlank`, `@Email`, `@Past`, `@Size` sur tous les DTOs request (records) | Jakarta |
+| **Springdoc OpenAPI** | Génération auto de la spec OpenAPI 3.1 + Swagger UI interactif | `2.3.0` |
+| **iText Core** | Génération de billets PDF avec QR code (`BarcodeQRCode`) — **AGPL v3** | `8.0.4` |
+| **JUnit 5** | Framework de tests (`@ExtendWith`, `@Test`, `Assumptions`) | via BOM Spring |
+| **Mockito** | Mocks des repositories/encoders dans les tests unitaires | via BOM Spring |
+| **AssertJ** | Assertions fluentes (`assertThat(...).hasMessageContaining(...)`) | via BOM Spring |
+| **Testcontainers** | Test d'intégration end-to-end sur un vrai container Postgres 16 | `1.19.8` |
+| **Docker + Compose** | Packaging multi-stage du backend + orchestration local (postgres + api) | — |
+| **GitHub Actions** | CI `ci-backend.yml` : `mvn clean verify` sur chaque push/PR vers `main` | — |
+| **Maven** | Build tool + processeurs d'annotation (Lombok, MapStruct) | `3.9+` |
+| **SLF4J / Logback** | Logging structuré sur toutes les opérations sensibles (login, booking) | via BOM Spring |
+
+> Tous les composants ci-dessus sont **réellement câblés dans le code et couverts par les tests** — pas de stub ou de dépendance "pour faire joli".
 
 ---
 
