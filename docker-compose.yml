@@ -1,72 +1,47 @@
-version: '3.9'
+# SkyBooker MVP (Phase 1) — local orchestration.
+#
+# Bring everything up with:     docker compose up --build
+# Tear everything down with:    docker compose down -v    (the `-v` also drops the DB volume)
 
 services:
   postgres:
     image: postgres:16-alpine
     container_name: skybooker-db
     environment:
-      POSTGRES_DB: skybooker
-      POSTGRES_USER: skybooker
-      POSTGRES_PASSWORD: skybooker
+      POSTGRES_DB: ${DB_NAME:-skybooker}
+      POSTGRES_USER: ${DB_USER:-skybooker}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-skybooker}
     ports:
-      - "5432:5432"
+      - "${DB_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U skybooker"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  redis:
-    image: redis:7-alpine
-    container_name: skybooker-redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-skybooker} -d ${DB_NAME:-skybooker}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
 
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     container_name: skybooker-api
-    ports:
-      - "8080:8080"
-    environment:
-      SPRING_PROFILES_ACTIVE: dev
-      DB_USERNAME: skybooker
-      DB_PASSWORD: skybooker
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/skybooker
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      JWT_SECRET: docker-dev-secret-key-change-in-production-at-least-256-bits
-      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-sk_test_placeholder}
-      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-whsec_placeholder}
-      CORS_ORIGINS: http://localhost:5173,http://localhost:3000
     depends_on:
       postgres:
         condition: service_healthy
-      redis:
-        condition: service_healthy
-    restart: unless-stopped
-
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: skybooker-web
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-dev}
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-skybooker}
+      DB_USER: ${DB_USER:-skybooker}
+      DB_PASSWORD: ${DB_PASSWORD:-skybooker}
+      JWT_SECRET: ${JWT_SECRET:-docker-dev-secret-please-override-in-prod-at-least-32-bytes-1234567890}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173}
     ports:
-      - "3000:80"
-    depends_on:
-      - backend
+      - "${SERVER_PORT:-8080}:8080"
     restart: unless-stopped
 
 volumes:
   postgres_data:
-  redis_data:

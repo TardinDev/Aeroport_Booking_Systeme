@@ -6,51 +6,57 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Entity
-@Table(name = "seats", indexes = {
-        @Index(name = "idx_seats_flight_id", columnList = "flight_id"),
-        @Index(name = "idx_seats_status", columnList = "status")
-})
-@Data
-@Builder
+@Table(
+        name = "seats",
+        uniqueConstraints = @UniqueConstraint(
+                name = "uq_seats_flight_row_col",
+                columnNames = {"flight_id", "row_number", "seat_column"}
+        ),
+        indexes = @Index(name = "idx_seats_flight_status", columnList = "flight_id,status")
+)
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
 public class Seat {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    @ToString.Include
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "flight_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "flight_id", nullable = false, foreignKey = @ForeignKey(name = "fk_seats_flight"))
     private Flight flight;
 
-    @Column(name = "seat_row", nullable = false)
-    private int row;
+    @Column(name = "row_number", nullable = false)
+    @ToString.Include
+    private int rowNumber;
 
-    @Column(name = "seat_column", nullable = false, length = 2)
+    @Column(name = "seat_column", nullable = false, length = 1)
+    @ToString.Include
     private String seatColumn;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "seat_class", nullable = false)
+    @Column(name = "seat_class", nullable = false, length = 20)
     private SeatClass seatClass;
 
+    @Column(name = "price_multiplier", nullable = false, precision = 4, scale = 2)
+    private BigDecimal priceMultiplier;
+
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     @Builder.Default
     private SeatStatus status = SeatStatus.AVAILABLE;
 
-    @Column(precision = 10, scale = 2)
-    private BigDecimal price;
-
-    @Column(name = "is_window")
-    private boolean isWindow;
-
-    @Column(name = "is_aisle")
-    private boolean isAisle;
-
-    @Column(name = "is_exit")
-    private boolean isExit;
+    /** Human-readable seat label like "12A". */
+    public String label() {
+        return rowNumber + seatColumn;
+    }
 }

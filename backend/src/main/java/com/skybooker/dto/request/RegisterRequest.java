@@ -1,26 +1,24 @@
 package com.skybooker.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record RegisterRequest(
-        @NotBlank(message = "Email is required")
-        @Email(message = "Invalid email format")
+        @Schema(description = "User's email address", example = "alice@example.com")
+        @NotBlank @Email @Size(max = 254)
         String email,
 
-        @NotBlank(message = "Password is required")
-        @Size(min = 8, max = 100, message = "Password must be between 8 and 100 characters")
+        @Schema(description = "Clear-text password, min 8 chars", example = "MyStrongPw!1")
+        @NotBlank @Size(min = 8, max = 72)
         String password,
 
-        @NotBlank(message = "First name is required")
-        @Size(max = 50, message = "First name must not exceed 50 characters")
+        @Schema(example = "Alice")
+        @NotBlank @Size(max = 80)
         String firstName,
 
-        @NotBlank(message = "Last name is required")
-        @Size(max = 50, message = "Last name must not exceed 50 characters")
-        String lastName,
-
-        @Size(max = 20, message = "Phone number must not exceed 20 characters")
-        String phone
+        @Schema(example = "Martin")
+        @NotBlank @Size(max = 80)
+        String lastName
 ) {}

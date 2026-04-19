@@ -1,218 +1,219 @@
 package com.skybooker.service;
 
-import com.skybooker.dto.request.BookingRequest;
+import com.skybooker.dto.request.CreateBookingRequest;
+import com.skybooker.dto.request.PassengerRequest;
 import com.skybooker.dto.response.BookingResponse;
-import com.skybooker.entity.*;
+import com.skybooker.entity.Booking;
+import com.skybooker.entity.Flight;
+import com.skybooker.entity.Passenger;
+import com.skybooker.entity.Seat;
+import com.skybooker.entity.User;
 import com.skybooker.enums.BookingStatus;
-import com.skybooker.enums.PaymentStatus;
+import com.skybooker.enums.Role;
 import com.skybooker.enums.SeatStatus;
 import com.skybooker.exception.BadRequestException;
+import com.skybooker.exception.ConflictException;
+import com.skybooker.exception.ForbiddenException;
 import com.skybooker.exception.ResourceNotFoundException;
-import com.skybooker.exception.SeatAlreadyBookedException;
 import com.skybooker.mapper.BookingMapper;
-import com.skybooker.mapper.FlightMapper;
-import com.skybooker.repository.*;
-import lombok.RequiredArgsConstructor;
+import com.skybooker.repository.BookingRepository;
+import com.skybooker.repository.FlightRepository;
+import com.skybooker.repository.SeatRepository;
+import com.skybooker.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.security.SecureRandom;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.UUID;
+import java.util.Set;
 
-@Service
-@RequiredArgsConstructor
 @Slf4j
+@Service
 public class BookingService {
+
+    private static final String REFERENCE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    private static final SecureRandom RANDOM = new SecureRandom();
 
     private final BookingRepository bookingRepository;
     private final FlightRepository flightRepository;
-    private final UserRepository userRepository;
     private final SeatRepository seatRepository;
-    private final PassengerRepository passengerRepository;
-    private final PaymentRepository paymentRepository;
+    private final UserRepository userRepository;
     private final BookingMapper bookingMapper;
-    private final FlightMapper flightMapper;
 
-    private static final String ALPHANUMERIC = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-    private static final SecureRandom RANDOM = new SecureRandom();
+    public BookingService(BookingRepository bookingRepository,
+                          FlightRepository flightRepository,
+                          SeatRepository seatRepository,
+                          UserRepository userRepository,
+                          BookingMapper bookingMapper) {
+        this.bookingRepository = bookingRepository;
+        this.flightRepository = flightRepository;
+        this.seatRepository = seatRepository;
+        this.userRepository = userRepository;
+        this.bookingMapper = bookingMapper;
+    }
 
     @Transactional
-    public BookingResponse createBooking(BookingRequest request, UUID userId) {
+    public BookingResponse createBooking(CreateBookingRequest request, Long userId) {
+        if (request.passengers().size() != request.seatIds().size()) {
+            throw new BadRequestException("Passengers count must match seat IDs count");
+        }
+        if (new HashSet<>(request.seatIds()).size() != request.seatIds().size()) {
+            throw new BadRequestException("Duplicate seat IDs in request");
+        }
+
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+                .orElseThrow(() -> ResourceNotFoundException.of("User", userId));
 
-        Flight flight = flightRepository.findByIdWithAirline(request.flightId())
-                .orElseThrow(() -> new ResourceNotFoundException("Flight", "id", request.flightId()));
+        Flight flight = flightRepository.findById(request.flightId())
+                .orElseThrow(() -> ResourceNotFoundException.of("Flight", request.flightId()));
 
-        if (flight.getAvailableSeats() < request.passengers().size()) {
-            throw new BadRequestException("Not enough available seats on this flight");
+        int requested = request.seatIds().size();
+        if (flight.getAvailableSeats() < requested) {
+            throw new ConflictException("Flight has only " + flight.getAvailableSeats() + " available seats");
         }
 
-        // Validate and lock seats if selected
-        List<Seat> selectedSeats = new ArrayList<>();
-        if (request.selectedSeatIds() != null && !request.selectedSeatIds().isEmpty()) {
-            for (UUID seatId : request.selectedSeatIds()) {
-                Seat seat = seatRepository.findById(seatId)
-                        .orElseThrow(() -> new ResourceNotFoundException("Seat", "id", seatId));
-                if (seat.getStatus() != SeatStatus.AVAILABLE) {
-                    throw new SeatAlreadyBookedException("Seat " + seat.getRow() + seat.getSeatColumn() + " is not available");
-                }
-                seat.setStatus(SeatStatus.OCCUPIED);
-                selectedSeats.add(seat);
+        List<Seat> seats = seatRepository.lockByIds(request.seatIds());
+        if (seats.size() != request.seatIds().size()) {
+            throw new ResourceNotFoundException("One or more seats not found");
+        }
+
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        BigDecimal basePrice = flight.getBasePrice();
+        Set<Long> seenSeatIds = new HashSet<>();
+        for (Seat seat : seats) {
+            if (!seat.getFlight().getId().equals(flight.getId())) {
+                throw new BadRequestException("Seat " + seat.getId() + " does not belong to flight " + flight.getId());
             }
-            seatRepository.saveAll(selectedSeats);
-        }
-
-        // Calculate total price
-        BigDecimal totalPrice = flight.getBasePrice()
-                .multiply(BigDecimal.valueOf(request.passengers().size()));
-
-        // Add seat surcharges
-        for (Seat seat : selectedSeats) {
-            if (seat.getPrice() != null) {
-                totalPrice = totalPrice.add(seat.getPrice());
+            if (seat.getStatus() != SeatStatus.AVAILABLE) {
+                throw new ConflictException("Seat " + seat.label() + " is already taken");
             }
+            if (!seenSeatIds.add(seat.getId())) {
+                throw new BadRequestException("Duplicate seat: " + seat.label());
+            }
+            totalPrice = totalPrice.add(basePrice.multiply(seat.getPriceMultiplier()));
         }
 
-        // Create booking
         Booking booking = Booking.builder()
-                .bookingReference(generateBookingReference())
+                .bookingReference(generateUniqueReference())
                 .user(user)
                 .flight(flight)
-                .status(BookingStatus.PENDING)
+                .status(BookingStatus.CONFIRMED)
                 .totalPrice(totalPrice)
-                .currency(flight.getCurrency())
                 .build();
 
-        booking = bookingRepository.save(booking);
-
-        // Create passengers
-        List<Passenger> passengers = new ArrayList<>();
-        for (int i = 0; i < request.passengers().size(); i++) {
-            BookingRequest.PassengerInfo info = request.passengers().get(i);
-            Passenger passenger = Passenger.builder()
-                    .booking(booking)
-                    .firstName(info.firstName())
-                    .lastName(info.lastName())
-                    .email(info.email())
-                    .phone(info.phone())
-                    .passportNumber(info.passportNumber())
-                    .dateOfBirth(info.dateOfBirth() != null ?
-                            LocalDate.parse(info.dateOfBirth(), DateTimeFormatter.ISO_LOCAL_DATE) : null)
-                    .seat(i < selectedSeats.size() ? selectedSeats.get(i) : null)
-                    .build();
-            passengers.add(passenger);
+        List<Seat> seatsInRequestedOrder = new ArrayList<>();
+        for (Long seatId : request.seatIds()) {
+            seatsInRequestedOrder.add(seats.stream()
+                    .filter(s -> s.getId().equals(seatId))
+                    .findFirst()
+                    .orElseThrow());
         }
-        passengerRepository.saveAll(passengers);
-        booking.setPassengers(passengers);
+        for (int i = 0; i < request.passengers().size(); i++) {
+            PassengerRequest pr = request.passengers().get(i);
+            Seat seat = seatsInRequestedOrder.get(i);
+            seat.setStatus(SeatStatus.RESERVED);
+            Passenger passenger = Passenger.builder()
+                    .firstName(pr.firstName())
+                    .lastName(pr.lastName())
+                    .dateOfBirth(pr.dateOfBirth())
+                    .passportNumber(pr.passportNumber())
+                    .seat(seat)
+                    .build();
+            booking.addPassenger(passenger);
+        }
 
-        // Update available seats count
-        flight.setAvailableSeats(flight.getAvailableSeats() - request.passengers().size());
-        flightRepository.save(flight);
+        flight.setAvailableSeats(flight.getAvailableSeats() - requested);
+        Booking saved = bookingRepository.save(booking);
+        log.info("Booking created ref={} user={} flight={} total={}",
+                saved.getBookingReference(), userId, flight.getId(), totalPrice);
 
-        log.info("Booking created: {} for user: {}", booking.getBookingReference(), user.getEmail());
-
-        return toBookingResponse(booking);
+        return bookingMapper.toResponse(saved);
     }
 
     @Transactional(readOnly = true)
-    public BookingResponse getBookingById(UUID bookingId) {
-        Booking booking = bookingRepository.findByIdWithDetails(bookingId)
-                .orElseThrow(() -> new ResourceNotFoundException("Booking", "id", bookingId));
-        return toBookingResponse(booking);
+    public BookingResponse getBookingById(Long id, Long userId, Role role) {
+        Booking booking = bookingRepository.findByIdWithFlight(id)
+                .orElseThrow(() -> ResourceNotFoundException.of("Booking", id));
+        authorize(booking, userId, role);
+        return bookingMapper.toResponse(booking);
     }
 
     @Transactional(readOnly = true)
-    public List<BookingResponse> getUserBookings(UUID userId) {
-        List<Booking> bookings = bookingRepository.findByUserId(userId);
-        return bookings.stream().map(this::toBookingResponse).toList();
+    public Booking getBookingEntity(Long id, Long userId, Role role) {
+        Booking booking = bookingRepository.findByIdWithFlight(id)
+                .orElseThrow(() -> ResourceNotFoundException.of("Booking", id));
+        authorize(booking, userId, role);
+        // Force-load passengers + seats for downstream use (e.g. PDF generation)
+        booking.getPassengers().forEach(p -> {
+            if (p.getSeat() != null) {
+                p.getSeat().getSeatClass();
+            }
+        });
+        return booking;
+    }
+
+    @Transactional(readOnly = true)
+    public List<BookingResponse> getMyBookings(Long userId) {
+        return bookingRepository.findAllByUserId(userId).stream()
+                .map(bookingMapper::toResponse)
+                .toList();
     }
 
     @Transactional
-    public BookingResponse cancelBooking(UUID bookingId) {
-        Booking booking = bookingRepository.findByIdWithDetails(bookingId)
-                .orElseThrow(() -> new ResourceNotFoundException("Booking", "id", bookingId));
+    public BookingResponse cancelBooking(Long id, Long userId, Role role) {
+        Booking booking = bookingRepository.findByIdWithFlight(id)
+                .orElseThrow(() -> ResourceNotFoundException.of("Booking", id));
+        authorize(booking, userId, role);
 
         if (booking.getStatus() == BookingStatus.CANCELLED) {
-            throw new BadRequestException("Booking is already cancelled");
+            return bookingMapper.toResponse(booking);
         }
 
-        if (booking.getStatus() == BookingStatus.COMPLETED) {
-            throw new BadRequestException("Cannot cancel a completed booking");
-        }
-
-        booking.setStatus(BookingStatus.CANCELLED);
-        bookingRepository.save(booking);
-
-        // Release seats
-        List<Passenger> passengers = passengerRepository.findByBookingId(bookingId);
-        for (Passenger passenger : passengers) {
-            if (passenger.getSeat() != null) {
-                Seat seat = passenger.getSeat();
+        int releasedSeats = 0;
+        for (Passenger passenger : booking.getPassengers()) {
+            Seat seat = passenger.getSeat();
+            if (seat != null && seat.getStatus() != SeatStatus.AVAILABLE) {
                 seat.setStatus(SeatStatus.AVAILABLE);
-                seatRepository.save(seat);
+                releasedSeats++;
             }
         }
-
-        // Restore available seats count
         Flight flight = booking.getFlight();
-        flight.setAvailableSeats(flight.getAvailableSeats() + passengers.size());
-        flightRepository.save(flight);
+        flight.setAvailableSeats(flight.getAvailableSeats() + releasedSeats);
 
-        log.info("Booking cancelled: {}", booking.getBookingReference());
-        return toBookingResponse(booking);
+        booking.setStatus(BookingStatus.CANCELLED);
+        log.info("Booking cancelled ref={} user={} released={} seats",
+                booking.getBookingReference(), userId, releasedSeats);
+        return bookingMapper.toResponse(booking);
     }
 
-    private BookingResponse toBookingResponse(Booking booking) {
-        List<Passenger> passengers = passengerRepository.findByBookingId(booking.getId());
-
-        List<BookingResponse.PassengerResponse> passengerResponses = passengers.stream()
-                .map(p -> new BookingResponse.PassengerResponse(
-                        p.getId(),
-                        p.getFirstName(),
-                        p.getLastName(),
-                        p.getEmail(),
-                        p.getPhone(),
-                        p.getPassportNumber(),
-                        null
-                ))
-                .toList();
-
-        String paymentStatus = paymentRepository.findByBookingId(booking.getId())
-                .map(payment -> payment.getStatus().name())
-                .orElse(PaymentStatus.PENDING.name());
-
-        return new BookingResponse(
-                booking.getId(),
-                booking.getBookingReference(),
-                flightMapper.toResponse(booking.getFlight()),
-                booking.getStatus(),
-                booking.getTotalPrice(),
-                booking.getCurrency(),
-                passengerResponses,
-                paymentStatus,
-                booking.getCreatedAt(),
-                booking.getUpdatedAt()
-        );
+    private void authorize(Booking booking, Long userId, Role role) {
+        if (role == Role.ADMIN || role == Role.AGENT) {
+            return;
+        }
+        if (!booking.getUser().getId().equals(userId)) {
+            throw new ForbiddenException("You do not own this booking");
+        }
     }
 
-    private String generateBookingReference() {
-        StringBuilder sb = new StringBuilder(8);
-        for (int i = 0; i < 8; i++) {
-            sb.append(ALPHANUMERIC.charAt(RANDOM.nextInt(ALPHANUMERIC.length())));
+    private String generateUniqueReference() {
+        for (int attempt = 0; attempt < 10; attempt++) {
+            String reference = "SKY-" + randomCode(6);
+            if (!bookingRepository.existsByBookingReference(reference)) {
+                return reference;
+            }
         }
-        String reference = sb.toString();
+        throw new IllegalStateException("Unable to generate a unique booking reference");
+    }
 
-        // Ensure uniqueness
-        if (bookingRepository.findByBookingReference(reference).isPresent()) {
-            return generateBookingReference();
+    private String randomCode(int length) {
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            sb.append(REFERENCE_ALPHABET.charAt(RANDOM.nextInt(REFERENCE_ALPHABET.length())));
         }
-        return reference;
+        return sb.toString();
     }
 }

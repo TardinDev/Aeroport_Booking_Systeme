@@ -5,74 +5,70 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
-@Table(name = "bookings", indexes = {
-        @Index(name = "idx_bookings_reference", columnList = "booking_reference", unique = true),
-        @Index(name = "idx_bookings_user_id", columnList = "user_id"),
-        @Index(name = "idx_bookings_status", columnList = "status")
-})
-@Data
-@Builder
+@Table(
+        name = "bookings",
+        uniqueConstraints = @UniqueConstraint(name = "uq_bookings_reference", columnNames = "booking_reference"),
+        indexes = {
+                @Index(name = "idx_bookings_user", columnList = "user_id"),
+                @Index(name = "idx_bookings_flight", columnList = "flight_id")
+        }
+)
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"passengers", "baggageDeclarations"})
-@EqualsAndHashCode(exclude = {"passengers", "baggageDeclarations"})
+@Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
 public class Booking {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    @ToString.Include
+    private Long id;
 
-    @Column(name = "booking_reference", nullable = false, unique = true, length = 8)
+    @Column(name = "booking_reference", nullable = false, length = 20)
+    @ToString.Include
     private String bookingReference;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_bookings_user"))
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "flight_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "flight_id", nullable = false, foreignKey = @ForeignKey(name = "fk_bookings_flight"))
     private Flight flight;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     @Builder.Default
     private BookingStatus status = BookingStatus.PENDING;
 
     @Column(name = "total_price", nullable = false, precision = 10, scale = 2)
     private BigDecimal totalPrice;
 
-    @Column(length = 3)
-    @Builder.Default
-    private String currency = "EUR";
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
 
-    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Builder.Default
     private List<Passenger> passengers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<BaggageDeclaration> baggageDeclarations = new ArrayList<>();
-
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
-
     @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+    void onCreate() {
+        if (createdAt == null) {
+            createdAt = Instant.now();
+        }
     }
 
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
+    public void addPassenger(Passenger passenger) {
+        passengers.add(passenger);
+        passenger.setBooking(this);
     }
 }

@@ -1,50 +1,27 @@
 package com.skybooker.repository;
 
 import com.skybooker.entity.Flight;
-import com.skybooker.enums.FlightStatus;
-import com.skybooker.enums.SeatClass;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
+import java.time.Instant;
+import java.util.List;
 
-@Repository
-public interface FlightRepository extends JpaRepository<Flight, UUID> {
+public interface FlightRepository extends JpaRepository<Flight, Long> {
 
     @Query("""
             SELECT f FROM Flight f
-            JOIN FETCH f.airline a
-            WHERE (:origin IS NULL
-                   OR LOWER(f.originCode) = LOWER(:origin)
-                   OR LOWER(f.originCity) LIKE LOWER(CONCAT('%', :origin, '%'))
-                   OR LOWER(f.originName) LIKE LOWER(CONCAT('%', :origin, '%')))
-            AND (:destination IS NULL
-                   OR LOWER(f.destinationCode) = LOWER(:destination)
-                   OR LOWER(f.destinationCity) LIKE LOWER(CONCAT('%', :destination, '%'))
-                   OR LOWER(f.destinationName) LIKE LOWER(CONCAT('%', :destination, '%')))
-            AND f.departureTime >= :departureFrom
-            AND f.departureTime <= :departureTo
-            AND (:seatClass IS NULL OR f.seatClass = :seatClass)
-            AND f.availableSeats >= :minSeats
-            AND f.status = :status
+            JOIN FETCH f.airline
+            JOIN FETCH f.origin o
+            JOIN FETCH f.destination d
+            WHERE o.iataCode = :originCode
+              AND d.iataCode = :destinationCode
+              AND f.departureTime >= :dayStart
+              AND f.departureTime <  :dayEnd
+              AND f.availableSeats >= :minSeats
+              AND f.status = com.skybooker.enums.FlightStatus.SCHEDULED
             ORDER BY f.departureTime ASC
             """)
-    Page<Flight> searchFlights(
-            @Param("origin") String origin,
-            @Param("destination") String destination,
-            @Param("departureFrom") LocalDateTime departureFrom,
-            @Param("departureTo") LocalDateTime departureTo,
-            @Param("seatClass") SeatClass seatClass,
-            @Param("minSeats") int minSeats,
-            @Param("status") FlightStatus status,
-            Pageable pageable
-    );
-
-    @Query("SELECT f FROM Flight f JOIN FETCH f.airline WHERE f.id = :id")
-    java.util.Optional<Flight> findByIdWithAirline(@Param("id") UUID id);
+    List<Flight> search(String originCode, String destinationCode,
+                        Instant dayStart, Instant dayEnd, int minSeats);
 }

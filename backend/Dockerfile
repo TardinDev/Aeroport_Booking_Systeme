@@ -1,20 +1,33 @@
-# Build stage
-FROM eclipse-temurin:21-jdk-alpine AS build
-WORKDIR /app
-COPY .mvn/ .mvn/
-COPY mvnw pom.xml ./
-RUN chmod +x mvnw && ./mvnw dependency:go-offline -B
-COPY src/ src/
-RUN ./mvnw package -DskipTests -B
+# syntax=docker/dockerfile:1.7
+# ---- Build stage ----
+FROM maven:3.9-eclipse-temurin-21 AS build
+WORKDIR /workspace
 
-# Runtime stage
-FROM eclipse-temurin:21-jre-alpine
+# Leverage Docker layer cache for dependencies
+COPY pom.xml ./
+RUN mvn -B -q -e -DskipTests dependency:go-offline
+
+# Copy sources and package the application
+COPY src/ src/
+RUN mvn -B -q -DskipTests package \
+ && cp target/skybooker-api-*.jar /workspace/app.jar
+
+# ---- Runtime stage ----
+FROM eclipse-temurin:21-jre-alpine AS runtime
+
+# Small helpers for the healthcheck (wget is part of BusyBox, curl is optional)
+RUN addgroup -S skybooker && adduser -S skybooker -G skybooker
+
 WORKDIR /app
-RUN addgroup -S spring && adduser -S spring -G spring
-COPY --from=build /app/target/skybooker-api-*.jar app.jar
-RUN chown spring:spring app.jar
-USER spring
+COPY --from=build /workspace/app.jar /app/app.jar
+RUN chown -R skybooker:skybooker /app
+USER skybooker
+
 EXPOSE 8080
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/actuator/health || exit 1
-ENTRYPOINT ["java", "-jar", "-Djava.security.egd=file:/dev/./urandom", "app.jar"]
+
+# The /v3/api-docs endpoint is publicly reachable in dev and is a stable readiness probe;
+# swap it for a dedicated /healthz endpoint when Actuator is added (Phase 2+).
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=5 \
+    CMD wget -qO- http://localhost:8080/v3/api-docs >/dev/null 2>&1 || exit 1
+
+ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=75.0", "-jar", "/app/app.jar"]

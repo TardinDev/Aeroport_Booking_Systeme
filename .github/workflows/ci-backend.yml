@@ -1,126 +1,49 @@
-name: Backend CI
+name: CI / Backend
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
     paths:
-      - 'backend/**'
+      - "backend/**"
+      - ".github/workflows/ci-backend.yml"
   pull_request:
     branches: [main]
     paths:
-      - 'backend/**'
+      - "backend/**"
+      - ".github/workflows/ci-backend.yml"
+  workflow_dispatch:
 
 jobs:
-  test:
-    name: Test
+  build-and-test:
+    name: Build & test
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
 
-    services:
-      postgres:
-        image: postgres:16-alpine
-        env:
-          POSTGRES_DB: skybooker_test
-          POSTGRES_USER: skybooker
-          POSTGRES_PASSWORD: skybooker
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+    # GitHub-hosted Ubuntu runners already expose a Docker daemon,
+    # so Testcontainers picks it up automatically for BookingIntegrationTest.
 
-      redis:
-        image: redis:7-alpine
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Java 21
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-          cache: 'maven'
-
-      - name: Run tests
-        run: ./mvnw verify -B
-        env:
-          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/skybooker_test
-          DB_USERNAME: skybooker
-          DB_PASSWORD: skybooker
-          REDIS_HOST: localhost
-          REDIS_PORT: 6379
-          JWT_SECRET: ci-test-secret-key-at-least-256-bits-long-for-testing
-
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    needs: test
     defaults:
       run:
         working-directory: backend
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Setup Java 21
+      - name: Setup JDK 21
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '21'
-          cache: 'maven'
+          distribution: temurin
+          java-version: "21"
+          cache: maven
 
-      - name: Build JAR
-        run: ./mvnw package -DskipTests -B
+      - name: Build, run tests and package
+        run: mvn -B -ntp clean verify
 
       - name: Upload JAR artifact
+        if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: backend-jar
+          name: skybooker-api-jar
           path: backend/target/skybooker-api-*.jar
+          if-no-files-found: error
           retention-days: 7
-
-  docker:
-    name: Build Docker Image
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Java 21
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-          cache: 'maven'
-
-      - name: Build JAR
-        working-directory: backend
-        run: ./mvnw package -DskipTests -B
-
-      - name: Build Docker image
-        run: docker build -t skybooker-api:latest ./backend
-
-      - name: Test Docker image
-        run: |
-          docker run -d --name test-api -p 8080:8080 \
-            -e SPRING_PROFILES_ACTIVE=dev \
-            -e SPRING_DATASOURCE_URL=jdbc:h2:mem:test \
-            -e JWT_SECRET=ci-test-secret-key-at-least-256-bits-long-for-testing \
-            skybooker-api:latest
-          sleep 15
-          curl -f http://localhost:8080/actuator/health || exit 1
-          docker stop test-api

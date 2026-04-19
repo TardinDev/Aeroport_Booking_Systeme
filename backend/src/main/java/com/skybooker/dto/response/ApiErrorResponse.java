@@ -1,22 +1,15 @@
 package com.skybooker.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import java.time.Instant;
+import java.util.List;
 
-import java.time.LocalDateTime;
-import java.util.Map;
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public record ApiErrorResponse(
+        Instant timestamp,
         int status,
+        String error,
         String message,
-        Map<String, String> errors,
-        LocalDateTime timestamp
+        String path,
+        List<FieldError> fieldErrors
 ) {
-    public ApiErrorResponse(int status, String message) {
-        this(status, message, null, LocalDateTime.now());
-    }
-
-    public ApiErrorResponse(int status, String message, Map<String, String> errors) {
-        this(status, message, errors, LocalDateTime.now());
-    }
+    public record FieldError(String field, String message) {}
 }

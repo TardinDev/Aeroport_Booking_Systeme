@@ -3,33 +3,30 @@ package com.skybooker.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.UUID;
-
 @Entity
-@Table(name = "airlines", indexes = {
-        @Index(name = "idx_airlines_code", columnList = "code", unique = true)
-})
-@Data
-@Builder
+@Table(
+        name = "airlines",
+        uniqueConstraints = @UniqueConstraint(name = "uq_airlines_iata", columnNames = "iata_code")
+)
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
 public class Airline {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    @ToString.Include
+    private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "iata_code", nullable = false, length = 3)
+    @ToString.Include
+    private String iataCode;
+
+    @Column(nullable = false, length = 160)
     private String name;
-
-    @Column(nullable = false, unique = true, length = 3)
-    private String code;
-
-    @Column(name = "logo_url")
-    private String logoUrl;
-
-    private String country;
-
-    @Builder.Default
-    private boolean active = true;
 }

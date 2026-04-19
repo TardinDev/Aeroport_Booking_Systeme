@@ -1,0 +1,10 @@
+package com.skybooker.dto.request;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+
+public record RefreshRequest(
+        @Schema(description = "Previously issued refresh token")
+        @NotBlank
+        String refreshToken
+) {}

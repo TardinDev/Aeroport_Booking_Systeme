@@ -1,20 +1,29 @@
 package com.skybooker.mapper;
 
 import com.skybooker.dto.response.FlightResponse;
+import com.skybooker.dto.response.SeatResponse;
 import com.skybooker.entity.Flight;
+import com.skybooker.entity.Seat;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.Named;
 
-import java.util.List;
+import java.math.BigDecimal;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", uses = {AirlineMapper.class, AirportMapper.class})
 public interface FlightMapper {
 
-    @Mapping(source = "airline.name", target = "airlineName")
-    @Mapping(source = "airline.code", target = "airlineCode")
-    @Mapping(source = "airline.logoUrl", target = "airlineLogo")
     FlightResponse toResponse(Flight flight);
 
-    List<FlightResponse> toResponseList(List<Flight> flights);
+    @Mapping(target = "label", expression = "java(seat.label())")
+    @Mapping(target = "price", source = "seat", qualifiedByName = "seatPrice")
+    SeatResponse toSeatResponse(Seat seat);
+
+    @Named("seatPrice")
+    default BigDecimal seatPrice(Seat seat) {
+        if (seat == null || seat.getFlight() == null) {
+            return BigDecimal.ZERO;
+        }
+        return seat.getFlight().getBasePrice().multiply(seat.getPriceMultiplier());
+    }
 }
