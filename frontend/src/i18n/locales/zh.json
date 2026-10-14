@@ -125,6 +125,19 @@
         "title": "市内用车",
         "description": "需要在当地出行？可按天、按周或更长时间预订出租车。"
       }
+    },
+    "journey": {
+      "departure": "出发",
+      "arrival": "到达",
+      "during": "专车之内",
+      "amenities": {
+        "wifi": "车载 Wi-Fi",
+        "charge": "设备充电",
+        "water": "冰镇饮用水",
+        "work": "安静办公",
+        "music": "播放您的音乐"
+      },
+      "carAlt": "黑色专车轿车侧面"
     }
   },
   "events": {
@@ -310,5 +323,15 @@
   "contact": {
     "sent": "邮件应用即将打开并填好您的请求，点击发送即可。",
     "unavailable": "此表单暂时无法使用。"
+  },
+  "cities": {
+    "paris": "巴黎",
+    "newYork": "纽约",
+    "london": "伦敦",
+    "tokyo": "东京",
+    "madrid": "马德里",
+    "istanbul": "伊斯坦布尔",
+    "singapore": "新加坡",
+    "barcelona": "巴塞罗那"
   }
 }

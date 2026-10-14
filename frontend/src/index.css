@@ -70,6 +70,13 @@
   --color-link-hover: var(--link-hover);
   --color-link-on-dark: var(--link-on-dark);
 
+  /* Accent hues for the hero and feature icons. All pass 3:1 on white. */
+  --color-sky: #0071e3;
+  --color-mint: #1f8a4c;
+  --color-aqua: #0a7ea4;
+  --color-grape: #7b2fbe;
+  --color-rose: #d63384;
+
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter Variable",
     "Helvetica Neue", Helvetica, Arial, sans-serif;
 

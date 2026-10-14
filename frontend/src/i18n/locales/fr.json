@@ -125,6 +125,19 @@
         "title": "Une voiture en ville",
         "description": "Besoin de vous déplacer sur place ? Réservez un taxi pour une journée, une semaine ou plus."
       }
+    },
+    "journey": {
+      "departure": "Départ",
+      "arrival": "Arrivée",
+      "during": "À bord de votre voiture",
+      "amenities": {
+        "wifi": "Wi-Fi à bord",
+        "charge": "Recharge de vos appareils",
+        "water": "Eau fraîche",
+        "work": "Travailler au calme",
+        "music": "Votre musique"
+      },
+      "carAlt": "Berline noire avec chauffeur, vue de profil"
     }
   },
   "events": {
@@ -616,5 +629,15 @@
   "contact": {
     "sent": "Votre messagerie s'ouvre avec votre demande. Il ne reste qu'à l'envoyer.",
     "unavailable": "Ce formulaire est indisponible pour le moment."
+  },
+  "cities": {
+    "paris": "Paris",
+    "newYork": "New York",
+    "london": "Londres",
+    "tokyo": "Tokyo",
+    "madrid": "Madrid",
+    "istanbul": "Istanbul",
+    "singapore": "Singapour",
+    "barcelona": "Barcelone"
   }
 }
