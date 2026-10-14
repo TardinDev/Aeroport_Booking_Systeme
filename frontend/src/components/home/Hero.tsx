@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ChevronRight } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
 
 import { BookingLookupDialog } from "@/components/booking/BookingLookupDialog";
+import { HeroJourney } from "@/components/home/HeroJourney";
 import { Button } from "@/components/ui/button";
 
 interface HeroProps {
@@ -13,18 +13,17 @@ interface HeroProps {
 
 export function Hero({ onSearchClick }: HeroProps) {
   const { t } = useTranslation();
-  const reduceMotion = useReducedMotion();
   const [lookupOpen, setLookupOpen] = useState(false);
 
   return (
-    <section className="overflow-hidden bg-background pt-16 md:pt-24">
+    <section className="overflow-hidden bg-[linear-gradient(180deg,#ffffff_0%,#ffffff_30%,#e9f3ff_72%,#ffffff_100%)] pb-12 pt-12 md:pb-14 md:pt-10">
       <div className="content text-center">
-        <h1 className="type-hero">{t("home.hero.title")}</h1>
+        <h1 className="type-hero text-link">{t("home.hero.title")}</h1>
         <p className="type-lede mx-auto mt-5 max-w-[32ch]">
           {t("home.hero.subtitle")}
         </p>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-x-7 gap-y-4">
+        <div className="mt-7 flex flex-wrap items-center justify-center gap-x-7 gap-y-4">
           <Button size="lg" onClick={onSearchClick}>
             {t("home.hero.cta")}
           </Button>
@@ -39,23 +38,7 @@ export function Hero({ onSearchClick }: HeroProps) {
         </div>
       </div>
 
-      <motion.img
-        src="/avionhero.png"
-        alt={t("home.hero.imageAlt")}
-        width={700}
-        height={350}
-        decoding="async"
-        // The plane faces left, so it flies in nose-first from beyond the
-        // right edge, descending with its nose slightly up, and brakes to a stop at centre.
-        initial={reduceMotion ? false : { x: "100vw", y: -48, rotate: 3 }}
-        animate={{ x: 0, y: 0, rotate: 0 }}
-        transition={{
-          x: { duration: 2.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] },
-          y: { duration: 2.2, delay: 0.3, ease: [0.33, 1, 0.68, 1] },
-          rotate: { duration: 2.4, delay: 0.3, ease: [0.33, 1, 0.68, 1] },
-        }}
-        className="mx-auto mt-6 h-auto w-full max-w-[780px] px-4 will-change-transform md:mt-2"
-      />
+      <HeroJourney />
 
       <BookingLookupDialog open={lookupOpen} onOpenChange={setLookupOpen} />
     </section>

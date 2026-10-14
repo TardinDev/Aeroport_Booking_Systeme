@@ -104,6 +104,12 @@ const fr: Record<LegalDocumentId, LegalDocument> = {
           "Ces conditions sont soumises au droit français. Si vous êtes consommateur, vous bénéficiez des dispositions impératives de la loi de votre pays de résidence.",
         ],
       },
+      {
+        heading: "Crédits",
+        paragraphs: [
+          "Photo de la berline : « Mercedes-Benz S 320 CDI 4MATIC L (V 221) – Seitenansicht » par M 93, Wikimedia Commons, sous licence CC BY-SA 3.0 DE. L'image a été détourée ; la version modifiée est diffusée sous la même licence.",
+        ],
+      },
     ],
     contact: "Une question sur ces conditions ? Écrivez-nous à",
   },
@@ -228,6 +234,12 @@ const en: Record<LegalDocumentId, LegalDocument> = {
         heading: "Governing law",
         paragraphs: [
           "These terms are governed by French law. If you are a consumer, you keep the mandatory protections of the law of your country of residence.",
+        ],
+      },
+      {
+        heading: "Credits",
+        paragraphs: [
+          "Sedan photo: “Mercedes-Benz S 320 CDI 4MATIC L (V 221) – Seitenansicht” by M 93, Wikimedia Commons, licensed CC BY-SA 3.0 DE. The background was removed; the modified version is shared under the same licence.",
         ],
       },
     ],

@@ -125,6 +125,19 @@
         "title": "Un coche en la ciudad",
         "description": "¿Necesitas moverte? Reserva un taxi por un día, una semana o más."
       }
+    },
+    "journey": {
+      "departure": "Salida",
+      "arrival": "Llegada",
+      "during": "A bordo de tu coche",
+      "amenities": {
+        "wifi": "Wi-Fi a bordo",
+        "charge": "Carga tus dispositivos",
+        "water": "Agua fresca",
+        "work": "Trabaja con calma",
+        "music": "Tu música"
+      },
+      "carAlt": "Berlina negra con chófer, vista de perfil"
     }
   },
   "events": {
@@ -310,5 +323,15 @@
   "contact": {
     "sent": "Tu aplicación de correo se abre con tu solicitud. Solo falta enviarla.",
     "unavailable": "Este formulario no está disponible ahora."
+  },
+  "cities": {
+    "paris": "París",
+    "newYork": "Nueva York",
+    "london": "Londres",
+    "tokyo": "Tokio",
+    "madrid": "Madrid",
+    "istanbul": "Estambul",
+    "singapore": "Singapur",
+    "barcelona": "Barcelona"
   }
 }

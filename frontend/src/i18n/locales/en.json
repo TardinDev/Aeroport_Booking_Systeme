@@ -125,6 +125,19 @@
         "title": "A car in town",
         "description": "Need to get around? Book a taxi for a day, a week or longer."
       }
+    },
+    "journey": {
+      "departure": "From",
+      "arrival": "To",
+      "during": "In your car",
+      "amenities": {
+        "wifi": "Wi-Fi on board",
+        "charge": "Charge your devices",
+        "water": "Chilled water",
+        "work": "Work in quiet",
+        "music": "Your music"
+      },
+      "carAlt": "Black chauffeur sedan, seen from the side"
     }
   },
   "events": {
@@ -616,5 +629,15 @@
   "contact": {
     "sent": "Your mail app is opening with your request. Just press send.",
     "unavailable": "This form is unavailable right now."
+  },
+  "cities": {
+    "paris": "Paris",
+    "newYork": "New York",
+    "london": "London",
+    "tokyo": "Tokyo",
+    "madrid": "Madrid",
+    "istanbul": "Istanbul",
+    "singapore": "Singapore",
+    "barcelona": "Barcelona"
   }
 }
