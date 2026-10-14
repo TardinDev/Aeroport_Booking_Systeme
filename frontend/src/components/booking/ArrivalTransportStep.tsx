@@ -6,7 +6,6 @@ import { Car, KeyRound, Plane, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TicketStub } from "@/components/ui/ticket-stub";
 import { formatCurrency, cn } from "@/lib/utils";
 import { useBookingStore } from "@/stores/useBookingStore";
 import { useCurrencyStore } from "@/stores/useCurrencyStore";
@@ -115,17 +114,17 @@ export function ArrivalTransportStep({ onNext, onPrev }: ArrivalTransportStepPro
     <div className="max-w-5xl mx-auto space-y-8">
       {/* Editorial header */}
       <div className="text-center">
-        <p className="small-caps text-ink-faded">
+        <p className="type-caption text-muted-foreground">
           {t("booking.arrivalTransport.eyebrow", {
             defaultValue: "Step IV · The other half",
           })}
         </p>
-        <h2 className="display-serif text-4xl md:text-5xl mt-2">
+        <h2 className="font-semibold tracking-tight text-4xl md:text-5xl mt-2">
           {t("booking.arrivalTransport.title", {
             defaultValue: "What's waiting on the other side?",
           })}
         </h2>
-        <p className="editorial-italic mt-3 text-ink-faded max-w-2xl mx-auto">
+        <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">
           {t("booking.arrivalTransport.subtitle", {
             defaultValue:
               "A driver holding a placard with your name. Or a set of keys and an open road. Pick one — or skip and figure it out at the kerb.",
@@ -194,16 +193,16 @@ export function ArrivalTransportStep({ onNext, onPrev }: ArrivalTransportStepPro
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.25 }}
           >
-            <TicketStub perforationAt={70} className="bg-paper">
+            <div className="overflow-hidden rounded-xl bg-secondary">
               <div className="grid grid-cols-1 md:grid-cols-[1fr_auto]">
                 <div className="p-6 md:p-8 space-y-5">
                   <div>
-                    <p className="small-caps text-ink-faded">
+                    <p className="type-caption text-muted-foreground">
                       {t("booking.arrivalTransport.taxi.formTitle", {
                         defaultValue: "Driver brief",
                       })}
                     </p>
-                    <p className="display-serif text-2xl mt-1">
+                    <p className="font-semibold tracking-tight text-2xl mt-1">
                       {t("booking.arrivalTransport.taxi.formSubtitle", {
                         defaultValue: "Tell us who to look for",
                       })}
@@ -221,7 +220,7 @@ export function ArrivalTransportStep({ onNext, onPrev }: ArrivalTransportStepPro
                         onChange={(e) =>
                           setTaxiForm((f) => ({ ...f, placardName: e.target.value }))
                         }
-                        className="rounded-none border-2 border-ink"
+                        className="border border-border"
                       />
                     </FieldRow>
                     <FieldRow
@@ -235,7 +234,7 @@ export function ArrivalTransportStep({ onNext, onPrev }: ArrivalTransportStepPro
                           setTaxiForm((f) => ({ ...f, contactPhone: e.target.value }))
                         }
                         placeholder="+33 6 12 34 56 78"
-                        className="rounded-none border-2 border-ink"
+                        className="border border-border"
                       />
                     </FieldRow>
                     <FieldRow
@@ -248,7 +247,7 @@ export function ArrivalTransportStep({ onNext, onPrev }: ArrivalTransportStepPro
                         onChange={(e) =>
                           setTaxiForm((f) => ({ ...f, meetingPoint: e.target.value }))
                         }
-                        className="rounded-none border-2 border-ink"
+                        className="border border-border"
                       />
                     </FieldRow>
                     <FieldRow
@@ -262,7 +261,7 @@ export function ArrivalTransportStep({ onNext, onPrev }: ArrivalTransportStepPro
                           setTaxiForm((f) => ({ ...f, dropoffAddress: e.target.value }))
                         }
                         placeholder={selectedFlight?.destinationCity}
-                        className="rounded-none border-2 border-ink"
+                        className="border border-border"
                       />
                     </FieldRow>
                   </div>
@@ -277,7 +276,7 @@ export function ArrivalTransportStep({ onNext, onPrev }: ArrivalTransportStepPro
                   currency={currency}
                 />
               </div>
-            </TicketStub>
+            </div>
           </motion.div>
         )}
 
@@ -289,16 +288,16 @@ export function ArrivalTransportStep({ onNext, onPrev }: ArrivalTransportStepPro
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.25 }}
           >
-            <TicketStub perforationAt={70} className="bg-paper">
+            <div className="overflow-hidden rounded-xl bg-secondary">
               <div className="grid grid-cols-1 md:grid-cols-[1fr_auto]">
                 <div className="p-6 md:p-8 space-y-5">
                   <div>
-                    <p className="small-caps text-ink-faded">
+                    <p className="type-caption text-muted-foreground">
                       {t("booking.arrivalTransport.rental.formTitle", {
                         defaultValue: "Rental brief",
                       })}
                     </p>
-                    <p className="display-serif text-2xl mt-1">
+                    <p className="font-semibold tracking-tight text-2xl mt-1">
                       {t("booking.arrivalTransport.rental.formSubtitle", {
                         defaultValue: "Pick your wheels",
                       })}
@@ -307,7 +306,7 @@ export function ArrivalTransportStep({ onNext, onPrev }: ArrivalTransportStepPro
 
                   {/* Car class radio cards */}
                   <div>
-                    <p className="small-caps text-ink-faded mb-2">
+                    <p className="type-caption text-muted-foreground mb-2">
                       {t("booking.arrivalTransport.rental.carClass", {
                         defaultValue: "Car class",
                       })}
@@ -323,10 +322,10 @@ export function ArrivalTransportStep({ onNext, onPrev }: ArrivalTransportStepPro
                               setRentalForm((f) => ({ ...f, carClass: opt.value }))
                             }
                             className={cn(
-                              "small-caps rounded-none border-2 border-ink px-3 py-2 text-sm transition-all",
+                              "type-caption border border-border px-3 py-2 text-sm transition-all",
                               isActive
-                                ? "bg-ink text-paper shadow-[3px_3px_0_0_var(--coral)]"
-                                : "bg-paper text-ink hover:translate-y-[-1px]"
+                                ? "bg-foreground text-background "
+                                : "bg-background text-foreground "
                             )}
                           >
                             {t(`booking.arrivalTransport.rental.classes.${opt.value}`, {
@@ -350,7 +349,7 @@ export function ArrivalTransportStep({ onNext, onPrev }: ArrivalTransportStepPro
                         onChange={(e) =>
                           setRentalForm((f) => ({ ...f, pickupDate: e.target.value }))
                         }
-                        className="rounded-none border-2 border-ink"
+                        className="border border-border"
                       />
                     </FieldRow>
                     <FieldRow
@@ -364,7 +363,7 @@ export function ArrivalTransportStep({ onNext, onPrev }: ArrivalTransportStepPro
                         onChange={(e) =>
                           setRentalForm((f) => ({ ...f, returnDate: e.target.value }))
                         }
-                        className="rounded-none border-2 border-ink"
+                        className="border border-border"
                       />
                     </FieldRow>
                   </div>
@@ -385,10 +384,10 @@ export function ArrivalTransportStep({ onNext, onPrev }: ArrivalTransportStepPro
                               setRentalForm((f) => ({ ...f, returnLocation: loc }))
                             }
                             className={cn(
-                              "small-caps rounded-none border-2 border-ink px-4 py-2 text-sm",
+                              "type-caption border border-border px-4 py-2 text-sm",
                               isActive
-                                ? "bg-ink text-paper"
-                                : "bg-paper text-ink"
+                                ? "bg-foreground text-background"
+                                : "bg-background text-foreground"
                             )}
                           >
                             {t(`booking.arrivalTransport.rental.return.${loc}`, {
@@ -410,17 +409,17 @@ export function ArrivalTransportStep({ onNext, onPrev }: ArrivalTransportStepPro
                   currency={currency}
                 />
               </div>
-            </TicketStub>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Step navigation */}
-      <div className="rule-top flex flex-wrap items-center justify-between gap-3 pt-6">
+      <div className="border-t border-border flex flex-wrap items-center justify-between gap-3 pt-6">
         <Button
           variant="ghost"
           onClick={onPrev}
-          className="small-caps rounded-none text-ink hover:bg-ink/5"
+          className="type-caption text-foreground hover:bg-foreground/5"
         >
           {t("common.previous")}
         </Button>
@@ -429,7 +428,7 @@ export function ArrivalTransportStep({ onNext, onPrev }: ArrivalTransportStepPro
           <Button
             variant="ghost"
             onClick={handleSkip}
-            className="small-caps rounded-none text-ink-faded hover:text-ink"
+            className="type-caption text-muted-foreground hover:text-foreground"
           >
             <X className="mr-1 h-3 w-3" />
             {t("booking.arrivalTransport.skip", {
@@ -439,7 +438,7 @@ export function ArrivalTransportStep({ onNext, onPrev }: ArrivalTransportStepPro
           <Button
             onClick={handleConfirm}
             disabled={activeKind === "NONE"}
-            className="small-caps rounded-none border-2 border-ink bg-ink text-paper shadow-[3px_3px_0_0_var(--coral)] transition-all hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0_0_var(--coral)] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:translate-x-0 disabled:hover:translate-y-0"
+            className="type-caption border border-border bg-foreground text-background transition-all disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:translate-x-0 disabled:hover:translate-y-0"
           >
             {activeKind === "NONE"
               ? t("booking.arrivalTransport.pickOne", {
@@ -487,31 +486,31 @@ function ChoiceCard({
       whileHover={{ y: -3 }}
       transition={{ duration: 0.2 }}
       className={cn(
-        "group relative text-left rounded-none border-2 border-ink bg-card p-6 transition-shadow",
+        "group relative text-left border border-border bg-card p-6 transition-shadow",
         active
-          ? "shadow-[6px_6px_0_0_var(--coral)]"
-          : "shadow-[3px_3px_0_0_var(--ink)] hover:shadow-[5px_5px_0_0_var(--coral)]"
+          ? ""
+          : ""
       )}
     >
       <div className="flex items-start gap-4">
         <div
           className={cn(
-            "flex h-10 w-10 shrink-0 items-center justify-center border-2 border-ink",
-            active ? "bg-coral text-paper" : "bg-paper text-ink"
+            "flex h-10 w-10 shrink-0 items-center justify-center border border-border",
+            active ? "bg-link text-background" : "bg-background text-foreground"
           )}
         >
           {icon}
         </div>
         <div className="flex-1">
-          <p className="small-caps text-ink-faded">{eyebrow}</p>
-          <p className="display-serif text-2xl leading-tight mt-1">{title}</p>
-          <p className="text-sm text-ink-faded mt-2">{description}</p>
+          <p className="type-caption text-muted-foreground">{eyebrow}</p>
+          <p className="font-semibold tracking-tight text-2xl leading-tight mt-1">{title}</p>
+          <p className="text-sm text-muted-foreground mt-2">{description}</p>
         </div>
       </div>
 
-      <div className="rule-top mt-5 flex items-end justify-between pt-4">
-        <p className="small-caps text-ink-faded">{priceLabel}</p>
-        <p className="display-serif text-2xl tabular">
+      <div className="border-t border-border mt-5 flex items-end justify-between pt-4">
+        <p className="type-caption text-muted-foreground">{priceLabel}</p>
+        <p className="font-semibold tracking-tight text-2xl tabular-nums">
           {formatCurrency(priceEur, currency)}
         </p>
       </div>
@@ -519,7 +518,7 @@ function ChoiceCard({
       {active && (
         <motion.div
           layoutId="arrival-transport-active-stamp"
-          className="absolute -top-3 -right-3 rotate-3 bg-coral text-paper px-3 py-1 small-caps text-xs border-2 border-ink shadow-[2px_2px_0_0_var(--ink)]"
+          className="absolute -top-3 -right-3 rotate-3 bg-link text-background px-3 py-1 type-caption text-xs border border-border "
         >
           Selected
         </motion.div>
@@ -531,7 +530,7 @@ function ChoiceCard({
 function FieldRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="space-y-1.5">
-      <Label className="small-caps text-ink-faded">{label}</Label>
+      <Label className="type-caption text-muted-foreground">{label}</Label>
       {children}
     </div>
   );
@@ -547,14 +546,14 @@ function PriceStub({
   currency: string;
 }) {
   return (
-    <div className="flex flex-row items-center justify-between gap-4 border-t-2 border-dashed border-ink bg-ink p-6 text-paper md:min-w-[200px] md:flex-col md:items-end md:justify-center md:border-l-2 md:border-t-0 md:p-8">
+    <div className="flex flex-row items-center justify-between gap-4 border-t border-border p-6 md:min-w-[200px] md:flex-col md:items-end md:justify-center md:border-l md:border-t-0 md:p-8">
       <div className="md:text-right">
-        <p className="small-caps text-paper/60">{label}</p>
-        <p className="display-serif text-3xl leading-none mt-1">
+        <p className="type-caption">{label}</p>
+        <p className="font-semibold tracking-tight text-3xl leading-none mt-1">
           {formatCurrency(amountEur, currency)}
         </p>
       </div>
-      <p className="editorial-italic text-xs text-paper/60 md:mt-3">
+      <p className="type-caption md:mt-3">
         <Car className="inline h-3 w-3 mr-1" />
         Door-to-door
       </p>

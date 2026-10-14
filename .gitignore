@@ -41,3 +41,4 @@ docker-compose.override.yml
 *.pem
 *.key
 credentials.json
+.gstack/

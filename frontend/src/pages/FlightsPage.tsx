@@ -35,6 +35,7 @@ import { useFlightStore } from "@/stores/useFlightStore";
 import { useBookingStore } from "@/stores/useBookingStore";
 import { flightsApi } from "@/api/flights.api";
 import type { Flight, FlightSearchParams } from "@/types";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 function FlightSkeleton() {
   return (
@@ -65,6 +66,7 @@ function FlightSkeleton() {
 
 export function FlightsPage() {
   const { t } = useTranslation();
+  usePageMeta({ title: t("meta.flights.title"), description: t("meta.flights.description") });
   const navigate = useNavigate();
   const [showFilters, setShowFilters] = useState(true);
 
@@ -107,7 +109,7 @@ export function FlightsPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="content-wide py-8">
       {/* Search Form */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}

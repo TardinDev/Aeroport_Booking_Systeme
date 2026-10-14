@@ -1,15 +1,13 @@
 {
   "nav": {
     "flights": "航班",
-    "transport": "地面交通",
+    "beEscorted": "专车接送",
     "myBookings": "我的预订",
-    "services": "服务",
     "login": "登录",
     "register": "注册",
-    "logout": "退出",
-    "dashboard": "控制台",
-    "profile": "个人资料",
-    "settings": "设置"
+    "logout": "退出登录",
+    "dashboard": "个人中心",
+    "menu": "菜单"
   },
   "common": {
     "search": "搜索",
@@ -41,63 +39,31 @@
     "or": "或",
     "and": "和",
     "yes": "是",
-    "no": "否"
+    "no": "否",
+    "currencyLabel": "价格显示货币"
   },
   "home": {
     "hero": {
-      "eyebrow": "旅行随笔 · 出发",
-      "title": "起飞的艺术。",
-      "titlePre": "起飞",
-      "titleItalicA": "的",
-      "titleOf": "",
-      "titleItalicB": "艺术",
-      "titlePost": "。",
-      "subtitle": "在数百家航空公司中找到最低票价,剩下的交给我们 — 到达时已有手持名牌的司机在等候,或落地即可取车上路。",
-      "lede": "我们在一百二十家航空公司中寻找最便宜的票价,在五百座城市里串联行程 — 并在您抵达时安排一位手持名牌的司机在接机口等候,或在您刚刚落地的城市为您预订一辆按表计价的出租车。机场留给您的,只剩下靠窗的座位。",
-      "readOn": "继续阅读",
-      "meta": "10 分钟 · 4 节",
-      "cta": "搜索航班"
-    },
-    "request": {
-      "titlePre": "预订",
-      "titleItalic": "航班。",
-      "description": "像填写纸质机票一样填写以下票根。出发、到达、日期、人数 — 一段行程的基本要素,仅此而已。我们会为您查询一百二十家航空公司。",
-      "byEditors": "编辑部",
-      "formHeader": "表格 № 001 · 出行申请",
-      "formReceived": "收件 · __ / __ / 26"
+      "title": "落地有车，直达家门",
+      "subtitle": "机票与接机专车，一次预订。",
+      "cta": "搜索航班",
+      "lookup": "查找预订",
+      "imageAlt": "放下起落架、正在进近的客机"
     },
     "deals": {
-      "eyebrow": "实时票价",
-      "titlePre": "票价,",
-      "titleItalic": "实时来自",
-      "titlePost": "航线。",
-      "caption": "每半小时更新。每条航线的最低价,涵盖航空公司与代理。",
-      "error": "信号暂时安静 — 请稍后刷新。",
+      "caption": "每条航线的最低价，每三十分钟更新。",
+      "error": "票价暂时无法显示，请稍后再试。",
       "direct": "直飞",
       "stopOne": "{{count}} 次中转",
       "stopOther": "{{count}} 次中转",
       "directAirline": "航空公司直售",
       "viaAgency": "通过代理",
       "from": "最低",
-      "book": "预订"
-    },
-    "numbers": {
-      "titlePre": "用",
-      "titleItalic": "数字说话。",
-      "caption": "一份小小的数据集,怀着谦逊的骄傲汇编而成。"
-    },
-    "stats": {
-      "flights": "每日航班",
-      "destinations": "目的地",
-      "airlines": "合作航司",
-      "customers": "服务旅客"
+      "book": "预订",
+      "title": "今日特价，一目了然"
     },
     "spotlight": {
-      "eyebrow": "礼宾",
-      "titlePre": "一座城市,",
-      "titleItalic": "全面了解",
-      "titleDot": "。",
-      "description": "我们的礼宾替您摸清这座城市。安全一目了然、本季正在发生什么、当地人在离开之前会做的五件事 — 都在一页之内,没有标签页、没有广告。",
+      "description": "安全状况、近期活动、必去之处与实用信息，尽在一页。",
       "safetySnapshot": "安全概览",
       "whatNotToMiss": "不容错过",
       "inSeason": "正当季",
@@ -108,94 +74,58 @@
       "plug": "插头",
       "transport": "交通",
       "airportLabel": "机场 {{iata}}",
-      "concierge": "礼宾",
-      "briefingBy": "简报来自",
-      "byAI": "SkyBooker AI 礼宾",
-      "byEditors": "SkyBooker 编辑部",
       "verifyNotice": "出行前请与官方来源核实",
-      "error": "礼宾台暂时无法连接,请稍后再试。"
-    },
-    "kindnesses": {
-      "titlePre": "每一步的",
-      "titleItalic": "小小关照",
-      "titlePost": "。",
-      "learnMore": "了解更多",
-      "items": {
-        "taxi": {
-          "title": "路边的出租车",
-          "lede": "一位司机手持您姓名的名牌在等候。无需招手、无需排队、无需讲价 — 只有行李箱轻轻合上的声音。"
-        },
-        "baggage": {
-          "title": "行李,提前申报",
-          "lede": "提前申报行李。免去超重附加费、失物招领处和传送带前的焦躁等待。"
-        },
-        "checkin": {
-          "title": "手机值机",
-          "lede": "起飞前四十八小时,登机牌已送达您的邮箱。跳过长队,去喝杯咖啡。"
-        },
-        "insurance": {
-          "title": "投保,安心",
-          "lede": "丢失的护照、延误的航班、在里斯本被偷的雨伞。我们的保单覆盖旅途中的这些小意外。"
-        }
-      }
-    },
-    "dispatches": {
-      "titlePre": "三则",
-      "titleItalic": "行前要闻",
-      "titlePost": "值得一读。",
-      "caption": "本月由我们的编辑部精选。所有价格均为人均往返价。",
-      "nightsMinimum": "至少 {{count}} 晚",
-      "fromPrice": "最低",
-      "readDispatch": "阅读全文",
-      "items": {
-        "nyc": {
-          "note": "经典的跨洋之旅。大西洋上八小时,随后是那道天际线。",
-          "nights": "至少 3 晚"
-        },
-        "tokyo": {
-          "note": "新宿安静的清晨,午夜前的一碗拉面。",
-          "nights": "至少 7 晚"
-        },
-        "buenosAires": {
-          "note": "鹅卵石上的探戈。十点半的马尔贝克与牛排。",
-          "nights": "至少 10 晚"
-        }
-      }
-    },
-    "taxiSection": {
-      "titlePre": "另一半承诺:",
-      "titleItalic": "一辆等您的出租车",
-      "titlePost": "。",
-      "description": "谁都可以卖给您一张便宜机票。我们做的是另一件静悄悄的实用事:在舱门打开时,确保有一位司机在等候。预订到达接机服务,或在目的地城市预订一辆按表计价的出租车 — 同一份订单、同一种货币、同一份信任。",
-      "citiesAvailable": "覆盖 220 多座城市",
-      "items": {
-        "arrivals": {
-          "title": "接机口等候的司机",
-          "lede": "走出海关,便能看到名牌上写着您的名字。行李箱已开、引擎已热,市区只需二十分钟。"
-        },
-        "cityRental": {
-          "title": "城中可租的出租车",
-          "lede": "需要一天、一周或一个月的车?在目的地城市预订按表计价的出租车 — 同一份订单、同一种货币、同一份信任。"
-        }
-      }
+      "error": "指南暂时无法显示，请稍后再试。",
+      "title": "目的地，一页看懂",
+      "briefingBy": "简报来自",
+      "byAI": "Fly & taxi AI 礼宾",
+      "byEditors": "Fly & taxi 编辑部"
     },
     "payments": {
-      "titlePre": "您喜欢的方式,",
-      "titleItalic": "随意支付",
-      "titleDot": "。",
-      "description": "从巴黎的 Visa 到上海的支付宝,再到内罗毕的 M-Pesa — 我们接受全球多种支付方式,支持十二种货币。"
+      "title": "想怎么付，就怎么付",
+      "description": "银行卡、手机钱包或银行转账，任您选择。"
     },
     "closing": {
-      "eyebrow": "结语一句",
-      "quoteLead": "旅行使人",
-      "quoteItalic": "谦逊",
-      "quoteTail": "。你会意识到,自己在这个世界里占据的位置有多小。",
-      "author": "—— 古斯塔夫·福楼拜,1849",
-      "cta": "开启旅程"
+      "title": "准备出发了吗？",
+      "subtitle": "几秒钟，找到您的航班。",
+      "cta": "搜索航班"
+    },
+    "search": {
+      "title": "想去哪里？",
+      "subtitle": "一次搜索，比较航空公司与代理商的票价。"
+    },
+    "services": {
+      "title": "轻装出行，从容登机",
+      "baggage": {
+        "title": "提前申报行李",
+        "description": "出发前添加行李，免去柜台加收的费用。"
+      },
+      "checkin": {
+        "title": "在线值机",
+        "description": "用手机办理值机，直接获取登机牌。"
+      },
+      "insurance": {
+        "title": "旅行保险",
+        "description": "延误、取消、行李丢失，都有保障。"
+      },
+      "taxi": {
+        "title": "落地有司机接",
+        "description": "司机举着您的姓名牌，在出口等候。"
+      }
+    },
+    "transfer": {
+      "title": "司机已在等候",
+      "description": "预订机票时一并安排接送。落地时，车已到位。",
+      "cta": "了解服务",
+      "arrivals": {
+        "title": "机场接机",
+        "description": "司机举着您的姓名牌，在到达出口等候。"
+      },
+      "cityRental": {
+        "title": "市内用车",
+        "description": "需要在当地出行？可按天、按周或更长时间预订出租车。"
+      }
     }
-  },
-  "header": {
-    "tagline": "特价航班 · 门到门 · Est. MMXXVI"
   },
   "events": {
     "gate": {
@@ -231,7 +161,7 @@
   },
   "concierge": {
     "openLabel": "向礼宾提问",
-    "brand": "SkyBooker",
+    "brand": "Fly & taxi",
     "panelTitle": "旅行礼宾",
     "searchLabel": "世界上任何一座城市",
     "searchPlaceholder": "东京、巴黎、BCN……",
@@ -240,8 +170,8 @@
     "events": "活动",
     "whatLocalsDo": "当地人会做什么",
     "dailyTips": "每日贴士",
-    "footerAi": "由 SkyBooker AI 生成的回答 — 出行前请核实",
-    "footerStub": "由 SkyBooker 编辑部整理的回答",
+    "footerAi": "由 Fly & taxi AI 生成的回答 — 出行前请核实",
+    "footerStub": "由 Fly & taxi 编辑部整理的回答",
     "error": "礼宾台暂时无法连接。",
     "close": "关闭",
     "clear": "清除",
@@ -264,33 +194,38 @@
       "roundTrip": "往返",
       "searchButton": "搜索航班",
       "swap": "对调"
+    },
+    "card": {
+      "departure": "出发",
+      "arrival": "到达",
+      "soldBy": "销售方",
+      "taxesIncluded": "含税费",
+      "bookOnSeller": "前往 {{seller}} 预订",
+      "seatsLeft": "个余座",
+      "selectFlight": "选择此航班",
+      "perPerson": "每人",
+      "duration": "时长"
     }
   },
   "notFound": {
-    "title": "页面未找到",
-    "subtitle": "您访问的页面不存在或已被移动",
+    "title": "页面不存在",
+    "subtitle": "您访问的页面不存在或已被移动。",
     "backHome": "返回首页"
   },
   "footer": {
-    "about": "关于",
-    "aboutText": "Fly & Taxi 是您的在线机票预订平台。以最优价格放心出行。",
-    "links": {
-      "title": "实用链接",
+    "tagline": "机票与接送，一次预订。",
+    "travel": {
+      "title": "出行",
       "flights": "搜索航班",
-      "services": "我们的服务",
-      "faq": "常见问题",
-      "contact": "联系我们"
+      "transfers": "专车接送",
+      "bookings": "我的预订"
     },
-    "legal": {
-      "title": "法律信息",
-      "terms": "服务条款",
-      "privacy": "隐私政策",
-      "cookies": "Cookie 政策"
+    "account": {
+      "title": "账户",
+      "login": "登录",
+      "register": "注册"
     },
-    "social": {
-      "title": "关注我们"
-    },
-    "copyright": "Fly & Taxi 版权所有。"
+    "copyright": "Fly & taxi. 保留所有权利。"
   },
   "theme": {
     "light": "浅色",
@@ -310,5 +245,70 @@
       "skip": "稍后再说",
       "menuLabel": "语言"
     }
+  },
+  "lookup": {
+    "title": "查找您的预订",
+    "guest": "请输入预订编号和购票时使用的电子邮箱。",
+    "auth": "您已登录，预订记录在您的账户中。",
+    "reference": "预订编号",
+    "email": "电子邮箱",
+    "emailPlaceholder": "you@example.com",
+    "submit": "继续",
+    "viewBookings": "查看我的预订",
+    "orLogin": "登录我的账户"
+  },
+  "cookies": {
+    "title": "访问统计",
+    "text": "我们希望统计访问量以改进网站。不使用广告 Cookie，也不跨站追踪。",
+    "learnMore": "了解更多",
+    "accept": "接受",
+    "refuse": "拒绝",
+    "manage": "管理 Cookie"
+  },
+  "legal": {
+    "title": "法律信息",
+    "privacy": "隐私政策",
+    "terms": "使用条款",
+    "cookies": "Cookie 政策",
+    "updated": "最后更新：{{date}}"
+  },
+  "meta": {
+    "home": {
+      "title": "机票与接送，一次预订",
+      "description": "一次预订，同时安排机票与落地接机专车。"
+    },
+    "flights": {
+      "title": "搜索航班",
+      "description": "比较航空公司与代理商的票价，预订您的航班。"
+    },
+    "transport": {
+      "title": "专车接送",
+      "description": "专人在机舱出口迎接，护送您抵达目的地。三种保护级别。"
+    },
+    "login": {
+      "title": "登录"
+    },
+    "register": {
+      "title": "注册"
+    },
+    "dashboard": {
+      "title": "我的预订"
+    },
+    "booking": {
+      "title": "预订"
+    },
+    "checkin": {
+      "title": "值机"
+    },
+    "admin": {
+      "title": "管理后台"
+    },
+    "notFound": {
+      "title": "页面不存在"
+    }
+  },
+  "contact": {
+    "sent": "邮件应用即将打开并填好您的请求，点击发送即可。",
+    "unavailable": "此表单暂时无法使用。"
   }
 }

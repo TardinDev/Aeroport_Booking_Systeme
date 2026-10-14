@@ -27,23 +27,22 @@ import {
 } from "@/components/ui/tabs";
 import { adminApi } from "@/api/admin.api";
 import { formatCurrency } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 interface KpiCardProps {
   label: string;
   value: string | number;
   icon: React.ComponentType<{ className?: string }>;
-  color: string;
   isLoading?: boolean;
 }
 
-function KpiCard({ label, value, icon: Icon, color, isLoading }: KpiCardProps) {
+function KpiCard({ label, value, icon: Icon, isLoading }: KpiCardProps) {
   return (
     <Card>
       <CardContent className="flex items-center gap-4 p-6">
-        <div
-          className={`flex h-12 w-12 items-center justify-center rounded-full ${color}`}
-        >
-          <Icon className="h-6 w-6 text-white" />
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary">
+          <Icon className="h-6 w-6 text-link" />
         </div>
         <div>
           <p className="text-sm text-muted-foreground">{label}</p>
@@ -59,6 +58,8 @@ function KpiCard({ label, value, icon: Icon, color, isLoading }: KpiCardProps) {
 }
 
 export function AdminDashboardPage() {
+  const { t: translate } = useTranslation();
+  usePageMeta({ title: translate("meta.admin.title"), noindex: true });
   const { data: stats, isLoading } = useQuery({
     queryKey: ["admin", "dashboard"],
     queryFn: adminApi.getDashboard,
@@ -70,7 +71,7 @@ export function AdminDashboardPage() {
   });
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="content-wide py-8">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -90,21 +91,18 @@ export function AdminDashboardPage() {
           label="Total users"
           value={stats?.totalUsers ?? "-"}
           icon={Users}
-          color="bg-blue-600"
           isLoading={isLoading}
         />
         <KpiCard
           label="Total flights"
           value={stats?.totalFlights ?? "-"}
           icon={Plane}
-          color="bg-purple-600"
           isLoading={isLoading}
         />
         <KpiCard
           label="Total bookings"
           value={stats?.totalBookings ?? "-"}
           icon={Ticket}
-          color="bg-emerald-600"
           isLoading={isLoading}
         />
         <KpiCard
@@ -115,7 +113,6 @@ export function AdminDashboardPage() {
               : "-"
           }
           icon={DollarSign}
-          color="bg-amber-600"
           isLoading={isLoading}
         />
       </div>
@@ -125,28 +122,24 @@ export function AdminDashboardPage() {
           label="Pending bookings"
           value={stats?.pendingBookings ?? "-"}
           icon={Clock}
-          color="bg-yellow-500"
           isLoading={isLoading}
         />
         <KpiCard
           label="Confirmed"
           value={stats?.confirmedBookings ?? "-"}
           icon={CheckCircle2}
-          color="bg-green-600"
           isLoading={isLoading}
         />
         <KpiCard
           label="Cancelled"
           value={stats?.cancelledBookings ?? "-"}
           icon={XCircle}
-          color="bg-red-600"
           isLoading={isLoading}
         />
         <KpiCard
           label="Completed"
           value={stats?.completedBookings ?? "-"}
           icon={CheckCircle2}
-          color="bg-indigo-600"
           isLoading={isLoading}
         />
       </div>

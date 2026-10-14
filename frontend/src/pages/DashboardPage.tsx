@@ -13,9 +13,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { formatCurrency, formatDate, formatTime } from "@/lib/utils";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { bookingsApi } from "@/api/bookings.api";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 export function DashboardPage() {
   const { t } = useTranslation();
+  usePageMeta({ title: t("meta.dashboard.title"), noindex: true });
   const navigate = useNavigate();
   const { user } = useAuthStore();
 
@@ -34,7 +36,7 @@ export function DashboardPage() {
   const totalSpent = bookings.reduce((sum, b) => sum + b.totalPrice, 0);
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="content-wide py-8">
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
         <h1 className="text-3xl font-bold">{t("dashboard.welcome", { name: user?.firstName ?? "" })}</h1>
         <p className="text-muted-foreground">{t("dashboard.title")}</p>
@@ -42,16 +44,16 @@ export function DashboardPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
         {[
-          { icon: Plane, label: t("dashboard.overview.upcomingFlights"), value: upcomingBookings.length, color: "blue" },
-          { icon: Calendar, label: t("dashboard.overview.pastBookings"), value: pastBookings.length, color: "green" },
-          { icon: CreditCard, label: t("dashboard.overview.totalSpent"), value: formatCurrency(totalSpent), color: "purple" },
+          { icon: Plane, label: t("dashboard.overview.upcomingFlights"), value: upcomingBookings.length },
+          { icon: Calendar, label: t("dashboard.overview.pastBookings"), value: pastBookings.length },
+          { icon: CreditCard, label: t("dashboard.overview.totalSpent"), value: formatCurrency(totalSpent) },
         ].map((card, i) => (
           <motion.div key={card.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center gap-4">
-                  <div className={`flex h-12 w-12 items-center justify-center rounded-full bg-${card.color}-100 dark:bg-${card.color}-900`}>
-                    <card.icon className={`h-6 w-6 text-${card.color}-600 dark:text-${card.color}-400`} />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary">
+                    <card.icon className="h-6 w-6 text-link" />
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">{card.label}</p>

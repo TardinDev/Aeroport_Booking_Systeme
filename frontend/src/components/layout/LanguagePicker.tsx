@@ -8,6 +8,7 @@ import {
   LANGUAGE_CONFIRMED_KEY,
   type SupportedLanguageCode,
 } from "@/i18n";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 /**
@@ -18,17 +19,13 @@ import { cn } from "@/lib/utils";
  */
 export function LanguagePicker() {
   const { i18n, t } = useTranslation();
-  const [open, setOpen] = useState(false);
+  // Show only if the user has never explicitly confirmed a language.
+  const [open, setOpen] = useState(
+    () => !localStorage.getItem(LANGUAGE_CONFIRMED_KEY)
+  );
   const [selected, setSelected] = useState<SupportedLanguageCode>(
     (i18n.resolvedLanguage as SupportedLanguageCode) ?? "en"
   );
-
-  useEffect(() => {
-    // Show only if the user has never explicitly confirmed a language.
-    // Run after mount to avoid SSR-style mismatch with i18next detector.
-    const confirmed = localStorage.getItem(LANGUAGE_CONFIRMED_KEY);
-    if (!confirmed) setOpen(true);
-  }, []);
 
   // Lock body scroll while the picker is open.
   useEffect(() => {
@@ -65,102 +62,66 @@ export function LanguagePicker() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-ink/60 px-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 px-4"
         >
           <motion.div
-            initial={{ opacity: 0, y: 24, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.96 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="paper-bg grain relative w-full max-w-xl border-2 border-ink shadow-[10px_10px_0_0_var(--coral)]"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 16 }}
+            transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+            className="relative w-full max-w-md rounded-3xl bg-background p-8 shadow-modal sm:p-10"
           >
-            {/* Corner stamp */}
-            <div className="absolute -right-2 -top-2 rotate-6 border-2 border-ink bg-paper px-3 py-1.5">
-              <span className="small-caps text-[10px] text-coral">
-                {t("language.picker.eyebrow")}
-              </span>
-            </div>
-
             <button
               type="button"
               onClick={handleSkip}
               aria-label={t("common.close")}
-              className="absolute right-4 top-4 rounded-full border border-ink/30 bg-paper p-1.5 text-ink-faded hover:text-ink"
+              className="absolute right-4 top-4 rounded-full bg-secondary p-2 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             >
-              <X className="h-3.5 w-3.5" />
+              <X className="h-4 w-4" />
             </button>
 
-            <div className="px-8 pb-8 pt-10 sm:px-10">
-              <p className="small-caps text-coral">
-                {t("language.picker.eyebrow")}
-              </p>
-              <h2
-                id="language-picker-title"
-                className="display-serif mt-2 text-4xl leading-[0.95] sm:text-5xl"
+            <h2 id="language-picker-title" className="type-title pr-8">
+              {t("language.picker.title")}
+            </h2>
+            <p className="mt-2 text-[15px] text-muted-foreground">
+              {t("language.picker.subtitle")}
+            </p>
+
+            <div className="mt-6 space-y-2">
+              {SUPPORTED_LANGUAGES.map((lang) => {
+                const active = selected === lang.code;
+                return (
+                  <button
+                    key={lang.code}
+                    type="button"
+                    lang={lang.code}
+                    onClick={() => setSelected(lang.code)}
+                    aria-pressed={active}
+                    className={cn(
+                      "flex h-[52px] w-full items-center justify-between rounded-md border px-4 text-left transition-colors",
+                      active
+                        ? "border-link ring-1 ring-link"
+                        : "border-border hover:border-input"
+                    )}
+                  >
+                    {lang.native}
+                    {active && <Check className="h-4 w-4 text-link" />}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="mt-8 flex items-center justify-between gap-4">
+              <button
+                type="button"
+                onClick={handleSkip}
+                className="text-[15px] text-link hover:underline"
               >
-                {t("language.picker.title")}
-              </h2>
-              <p className="body-serif mt-3 text-pretty text-ink-soft">
-                {t("language.picker.subtitle")}
-              </p>
-
-              <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                {SUPPORTED_LANGUAGES.map((lang) => {
-                  const active = selected === lang.code;
-                  return (
-                    <button
-                      key={lang.code}
-                      type="button"
-                      onClick={() => setSelected(lang.code)}
-                      aria-pressed={active}
-                      className={cn(
-                        "group flex items-center gap-4 border-2 px-4 py-3 text-left transition-all",
-                        active
-                          ? "border-ink bg-ink text-paper shadow-[4px_4px_0_0_var(--coral)]"
-                          : "border-ink/40 bg-paper hover:border-ink hover:shadow-[3px_3px_0_0_var(--ink)]"
-                      )}
-                    >
-                      <span
-                        className="text-3xl leading-none"
-                        aria-hidden="true"
-                      >
-                        {lang.flag}
-                      </span>
-                      <span className="flex-1">
-                        <span className="display-serif block text-lg leading-none">
-                          {lang.native}
-                        </span>
-                        <span
-                          className={cn(
-                            "mt-1 block text-xs uppercase tracking-wider",
-                            active ? "text-paper/70" : "text-ink-faded"
-                          )}
-                        >
-                          {lang.code}
-                        </span>
-                      </span>
-                      {active && <Check className="h-4 w-4 shrink-0" />}
-                    </button>
-                  );
-                })}
-              </div>
-
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <button
-                  type="button"
-                  onClick={handleSkip}
-                  className="small-caps text-sm text-ink-faded underline-offset-4 hover:text-ink hover:underline"
-                >
-                  {t("language.picker.skip")}
-                </button>
-                <button
-                  type="button"
-                  onClick={handleConfirm}
-                  className="small-caps border-2 border-ink bg-ink px-6 py-3 text-paper shadow-[4px_4px_0_0_var(--coral)] transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_var(--coral)]"
-                >
-                  {t("language.picker.continue")} →
-                </button>
-              </div>
+                {t("language.picker.skip")}
+              </button>
+              <Button onClick={handleConfirm}>
+                {t("language.picker.continue")}
+              </Button>
             </div>
           </motion.div>
         </motion.div>

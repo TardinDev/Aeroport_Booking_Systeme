@@ -60,9 +60,9 @@ export function BookingConfirmation() {
             damping: 20,
             delay: 0.4,
           }}
-          className="flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900"
+          className="flex h-20 w-20 items-center justify-center rounded-full bg-success/10"
         >
-          <Check className="h-10 w-10 text-emerald-600 dark:text-emerald-400" />
+          <Check className="h-10 w-10 text-success" />
         </motion.div>
 
         <motion.div
@@ -90,7 +90,7 @@ export function BookingConfirmation() {
             <p className="text-sm text-muted-foreground">
               {t("booking.confirmation.reference")}
             </p>
-            <p className="text-3xl font-bold tracking-wider text-primary mt-1">
+            <p className="text-3xl font-bold text-primary mt-1">
               {bookingReference ?? "------"}
             </p>
           </CardContent>

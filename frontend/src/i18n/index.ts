@@ -42,4 +42,11 @@ i18n
     },
   });
 
+// Keep <html lang> in sync so the per-language font rules in index.css apply.
+const syncDocumentLang = (lng: string) => {
+  document.documentElement.lang = lng;
+};
+syncDocumentLang(i18n.resolvedLanguage ?? "en");
+i18n.on("languageChanged", syncDocumentLang);
+
 export default i18n;

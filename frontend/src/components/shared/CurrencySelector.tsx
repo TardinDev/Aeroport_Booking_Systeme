@@ -1,6 +1,6 @@
-import { Coins, Check } from "lucide-react";
+import { Check } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,8 +13,6 @@ import { CURRENCIES, useCurrencyStore } from "@/stores/useCurrencyStore";
 import { cn } from "@/lib/utils";
 
 interface CurrencySelectorProps {
-  /** Editorial = compact monospace pill matching the masthead. */
-  variant?: "editorial" | "ghost";
   className?: string;
 }
 
@@ -23,10 +21,8 @@ interface CurrencySelectorProps {
  * currency in which all prices on Fly and Taxi are displayed. The
  * choice is persisted in localStorage via useCurrencyStore.
  */
-export function CurrencySelector({
-  variant = "editorial",
-  className,
-}: CurrencySelectorProps) {
+export function CurrencySelector({ className }: CurrencySelectorProps) {
+  const { t } = useTranslation();
   const code = useCurrencyStore((s) => s.code);
   const setCurrency = useCurrencyStore((s) => s.setCurrency);
   const current = CURRENCIES.find((c) => c.code === code) ?? CURRENCIES[0];
@@ -34,53 +30,40 @@ export function CurrencySelector({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          size={variant === "editorial" ? "sm" : "icon"}
+        <button
+          type="button"
+          aria-label={t("common.currencyLabel")}
           className={cn(
-            "small-caps gap-2 rounded-none text-ink hover:bg-ink/5",
-            variant === "editorial" &&
-              "border border-ink px-3 py-1 font-mono text-[0.7rem] tracking-wider",
+            "inline-flex h-8 items-center gap-1 rounded-full px-2.5 text-[13px] text-foreground/70 transition-colors hover:bg-foreground/5 hover:text-foreground",
             className
           )}
-          aria-label="Switch currency"
         >
-          <Coins className="h-3.5 w-3.5" />
           <span>{current.code}</span>
-          <span className="text-ink-faded">{current.symbol}</span>
-        </Button>
+          <span aria-hidden="true">{current.symbol}</span>
+        </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align="end"
-        className="w-64 max-h-96 overflow-y-auto rounded-none border-2 border-ink shadow-[4px_4px_0_0_var(--ink)]"
-      >
-        <DropdownMenuLabel className="small-caps text-ink-faded">
-          Display prices in
+      <DropdownMenuContent align="end" className="max-h-96 w-64 overflow-y-auto">
+        <DropdownMenuLabel className="type-caption font-normal">
+          {t("common.currencyLabel")}
         </DropdownMenuLabel>
-        <DropdownMenuSeparator className="bg-ink/30" />
+        <DropdownMenuSeparator />
         {CURRENCIES.map((c) => {
           const active = c.code === code;
           return (
             <DropdownMenuItem
               key={c.code}
               onClick={() => setCurrency(c.code)}
-              className={cn(
-                "flex items-center justify-between gap-3 rounded-none py-2",
-                active && "bg-paper-deep"
-              )}
+              className="flex items-center justify-between gap-3"
             >
               <span className="flex items-center gap-3">
-                <span className="font-mono text-xs tracking-wider text-ink">
-                  {c.code}
-                </span>
-                <span className="text-sm text-ink-soft">{c.label}</span>
+                <span className="w-9 font-medium tabular-nums">{c.code}</span>
+                <span className="text-muted-foreground">{c.label}</span>
               </span>
-              <span className="flex items-center gap-2">
-                <span className="font-mono text-xs text-ink-faded">
-                  {c.symbol}
-                </span>
-                {active && <Check className="h-3 w-3 text-coral" />}
-              </span>
+              {active ? (
+                <Check className="text-link" />
+              ) : (
+                <span className="text-muted-foreground">{c.symbol}</span>
+              )}
             </DropdownMenuItem>
           );
         })}

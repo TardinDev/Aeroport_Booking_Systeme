@@ -20,4 +20,10 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  {
+    // shadcn primitives export their variant helpers next to the component,
+    // and the theme provider exports its hook.
+    files: ['src/components/ui/**', 'src/providers/**'],
+    rules: { 'react-refresh/only-export-components': 'off' },
+  },
 ])

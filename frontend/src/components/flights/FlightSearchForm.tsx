@@ -4,15 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  ArrowRightLeft,
-  CalendarDays,
-  Loader2,
-  MapPin,
-  Plane,
-  Search,
-  Users,
-} from "lucide-react";
+import { ArrowRightLeft, Loader2, Plane } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import type { SeatClass, FlightSearchParams } from "@/types";
 import { searchAirports, type AirportEntry } from "@/lib/airports";
+import { cn } from "@/lib/utils";
 
 const searchSchema = z.object({
   origin: z.string().min(1, "Origin is required"),
@@ -125,32 +118,33 @@ export function FlightSearchForm({
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className={compact ? "space-y-4" : "space-y-6"}>
         {/* Trip Type Toggle */}
-        <div className="flex items-center gap-4">
-          <Button
-            type="button"
-            variant={tripType === "ONE_WAY" ? "default" : "outline"}
-            size="sm"
-            onClick={() => setValue("tripType", "ONE_WAY")}
-          >
-            {t("flight.search.oneWay")}
-          </Button>
-          <Button
-            type="button"
-            variant={tripType === "ROUND_TRIP" ? "default" : "outline"}
-            size="sm"
-            onClick={() => setValue("tripType", "ROUND_TRIP")}
-          >
-            {t("flight.search.roundTrip")}
-          </Button>
+        <div
+          role="radiogroup"
+          className="inline-flex rounded-full bg-secondary p-1"
+        >
+          {(["ONE_WAY", "ROUND_TRIP"] as const).map((type) => (
+            <button
+              key={type}
+              type="button"
+              role="radio"
+              aria-checked={tripType === type}
+              onClick={() => setValue("tripType", type)}
+              className={cn(
+                "h-9 rounded-full px-4 text-[15px] transition-colors",
+                tripType === type
+                  ? "bg-background font-medium shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              {t(type === "ONE_WAY" ? "flight.search.oneWay" : "flight.search.roundTrip")}
+            </button>
+          ))}
         </div>
 
         {/* Origin / Destination */}
         <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-4 items-end">
           <div className="space-y-2" ref={originRef}>
-            <Label htmlFor="origin">
-              <MapPin className="inline mr-1 h-4 w-4" />
-              {t("flight.search.origin")}
-            </Label>
+            <Label htmlFor="origin">{t("flight.search.origin")}</Label>
             <div className="relative">
               <Input
                 id="origin"
@@ -169,14 +163,14 @@ export function FlightSearchForm({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -4 }}
                     transition={{ duration: 0.12 }}
-                    className="absolute left-0 right-0 top-full z-30 mt-1 max-h-72 overflow-auto rounded-md border bg-popover shadow-lg"
+                    className="absolute left-0 right-0 top-full z-30 mt-2 max-h-72 overflow-auto rounded-lg border border-black/5 bg-popover p-1.5 shadow-modal"
                   >
                     {originSuggestions.map((airport) => (
                       <li key={airport.iata}>
                         <button
                           type="button"
                           onClick={() => pickOrigin(airport)}
-                          className="flex w-full items-start gap-3 px-3 py-2 text-left text-sm hover:bg-muted"
+                          className="flex w-full items-start gap-3 rounded-sm px-2.5 py-2 text-left text-[15px] hover:bg-secondary"
                         >
                           <Plane className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
                           <div className="min-w-0 flex-1">
@@ -184,7 +178,7 @@ export function FlightSearchForm({
                               <span className="truncate font-medium">
                                 {airport.city}
                               </span>
-                              <span className="font-mono text-xs text-muted-foreground">
+                              <span className="text-xs text-muted-foreground">
                                 {airport.iata}
                               </span>
                             </div>
@@ -206,24 +200,19 @@ export function FlightSearchForm({
             )}
           </div>
 
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              onClick={swapCities}
-              className="mb-0.5"
-            >
-              <ArrowRightLeft className="h-4 w-4" />
-              <span className="sr-only">{t("flight.search.swap")}</span>
-            </Button>
-          </motion.div>
+          <Button
+            type="button"
+            variant="secondary"
+            size="icon"
+            onClick={swapCities}
+            className="mx-auto mb-0.5 rotate-90 md:rotate-0"
+          >
+            <ArrowRightLeft className="h-4 w-4" />
+            <span className="sr-only">{t("flight.search.swap")}</span>
+          </Button>
 
           <div className="space-y-2" ref={destinationRef}>
-            <Label htmlFor="destination">
-              <MapPin className="inline mr-1 h-4 w-4" />
-              {t("flight.search.destination")}
-            </Label>
+            <Label htmlFor="destination">{t("flight.search.destination")}</Label>
             <div className="relative">
               <Input
                 id="destination"
@@ -242,14 +231,14 @@ export function FlightSearchForm({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -4 }}
                     transition={{ duration: 0.12 }}
-                    className="absolute left-0 right-0 top-full z-30 mt-1 max-h-72 overflow-auto rounded-md border bg-popover shadow-lg"
+                    className="absolute left-0 right-0 top-full z-30 mt-2 max-h-72 overflow-auto rounded-lg border border-black/5 bg-popover p-1.5 shadow-modal"
                   >
                     {destinationSuggestions.map((airport) => (
                       <li key={airport.iata}>
                         <button
                           type="button"
                           onClick={() => pickDestination(airport)}
-                          className="flex w-full items-start gap-3 px-3 py-2 text-left text-sm hover:bg-muted"
+                          className="flex w-full items-start gap-3 rounded-sm px-2.5 py-2 text-left text-[15px] hover:bg-secondary"
                         >
                           <Plane className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
                           <div className="min-w-0 flex-1">
@@ -257,7 +246,7 @@ export function FlightSearchForm({
                               <span className="truncate font-medium">
                                 {airport.city}
                               </span>
-                              <span className="font-mono text-xs text-muted-foreground">
+                              <span className="text-xs text-muted-foreground">
                                 {airport.iata}
                               </span>
                             </div>
@@ -283,10 +272,7 @@ export function FlightSearchForm({
         {/* Dates, Passengers, Class */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="departureDate">
-              <CalendarDays className="inline mr-1 h-4 w-4" />
-              {t("flight.search.departureDate")}
-            </Label>
+            <Label htmlFor="departureDate">{t("flight.search.departureDate")}</Label>
             <Input
               id="departureDate"
               type="date"
@@ -302,10 +288,7 @@ export function FlightSearchForm({
 
           {tripType === "ROUND_TRIP" && (
             <div className="space-y-2">
-              <Label htmlFor="returnDate">
-                <CalendarDays className="inline mr-1 h-4 w-4" />
-                {t("flight.search.returnDate")}
-              </Label>
+              <Label htmlFor="returnDate">{t("flight.search.returnDate")}</Label>
               <Input
                 id="returnDate"
                 type="date"
@@ -315,10 +298,7 @@ export function FlightSearchForm({
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="passengers">
-              <Users className="inline mr-1 h-4 w-4" />
-              {t("flight.search.passengers")}
-            </Label>
+            <Label htmlFor="passengers">{t("flight.search.passengers")}</Label>
             <Select
               defaultValue="1"
               onValueChange={(value) =>
@@ -365,21 +345,17 @@ export function FlightSearchForm({
         </div>
 
         {/* Search Button */}
-        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+        <div className="flex justify-end pt-2">
           <Button
             type="submit"
             size="lg"
-            className="w-full"
+            className="w-full md:w-auto md:min-w-[220px]"
             disabled={isLoading}
           >
-            {isLoading ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <Search className="mr-2 h-4 w-4" />
-            )}
+            {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
             {t("flight.search.searchButton")}
           </Button>
-        </motion.div>
+        </div>
       </div>
     </form>
   );

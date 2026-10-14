@@ -4,6 +4,8 @@ interface ImportMetaEnv {
   readonly VITE_API_BASE_URL: string;
   readonly VITE_STRIPE_PUBLISHABLE_KEY: string;
   readonly VITE_MAPBOX_ACCESS_TOKEN: string;
+  readonly VITE_SITE_URL?: string;
+  readonly VITE_CONTACT_EMAIL?: string;
 }
 
 interface ImportMeta {

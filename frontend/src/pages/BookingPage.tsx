@@ -24,6 +24,7 @@ import { flightsApi } from "@/api/flights.api";
 import { bookingsApi } from "@/api/bookings.api";
 import { paymentsApi } from "@/api/payments.api";
 import type { Passenger, Seat } from "@/types";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const stripePromise = loadStripe(
   import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || ""
@@ -31,6 +32,7 @@ const stripePromise = loadStripe(
 
 export function BookingPage() {
   const { t } = useTranslation();
+  usePageMeta({ title: t("meta.booking.title"), noindex: true });
   const { flightId } = useParams<{ flightId: string }>();
   const navigate = useNavigate();
   const [clientSecret, setClientSecret] = useState<string | null>(null);
@@ -121,7 +123,7 @@ export function BookingPage() {
       });
 
       setClientSecret(paymentIntent.clientSecret);
-    } catch (error) {
+    } catch {
       toast.error(t("common.error"));
     }
   };
@@ -143,7 +145,7 @@ export function BookingPage() {
 
   if (flightLoading) {
     return (
-      <div className="container mx-auto px-4 py-8 space-y-8">
+      <div className="content-wide py-8 space-y-8">
         <Skeleton className="h-12 w-full" />
         <Skeleton className="h-96 w-full" />
       </div>
@@ -151,7 +153,7 @@ export function BookingPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="content-wide py-8">
       {/* Booking Steps */}
       <div className="mb-8">
         <BookingSteps currentStep={currentStep} />
