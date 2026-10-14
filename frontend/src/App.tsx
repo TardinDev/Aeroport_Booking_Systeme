@@ -12,6 +12,9 @@ import { lazy, type ReactNode } from "react";
 const FlightsPage = lazy(() =>
   import("@/pages/FlightsPage").then((m) => ({ default: m.FlightsPage }))
 );
+const VtcPage = lazy(() =>
+  import("@/pages/VtcPage").then((m) => ({ default: m.VtcPage }))
+);
 const GroundTransportPage = lazy(() =>
   import("@/pages/GroundTransportPage").then((m) => ({ default: m.GroundTransportPage }))
 );
@@ -72,6 +75,7 @@ function App() {
               <Route element={<Layout />}>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/flights" element={<FlightsPage />} />
+                <Route path="/vtc" element={<VtcPage />} />
                 <Route path="/transport" element={<GroundTransportPage />} />
                 <Route path="/booking/:flightId" element={<BookingPage />} />
                 <Route path="/login" element={<LoginPage />} />

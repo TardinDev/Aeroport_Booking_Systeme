@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 // Marketing pages paint their own section backgrounds; every other
 // page sits on the grey surface so its white cards stand out.
-const FULL_BLEED_ROUTES = ["/", "/transport", "/404", "/privacy", "/terms", "/cookies"];
+const FULL_BLEED_ROUTES = ["/", "/vtc", "/transport", "/404", "/privacy", "/terms", "/cookies"];
 
 export function Layout() {
   const { pathname } = useLocation();

@@ -7,7 +7,8 @@
     "register": "Sign up",
     "logout": "Sign out",
     "dashboard": "Dashboard",
-    "menu": "Menu"
+    "menu": "Menu",
+    "vtc": "Chauffeur"
   },
   "common": {
     "search": "Search",
@@ -138,6 +139,23 @@
         "music": "Your music"
       },
       "carAlt": "Black chauffeur sedan, seen from the side"
+    },
+    "escort": {
+      "title": "Get escorted from the airport to your door!",
+      "subtitle": "Security agents meet you off the plane and stay with you all the way home.",
+      "level": "Protection level",
+      "tiers": {
+        "silver": "Silver",
+        "diamond": "Diamond",
+        "obsidian": "Obsidian"
+      },
+      "perHour": "{{price}} / hr",
+      "onQuote": "On quote",
+      "airport": "Arrival airport",
+      "date": "Arrival date",
+      "submit": "Request an escort",
+      "more": "See the service",
+      "agentAlt": "Security agent in a black suit, dark glasses and earpiece"
     }
   },
   "events": {
@@ -537,7 +555,8 @@
       "title": "Travel",
       "flights": "Search flights",
       "transfers": "Get a driver",
-      "bookings": "My bookings"
+      "bookings": "My bookings",
+      "vtc": "Chauffeur service"
     },
     "account": {
       "title": "Account",
@@ -624,6 +643,10 @@
     },
     "notFound": {
       "title": "Page not found"
+    },
+    "vtc": {
+      "title": "Chauffeur service",
+      "description": "Book a driver ahead of time, at the airport or in town. Wi-Fi, charging and chilled water on board."
     }
   },
   "contact": {
@@ -639,5 +662,56 @@
     "istanbul": "Istanbul",
     "singapore": "Singapore",
     "barcelona": "Barcelona"
+  },
+  "vtc": {
+    "eyebrow": "Chauffeur service",
+    "title": "Your driver is waiting.",
+    "subtitle": "A chauffeur-driven car booked ahead, at the airport or in town.",
+    "cta": "Book a driver",
+    "vehicles": {
+      "title": "Choose your vehicle.",
+      "sedan": {
+        "name": "Sedan",
+        "detail": "1 to 3 passengers, 3 bags."
+      },
+      "van": {
+        "name": "Van",
+        "detail": "Up to 7 passengers, 7 bags."
+      },
+      "premium": {
+        "name": "Premium",
+        "detail": "1 to 3 passengers, executive sedan."
+      }
+    },
+    "steps": {
+      "title": "Simple from start to finish.",
+      "book": {
+        "title": "You book",
+        "text": "Tell us the pickup point, the destination, the date and the time."
+      },
+      "confirm": {
+        "title": "We confirm",
+        "text": "You receive the confirmation and the fare by email."
+      },
+      "ride": {
+        "title": "Your driver is there",
+        "text": "Waiting at the agreed time, with a name sign at the airport."
+      }
+    },
+    "form": {
+      "title": "Book your driver.",
+      "note": "We reply by email with the fare for your ride.",
+      "vehicle": "Vehicle",
+      "pickup": "Pickup point",
+      "pickupPlaceholder": "Airport, station or address",
+      "dropoff": "Destination",
+      "dropoffPlaceholder": "Address or city",
+      "date": "Date",
+      "time": "Time",
+      "passengers": "Passengers",
+      "email": "Email address",
+      "submit": "Send request",
+      "mailSubject": "Chauffeur request"
+    }
   }
 }

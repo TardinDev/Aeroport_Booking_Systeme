@@ -44,6 +44,7 @@ export function Header() {
 
   const navLinks = [
     { to: "/flights", label: t("nav.flights") },
+    { to: "/vtc", label: t("nav.vtc") },
     { to: "/transport", label: t("nav.beEscorted") },
     ...(isAuthenticated
       ? [{ to: "/dashboard", label: t("nav.myBookings") }]

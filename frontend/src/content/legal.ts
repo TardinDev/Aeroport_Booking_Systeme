@@ -108,6 +108,7 @@ const fr: Record<LegalDocumentId, LegalDocument> = {
         heading: "Crédits",
         paragraphs: [
           "Photo de la berline : « Mercedes-Benz S 320 CDI 4MATIC L (V 221) – Seitenansicht » par M 93, Wikimedia Commons, sous licence CC BY-SA 3.0 DE. L'image a été détourée ; la version modifiée est diffusée sous la même licence.",
+          "Photos des agents de sécurité : Job Moses, via Unsplash.",
         ],
       },
     ],
@@ -240,6 +241,7 @@ const en: Record<LegalDocumentId, LegalDocument> = {
         heading: "Credits",
         paragraphs: [
           "Sedan photo: “Mercedes-Benz S 320 CDI 4MATIC L (V 221) – Seitenansicht” by M 93, Wikimedia Commons, licensed CC BY-SA 3.0 DE. The background was removed; the modified version is shared under the same licence.",
+          "Security agent photos: Job Moses, via Unsplash.",
         ],
       },
     ],

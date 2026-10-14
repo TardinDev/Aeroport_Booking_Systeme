@@ -7,7 +7,8 @@
     "register": "Registrarse",
     "logout": "Cerrar sesión",
     "dashboard": "Panel",
-    "menu": "Menú"
+    "menu": "Menú",
+    "vtc": "VTC"
   },
   "common": {
     "search": "Buscar",
@@ -138,6 +139,23 @@
         "music": "Tu música"
       },
       "carAlt": "Berlina negra con chófer, vista de perfil"
+    },
+    "escort": {
+      "title": "¡Viaja escoltado del aeropuerto a tu casa!",
+      "subtitle": "Agentes de seguridad te reciben al bajar del avión y te acompañan hasta tu puerta.",
+      "level": "Nivel de protección",
+      "tiers": {
+        "silver": "Plata",
+        "diamond": "Diamante",
+        "obsidian": "Obsidiana"
+      },
+      "perHour": "{{price}} / h",
+      "onQuote": "Con presupuesto",
+      "airport": "Aeropuerto de llegada",
+      "date": "Fecha de llegada",
+      "submit": "Solicitar una escolta",
+      "more": "Ver el servicio",
+      "agentAlt": "Agente de seguridad con traje negro, gafas oscuras y auricular"
     }
   },
   "events": {
@@ -231,7 +249,8 @@
       "title": "Viajar",
       "flights": "Buscar un vuelo",
       "transfers": "Con chófer",
-      "bookings": "Mis reservas"
+      "bookings": "Mis reservas",
+      "vtc": "VTC"
     },
     "account": {
       "title": "Cuenta",
@@ -318,6 +337,10 @@
     },
     "notFound": {
       "title": "Página no encontrada"
+    },
+    "vtc": {
+      "title": "VTC con conductor",
+      "description": "Reserva un conductor con antelación, en el aeropuerto o en la ciudad. Wi-Fi, carga y agua fresca a bordo."
     }
   },
   "contact": {
@@ -333,5 +356,56 @@
     "istanbul": "Estambul",
     "singapore": "Singapur",
     "barcelona": "Barcelona"
+  },
+  "vtc": {
+    "eyebrow": "VTC",
+    "title": "Tu conductor te espera.",
+    "subtitle": "Un coche con conductor reservado con antelación, en el aeropuerto o en la ciudad.",
+    "cta": "Reservar un conductor",
+    "vehicles": {
+      "title": "Elige tu vehículo.",
+      "sedan": {
+        "name": "Berlina",
+        "detail": "De 1 a 3 pasajeros, 3 maletas."
+      },
+      "van": {
+        "name": "Van",
+        "detail": "Hasta 7 pasajeros, 7 maletas."
+      },
+      "premium": {
+        "name": "Premium",
+        "detail": "De 1 a 3 pasajeros, berlina de alta gama."
+      }
+    },
+    "steps": {
+      "title": "Sencillo de principio a fin.",
+      "book": {
+        "title": "Reservas",
+        "text": "Indica el punto de recogida, el destino, la fecha y la hora."
+      },
+      "confirm": {
+        "title": "Confirmamos",
+        "text": "Recibes la confirmación y el precio del trayecto por correo."
+      },
+      "ride": {
+        "title": "Tu conductor está ahí",
+        "text": "Te espera a la hora acordada, con un cartel con tu nombre en el aeropuerto."
+      }
+    },
+    "form": {
+      "title": "Reserva tu conductor.",
+      "note": "Te respondemos por correo con el precio del trayecto.",
+      "vehicle": "Vehículo",
+      "pickup": "Punto de recogida",
+      "pickupPlaceholder": "Aeropuerto, estación o dirección",
+      "dropoff": "Destino",
+      "dropoffPlaceholder": "Dirección o ciudad",
+      "date": "Fecha",
+      "time": "Hora",
+      "passengers": "Pasajeros",
+      "email": "Correo electrónico",
+      "submit": "Enviar solicitud",
+      "mailSubject": "Solicitud de VTC"
+    }
   }
 }

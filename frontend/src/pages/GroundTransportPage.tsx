@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Check, ChevronRight, Eye, Lock, Shield } from "lucide-react";
 import { toast } from "sonner";
@@ -15,8 +16,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Reveal } from "@/components/ui/reveal";
 import { useHoneypot } from "@/hooks/useHoneypot";
+import { ESCORT_TIERS } from "@/lib/escort";
 import { usePageMeta } from "@/hooks/usePageMeta";
-import { CONTACT_EMAIL } from "@/lib/site";
+import { openMailRequest } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 
 const PRINCIPLES = [
@@ -98,7 +100,20 @@ const TIERS = [
 
 export function GroundTransportPage() {
   const { t } = useTranslation();
-  const [contactOpen, setContactOpen] = useState(false);
+  const [searchParams] = useSearchParams();
+  // A visitor arriving from the home teaser has already chosen a level,
+  // an airport and a date: open the request with those filled in.
+  const requestedTier = ESCORT_TIERS.find(
+    (tier) => tier.id === searchParams.get("level")
+  );
+  const prefilledDetails = requestedTier
+    ? [
+        `Niveau : ${requestedTier.grade}`,
+        `Aéroport d'arrivée : ${searchParams.get("airport") ?? ""}`,
+        `Date d'arrivée : ${searchParams.get("date") ?? ""}`,
+      ].join("\n")
+    : "";
+  const [contactOpen, setContactOpen] = useState(Boolean(requestedTier));
   const honeypot = useHoneypot();
 
   usePageMeta({
@@ -111,16 +126,16 @@ export function GroundTransportPage() {
   const handleContactSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (honeypot.isSpam()) return;
-    if (!CONTACT_EMAIL) {
+    const form = new FormData(e.currentTarget);
+    const sent = openMailRequest("Demande Service Escort", [
+      String(form.get("details")),
+      "",
+      `Répondre à : ${form.get("email")}`,
+    ]);
+    if (!sent) {
       toast.error(t("contact.unavailable"));
       return;
     }
-    const form = new FormData(e.currentTarget);
-    const subject = encodeURIComponent("Demande Service Escort");
-    const body = encodeURIComponent(
-      `${form.get("details")}\n\nRépondre à : ${form.get("email")}`
-    );
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
     toast.success(t("contact.sent"));
     setContactOpen(false);
   };
@@ -300,6 +315,7 @@ export function GroundTransportPage() {
               <textarea
                 id="escort-details"
                 name="details"
+                defaultValue={prefilledDetails}
                 rows={4}
                 required
                 placeholder="Vol, terminal, destination finale, date"

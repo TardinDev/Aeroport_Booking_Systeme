@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 
 // Public routes worth indexing. Account and booking pages stay out.
-const INDEXED_ROUTES = ['/', '/flights', '/transport', '/privacy', '/terms', '/cookies']
+const INDEXED_ROUTES = ['/', '/flights', '/vtc', '/transport', '/privacy', '/terms', '/cookies']
 
 /**
  * Fills the site origin into index.html and emits sitemap.xml and
