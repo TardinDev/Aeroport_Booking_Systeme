@@ -45,10 +45,16 @@ export function Hero({ onSearchClick }: HeroProps) {
         width={700}
         height={350}
         decoding="async"
-        initial={reduceMotion ? false : { opacity: 0, x: 60 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1.2, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
-        className="mx-auto mt-6 h-auto w-full max-w-[780px] px-4 md:mt-2"
+        // The plane faces left, so it flies in nose-first from beyond the
+        // right edge, descending with its nose slightly up, and brakes to a stop at centre.
+        initial={reduceMotion ? false : { x: "100vw", y: -48, rotate: 3 }}
+        animate={{ x: 0, y: 0, rotate: 0 }}
+        transition={{
+          x: { duration: 2.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] },
+          y: { duration: 2.2, delay: 0.3, ease: [0.33, 1, 0.68, 1] },
+          rotate: { duration: 2.4, delay: 0.3, ease: [0.33, 1, 0.68, 1] },
+        }}
+        className="mx-auto mt-6 h-auto w-full max-w-[780px] px-4 will-change-transform md:mt-2"
       />
 
       <BookingLookupDialog open={lookupOpen} onOpenChange={setLookupOpen} />
