@@ -7,7 +7,8 @@
     "register": "注册",
     "logout": "退出登录",
     "dashboard": "个人中心",
-    "menu": "菜单"
+    "menu": "菜单",
+    "vtc": "专车"
   },
   "common": {
     "search": "搜索",
@@ -138,6 +139,23 @@
         "music": "播放您的音乐"
       },
       "carAlt": "黑色专车轿车侧面"
+    },
+    "escort": {
+      "title": "从机场到家门，全程专人护送！",
+      "subtitle": "安保人员在机舱出口迎接，一路护送您到家。",
+      "level": "保护级别",
+      "tiers": {
+        "silver": "白银",
+        "diamond": "钻石",
+        "obsidian": "黑曜石"
+      },
+      "perHour": "{{price}} / 小时",
+      "onQuote": "按需报价",
+      "airport": "到达机场",
+      "date": "到达日期",
+      "submit": "申请护送",
+      "more": "了解服务",
+      "agentAlt": "身穿黑色西装、佩戴墨镜和耳机的安保人员"
     }
   },
   "events": {
@@ -231,7 +249,8 @@
       "title": "出行",
       "flights": "搜索航班",
       "transfers": "专车接送",
-      "bookings": "我的预订"
+      "bookings": "我的预订",
+      "vtc": "专车服务"
     },
     "account": {
       "title": "账户",
@@ -318,6 +337,10 @@
     },
     "notFound": {
       "title": "页面不存在"
+    },
+    "vtc": {
+      "title": "专车服务",
+      "description": "提前预订专车司机，机场或市内皆可。车内提供 Wi-Fi、充电和冰镇饮用水。"
     }
   },
   "contact": {
@@ -333,5 +356,56 @@
     "istanbul": "伊斯坦布尔",
     "singapore": "新加坡",
     "barcelona": "巴塞罗那"
+  },
+  "vtc": {
+    "eyebrow": "专车服务",
+    "title": "司机已在等候",
+    "subtitle": "提前预订的专车，机场或市内皆可。",
+    "cta": "预订司机",
+    "vehicles": {
+      "title": "选择您的车型",
+      "sedan": {
+        "name": "轿车",
+        "detail": "1 至 3 位乘客，3 件行李。"
+      },
+      "van": {
+        "name": "商务车",
+        "detail": "最多 7 位乘客，7 件行李。"
+      },
+      "premium": {
+        "name": "尊享",
+        "detail": "1 至 3 位乘客，高端轿车。"
+      }
+    },
+    "steps": {
+      "title": "全程简单省心",
+      "book": {
+        "title": "您来预订",
+        "text": "告诉我们上车地点、目的地、日期和时间。"
+      },
+      "confirm": {
+        "title": "我们确认",
+        "text": "您将通过电子邮件收到确认信息和行程价格。"
+      },
+      "ride": {
+        "title": "司机到位",
+        "text": "司机按约定时间等候，在机场会举着您的姓名牌。"
+      }
+    },
+    "form": {
+      "title": "预订您的司机",
+      "note": "我们将通过电子邮件回复行程价格。",
+      "vehicle": "车型",
+      "pickup": "上车地点",
+      "pickupPlaceholder": "机场、车站或地址",
+      "dropoff": "目的地",
+      "dropoffPlaceholder": "地址或城市",
+      "date": "日期",
+      "time": "时间",
+      "passengers": "乘客人数",
+      "email": "电子邮箱",
+      "submit": "发送请求",
+      "mailSubject": "专车预订请求"
+    }
   }
 }

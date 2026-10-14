@@ -6,6 +6,7 @@ import { FlightSearchForm } from "@/components/flights/FlightSearchForm";
 import { LiveDealsSection } from "@/components/home/LiveDealsSection";
 import { DestinationSpotlight } from "@/components/home/DestinationSpotlight";
 import { AIConcierge } from "@/components/home/AIConcierge";
+import { EscortSection } from "@/components/home/EscortSection";
 import { Hero } from "@/components/home/Hero";
 import { PaymentMethods } from "@/components/shared/PaymentMethods";
 import { Button } from "@/components/ui/button";
@@ -45,6 +46,8 @@ export function HomePage() {
   return (
     <>
       <Hero onSearchClick={scrollToSearch} />
+
+      <EscortSection />
 
       <section id={SEARCH_SECTION_ID} className="section scroll-mt-12 bg-secondary">
         <div className="content">
@@ -99,7 +102,7 @@ export function HomePage() {
               {t("home.transfer.description")}
             </p>
             <Link
-              to="/transport"
+              to="/vtc"
               className="mt-6 inline-flex items-center gap-0.5 text-[17px] text-link-on-dark hover:underline"
             >
               {t("home.transfer.cta")}

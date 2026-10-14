@@ -13,6 +13,7 @@ export function Footer() {
       title: t("footer.travel.title"),
       links: [
         { to: "/flights", label: t("footer.travel.flights") },
+        { to: "/vtc", label: t("footer.travel.vtc") },
         { to: "/transport", label: t("footer.travel.transfers") },
         { to: "/dashboard", label: t("footer.travel.bookings") },
       ],

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { BatteryCharging, GlassWater, Laptop, Music, Wifi } from "lucide-react";
 
+import { RIDE_AMENITIES } from "@/lib/ride";
 import { cn } from "@/lib/utils";
 
 interface Stop {
@@ -35,14 +35,6 @@ const ROUTES: { from: Stop; to: Stop }[] = [
     to: { city: "barcelona", country: "ES", iata: "BCN" },
   },
 ];
-
-const AMENITIES = [
-  { key: "wifi", icon: Wifi, tone: "bg-sky/10 text-sky" },
-  { key: "charge", icon: BatteryCharging, tone: "bg-mint/10 text-mint" },
-  { key: "water", icon: GlassWater, tone: "bg-aqua/10 text-aqua" },
-  { key: "work", icon: Laptop, tone: "bg-grape/10 text-grape" },
-  { key: "music", icon: Music, tone: "bg-rose/10 text-rose" },
-] as const;
 
 const ROUTE_INTERVAL_MS = 4000;
 
@@ -192,7 +184,7 @@ export function HeroJourney() {
             {t("home.journey.during")}
           </motion.p>
           <ul className="mt-3 flex flex-wrap justify-center gap-2.5">
-            {AMENITIES.map(({ key, icon: Icon, tone }, i) => (
+            {RIDE_AMENITIES.map(({ key, icon: Icon, tone }, i) => (
               <motion.li
                 key={key}
                 variants={{
