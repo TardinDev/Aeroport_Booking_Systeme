@@ -5,17 +5,40 @@ import { QueryProvider } from "@/providers/QueryProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { Layout } from "@/components/layout/Layout";
 import { HomePage } from "@/pages/HomePage";
-import { FlightsPage } from "@/pages/FlightsPage";
-import { GroundTransportPage } from "@/pages/GroundTransportPage";
-import { BookingPage } from "@/pages/BookingPage";
-import { LoginPage } from "@/pages/LoginPage";
-import { RegisterPage } from "@/pages/RegisterPage";
-import { DashboardPage } from "@/pages/DashboardPage";
-import { CheckInPage } from "@/pages/CheckInPage";
-import { AdminDashboardPage } from "@/pages/AdminDashboardPage";
-import { NotFoundPage } from "@/pages/NotFoundPage";
 import { useAuthStore } from "@/stores/useAuthStore";
-import type { ReactNode } from "react";
+import { lazy, type ReactNode } from "react";
+
+// Everything but the landing page loads on demand.
+const FlightsPage = lazy(() =>
+  import("@/pages/FlightsPage").then((m) => ({ default: m.FlightsPage }))
+);
+const GroundTransportPage = lazy(() =>
+  import("@/pages/GroundTransportPage").then((m) => ({ default: m.GroundTransportPage }))
+);
+const BookingPage = lazy(() =>
+  import("@/pages/BookingPage").then((m) => ({ default: m.BookingPage }))
+);
+const LoginPage = lazy(() =>
+  import("@/pages/LoginPage").then((m) => ({ default: m.LoginPage }))
+);
+const RegisterPage = lazy(() =>
+  import("@/pages/RegisterPage").then((m) => ({ default: m.RegisterPage }))
+);
+const DashboardPage = lazy(() =>
+  import("@/pages/DashboardPage").then((m) => ({ default: m.DashboardPage }))
+);
+const CheckInPage = lazy(() =>
+  import("@/pages/CheckInPage").then((m) => ({ default: m.CheckInPage }))
+);
+const AdminDashboardPage = lazy(() =>
+  import("@/pages/AdminDashboardPage").then((m) => ({ default: m.AdminDashboardPage }))
+);
+const LegalPage = lazy(() =>
+  import("@/pages/LegalPage").then((m) => ({ default: m.LegalPage }))
+);
+const NotFoundPage = lazy(() =>
+  import("@/pages/NotFoundPage").then((m) => ({ default: m.NotFoundPage }))
+);
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -41,7 +64,7 @@ function AdminRoute({ children }: { children: ReactNode }) {
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="system">
+    <ThemeProvider defaultTheme="light">
       <QueryProvider>
         <TooltipProvider>
           <BrowserRouter>
@@ -77,6 +100,9 @@ function App() {
                     </AdminRoute>
                   }
                 />
+                <Route path="/privacy" element={<LegalPage document="privacy" />} />
+                <Route path="/terms" element={<LegalPage document="terms" />} />
+                <Route path="/cookies" element={<LegalPage document="cookies" />} />
                 <Route path="/404" element={<NotFoundPage />} />
                 <Route path="*" element={<Navigate to="/404" replace />} />
               </Route>

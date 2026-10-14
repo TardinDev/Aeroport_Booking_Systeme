@@ -22,9 +22,9 @@ interface SeatMapProps {
 const COLUMNS = ["A", "B", "C", "", "D", "E", "F"];
 
 const seatColorMap: Record<string, string> = {
-  AVAILABLE: "fill-emerald-500 hover:fill-emerald-400 cursor-pointer",
+  AVAILABLE: "fill-success hover:fill-success/80 cursor-pointer",
   OCCUPIED: "fill-gray-300 dark:fill-gray-600 cursor-not-allowed",
-  SELECTED: "fill-blue-500 hover:fill-blue-400 cursor-pointer",
+  SELECTED: "fill-primary hover:fill-link-hover cursor-pointer",
   BLOCKED: "fill-gray-200 dark:fill-gray-700 cursor-not-allowed",
 };
 
@@ -89,7 +89,7 @@ export function SeatMap({
       {/* Legend */}
       <div className="flex flex-wrap items-center gap-4 justify-center">
         <div className="flex items-center gap-2">
-          <div className="h-4 w-4 rounded-sm bg-emerald-500" />
+          <div className="h-4 w-4 rounded-sm bg-success" />
           <span className="text-xs">{t("booking.seats.legend.available")}</span>
         </div>
         <div className="flex items-center gap-2">
@@ -97,7 +97,7 @@ export function SeatMap({
           <span className="text-xs">{t("booking.seats.legend.occupied")}</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="h-4 w-4 rounded-sm bg-blue-500" />
+          <div className="h-4 w-4 rounded-sm bg-primary" />
           <span className="text-xs">{t("booking.seats.legend.selected")}</span>
         </div>
         <div className="flex items-center gap-2">

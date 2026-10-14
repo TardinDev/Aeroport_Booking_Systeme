@@ -1,15 +1,13 @@
 {
   "nav": {
     "flights": "Vols",
-    "transport": "Transport au sol",
-    "myBookings": "Mes Reservations",
-    "services": "Services",
+    "beEscorted": "Être escorté",
+    "myBookings": "Mes réservations",
     "login": "Connexion",
     "register": "Inscription",
-    "logout": "Deconnexion",
+    "logout": "Déconnexion",
     "dashboard": "Tableau de bord",
-    "profile": "Profil",
-    "settings": "Parametres"
+    "menu": "Menu"
   },
   "common": {
     "search": "Rechercher",
@@ -20,15 +18,15 @@
     "edit": "Modifier",
     "back": "Retour",
     "next": "Suivant",
-    "previous": "Precedent",
+    "previous": "Précédent",
     "loading": "Chargement...",
-    "noResults": "Aucun resultat",
+    "noResults": "Aucun résultat",
     "error": "Une erreur est survenue",
-    "success": "Operation reussie",
+    "success": "Opération réussie",
     "close": "Fermer",
     "add": "Ajouter",
     "remove": "Retirer",
-    "select": "Selectionner",
+    "select": "Sélectionner",
     "total": "Total",
     "price": "Prix",
     "from": "Depuis",
@@ -36,68 +34,36 @@
     "date": "Date",
     "time": "Heure",
     "status": "Statut",
-    "details": "Details",
-    "download": "Telecharger",
+    "details": "Détails",
+    "download": "Télécharger",
     "or": "ou",
     "and": "et",
     "yes": "Oui",
-    "no": "Non"
+    "no": "Non",
+    "currencyLabel": "Afficher les prix en"
   },
   "home": {
     "hero": {
-      "eyebrow": "L'essai voyage · Départs",
-      "title": "L'art de décoller.",
-      "titlePre": "L'",
-      "titleItalicA": "art",
-      "titleOf": "de",
-      "titleItalicB": "décoller",
-      "titlePost": ".",
-      "subtitle": "Trouvez les prix les plus bas parmi des centaines de compagnies, puis laissez-nous nous occuper du reste — un taxi qui vous attend avec une pancarte à votre nom, ou une voiture à louer dès votre arrivée en ville.",
-      "lede": "Nous traquons les tarifs les plus bas chez cent vingt compagnies, tissons des itinéraires dans cinq cents villes — et commandons un taxi qui vous attend à l'arrivée avec votre nom sur une pancarte, ou une voiture à louer dans la ville que vous venez d'atteindre. De l'aéroport, il ne reste que la place côté hublot.",
-      "readOn": "Lire la suite",
-      "meta": "10 minutes · 4 sections",
-      "cta": "Rechercher un vol"
-    },
-    "request": {
-      "titlePre": "Demander un",
-      "titleItalic": "vol.",
-      "description": "Remplissez les coupons ci-dessous comme sur un billet papier. Départ, arrivée, dates, voyageurs — l'essentiel d'un itinéraire, rien de plus, rien de moins. Nous interrogeons cent vingt compagnies pour vous.",
-      "byEditors": "par les éditeurs",
-      "formHeader": "Formulaire № 001 · Demande de voyage",
-      "formReceived": "Reçu · __ / __ / 26"
+      "title": "Du tarmac à votre porte.",
+      "subtitle": "Votre vol, et la voiture qui vous attend à l'arrivée. Une seule réservation.",
+      "cta": "Rechercher un vol",
+      "lookup": "Retrouver une réservation",
+      "imageAlt": "Avion de ligne en approche, train d'atterrissage sorti"
     },
     "deals": {
-      "eyebrow": "Tarifs en direct",
-      "titlePre": "Tarifs,",
-      "titleItalic": "en direct",
-      "titlePost": "du fil.",
-      "caption": "Actualisé toutes les demi-heures. Le tarif le plus bas pour chaque liaison, chez les compagnies et les agences.",
-      "error": "Le fil est silencieux — veuillez actualiser dans un instant.",
+      "caption": "Le prix le plus bas par liaison, actualisé toutes les trente minutes.",
+      "error": "Les tarifs sont indisponibles pour le moment. Réessayez dans un instant.",
       "direct": "Direct",
       "stopOne": "{{count}} escale",
       "stopOther": "{{count}} escales",
       "directAirline": "Compagnie directe",
       "viaAgency": "Via agence",
       "from": "À partir de",
-      "book": "Réserver"
-    },
-    "numbers": {
-      "titlePre": "En",
-      "titleItalic": "chiffres.",
-      "caption": "Un petit compendium de données, compilées avec une modeste fierté."
-    },
-    "stats": {
-      "flights": "Vols par jour",
-      "destinations": "Destinations",
-      "airlines": "Compagnies partenaires",
-      "customers": "Voyageurs servis"
+      "book": "Réserver",
+      "title": "Les meilleurs tarifs du moment."
     },
     "spotlight": {
-      "eyebrow": "Concierge",
-      "titlePre": "Une ville,",
-      "titleItalic": "entièrement briefée",
-      "titleDot": ".",
-      "description": "Notre concierge prend la mesure du lieu pour vous. La sécurité d'un coup d'œil, ce qui se passe en ce moment, les cinq choses que feraient les habitants avant de quitter la ville — tout sur une page, sans onglets, sans publicité.",
+      "description": "Sécurité, événements du moment, incontournables et infos pratiques, réunis sur une seule page.",
       "safetySnapshot": "Sécurité en bref",
       "whatNotToMiss": "À ne pas manquer",
       "inSeason": "En ce moment",
@@ -108,118 +74,58 @@
       "plug": "Prise",
       "transport": "Transport",
       "airportLabel": "Aéroport {{iata}}",
-      "concierge": "Concierge",
-      "briefingBy": "Briefing par",
-      "byAI": "Concierge IA SkyBooker",
-      "byEditors": "Rédaction SkyBooker",
       "verifyNotice": "Vérifiez auprès des sources officielles avant de partir",
-      "error": "Le bureau du concierge est injoignable. Veuillez réessayer."
-    },
-    "kindnesses": {
-      "titlePre": "De petites",
-      "titleItalic": "attentions",
-      "titlePost": ", à chaque étape.",
-      "learnMore": "En savoir plus",
-      "items": {
-        "taxi": {
-          "title": "Taxi au trottoir",
-          "lede": "Un chauffeur vous attend avec votre nom sur une pancarte. Pas de hélage, pas de queue, pas de marchandage — seulement le coffre qui se referme doucement."
-        },
-        "baggage": {
-          "title": "Bagages, déclarés",
-          "lede": "Déclarez vos bagages à l'avance. Évitez le supplément, les objets trouvés, l'attente anxieuse au tapis."
-        },
-        "checkin": {
-          "title": "Enregistrement au téléphone",
-          "lede": "Quarante-huit heures avant le départ, une carte d'embarquement arrive dans votre boîte. Dépassez la file. Prenez un café."
-        },
-        "insurance": {
-          "title": "Assuré, rassuré",
-          "lede": "Passeports perdus, vols retardés, un parapluie volé à Lisbonne. Nos polices couvrent les petites catastrophes du voyage."
-        }
-      }
-    },
-    "dispatches": {
-      "titlePre": "Trois",
-      "titleItalic": "dépêches",
-      "titlePost": "à considérer.",
-      "caption": "Sélectionné par nos éditeurs ce mois-ci. Tous les prix sont par personne, aller-retour.",
-      "nightsMinimum": "{{count}} nuits minimum",
-      "fromPrice": "à partir de",
-      "readDispatch": "Lire la dépêche",
-      "items": {
-        "nyc": {
-          "note": "La traversée classique. Huit heures au-dessus de l'Atlantique, puis les gratte-ciel.",
-          "nights": "3 nuits minimum"
-        },
-        "tokyo": {
-          "note": "Un matin calme à Shinjuku, un bol de rāmen avant minuit.",
-          "nights": "7 nuits minimum"
-        },
-        "buenosAires": {
-          "note": "Tango sur pavés. Malbec et steak à dix heures et demie.",
-          "nights": "10 nuits minimum"
-        }
-      }
-    },
-    "taxiSection": {
-      "titlePre": "L'autre moitié :",
-      "titleItalic": "un taxi",
-      "titlePost": ", qui attend.",
-      "description": "N'importe qui peut vous vendre un vol pas cher. Nous faisons quelque chose de plus discrètement utile : nous veillons à ce qu'un chauffeur soit là quand les portes de la cabine s'ouvrent. Réservez un accueil à l'arrivée, ou une voiture avec compteur à louer dans la ville de destination — même réservation, même devise, même confiance.",
-      "citiesAvailable": "Disponible dans plus de 220 villes",
-      "items": {
-        "arrivals": {
-          "title": "Un chauffeur vous attend à l'arrivée",
-          "lede": "Sortez de la douane et trouvez votre nom sur une pancarte. Le coffre est ouvert, le moteur est chaud, la ville est à vingt minutes."
-        },
-        "cityRental": {
-          "title": "Un taxi à louer en ville",
-          "lede": "Besoin de roues pour un jour, une semaine, un mois ? Réservez un taxi avec compteur dans votre ville de destination — même réservation, même devise, même confiance."
-        }
-      }
+      "error": "Ce guide est indisponible pour le moment. Réessayez dans un instant.",
+      "title": "Votre destination, en un coup d'œil.",
+      "briefingBy": "Briefing par",
+      "byAI": "Concierge IA Fly & taxi",
+      "byEditors": "Rédaction Fly & taxi"
     },
     "payments": {
-      "titlePre": "Payez comme",
-      "titleItalic": "vous préférez",
-      "titleDot": ".",
-      "description": "Du coup de carte Visa à Paris à Alipay à Shanghai ou M-Pesa à Nairobi — nous acceptons les moyens de paiement du monde entier, dans douze devises."
+      "title": "Payez comme vous voulez.",
+      "description": "Carte, portefeuille mobile ou virement : choisissez le moyen de paiement qui vous convient."
     },
     "closing": {
-      "eyebrow": "Un mot de clôture",
-      "quoteLead": "Voyager rend",
-      "quoteItalic": "modeste",
-      "quoteTail": ". On voit quelle petite place on occupe dans le monde.",
-      "author": "— Gustave Flaubert, 1849",
-      "cta": "Commencer le voyage"
+      "title": "Prêt à partir ?",
+      "subtitle": "Trouvez votre vol en quelques secondes.",
+      "cta": "Rechercher un vol"
     },
     "services": {
-      "title": "Nos Services",
-      "subtitle": "Tout ce dont vous avez besoin pour un voyage parfait",
-      "taxi": {
-        "title": "Taxi a la sortie de l'avion",
-        "description": "Reservez a l'avance un chauffeur qui vous attendra avec une pancarte a votre nom, ou louez un taxi dans la ville d'arrivee"
-      },
+      "title": "Voyagez l'esprit léger.",
       "baggage": {
-        "title": "Declaration Bagages",
-        "description": "Declarez vos bagages en avance et evitez les surprises a l'aeroport"
+        "title": "Bagages déclarés à l'avance",
+        "description": "Ajoutez vos bagages avant le départ et évitez les suppléments au comptoir."
       },
       "checkin": {
         "title": "Enregistrement en ligne",
-        "description": "Enregistrez-vous en ligne et gagnez du temps a l'aeroport"
+        "description": "Enregistrez-vous depuis votre téléphone et recevez votre carte d'embarquement."
       },
       "insurance": {
-        "title": "Assurance Voyage",
-        "description": "Protegez votre voyage avec notre assurance complete"
+        "title": "Assurance voyage",
+        "description": "Retard, annulation, bagage perdu : partez couvert."
+      },
+      "taxi": {
+        "title": "Un chauffeur à l'arrivée",
+        "description": "Il vous attend à la sortie avec une pancarte à votre nom."
       }
     },
-    "airlines": {
-      "title": "Compagnies Partenaires",
-      "subtitle": "Voyagez avec les meilleures compagnies aeriennes du monde"
+    "search": {
+      "title": "Où allez-vous ?",
+      "subtitle": "Comparez les tarifs des compagnies et des agences en une recherche."
+    },
+    "transfer": {
+      "title": "Un chauffeur vous attend.",
+      "description": "Réservez votre transfert en même temps que votre vol. À l'atterrissage, la voiture est déjà là.",
+      "cta": "Découvrir le service",
+      "arrivals": {
+        "title": "Accueil à l'arrivée",
+        "description": "Votre chauffeur vous attend à la sortie des arrivées, une pancarte à votre nom."
+      },
+      "cityRental": {
+        "title": "Une voiture en ville",
+        "description": "Besoin de vous déplacer sur place ? Réservez un taxi pour une journée, une semaine ou plus."
+      }
     }
-  },
-  "header": {
-    "tagline": "Vols pas chers · Porte à porte · Est. MMXXVI"
   },
   "events": {
     "gate": {
@@ -255,7 +161,7 @@
   },
   "concierge": {
     "openLabel": "Demander au concierge",
-    "brand": "SkyBooker",
+    "brand": "Fly & taxi",
     "panelTitle": "Concierge voyage",
     "searchLabel": "Une ville, n'importe laquelle",
     "searchPlaceholder": "Tokyo, Paris, BCN…",
@@ -264,8 +170,8 @@
     "events": "Événements",
     "whatLocalsDo": "Ce que feraient les habitants",
     "dailyTips": "Conseils du jour",
-    "footerAi": "Réponse générée par l'IA SkyBooker — vérifiez avant de voyager",
-    "footerStub": "Réponses curatées par la rédaction SkyBooker",
+    "footerAi": "Réponse générée par l'IA Fly & taxi — vérifiez avant de voyager",
+    "footerStub": "Réponses curatées par la rédaction Fly & taxi",
     "error": "Le bureau du concierge est fermé pour l'instant.",
     "close": "Fermer",
     "clear": "Effacer",
@@ -278,9 +184,9 @@
   },
   "flight": {
     "search": {
-      "origin": "Ville de depart",
-      "destination": "Ville d'arrivee",
-      "departureDate": "Date de depart",
+      "origin": "Ville de départ",
+      "destination": "Ville d'arrivée",
+      "departureDate": "Date de départ",
       "returnDate": "Date de retour",
       "passengers": "Passagers",
       "class": "Classe",
@@ -290,14 +196,14 @@
       "swap": "Inverser"
     },
     "class": {
-      "ECONOMY": "Economique",
+      "ECONOMY": "Économique",
       "BUSINESS": "Affaires",
-      "FIRST": "Premiere"
+      "FIRST": "Première"
     },
     "status": {
-      "SCHEDULED": "Programme",
-      "DELAYED": "Retarde",
-      "CANCELLED": "Annule",
+      "SCHEDULED": "Programmé",
+      "DELAYED": "Retardé",
+      "CANCELLED": "Annulé",
       "BOARDING": "Embarquement",
       "IN_FLIGHT": "En vol",
       "LANDED": "Atterri"
@@ -306,178 +212,183 @@
       "direct": "Direct",
       "stop": "escale",
       "stops": "escales",
-      "duration": "Duree",
+      "duration": "Durée",
       "seatsLeft": "places restantes",
-      "selectFlight": "Selectionner ce vol",
-      "perPerson": "/ personne"
+      "selectFlight": "Sélectionner ce vol",
+      "perPerson": "par personne",
+      "departure": "Départ",
+      "arrival": "Arrivée",
+      "soldBy": "Vendu par",
+      "taxesIncluded": "Taxes et frais inclus",
+      "bookOnSeller": "Réserver sur {{seller}}"
     },
     "filters": {
       "title": "Filtres",
-      "airline": "Compagnie aerienne",
+      "airline": "Compagnie aérienne",
       "stops": "Escales",
       "anyStops": "Toutes",
       "directOnly": "Direct uniquement",
       "oneStop": "1 escale max",
       "priceRange": "Fourchette de prix",
-      "departureTime": "Heure de depart",
+      "departureTime": "Heure de départ",
       "morning": "Matin (06:00-12:00)",
-      "afternoon": "Apres-midi (12:00-18:00)",
+      "afternoon": "Après-midi (12:00-18:00)",
       "evening": "Soir (18:00-00:00)",
-      "reset": "Reinitialiser les filtres"
+      "reset": "Réinitialiser les filtres"
     },
     "sort": {
       "title": "Trier par",
       "price": "Prix",
-      "duration": "Duree",
-      "departure": "Depart"
+      "duration": "Durée",
+      "departure": "Départ"
     },
     "results": {
-      "title": "Resultats de recherche",
-      "found": "{{count}} vol(s) trouve(s)",
-      "noResults": "Aucun vol trouve pour ces criteres",
-      "tryAgain": "Essayez de modifier vos criteres de recherche"
+      "title": "Résultats de recherche",
+      "found": "{{count}} vol(s) trouvé(s)",
+      "noResults": "Aucun vol trouvé pour ces critères",
+      "tryAgain": "Essayez de modifier vos critères de recherche"
     }
   },
   "booking": {
     "steps": {
       "search": "Recherche",
-      "selectFlight": "Selection du vol",
-      "selectSeats": "Choix des sieges",
+      "selectFlight": "Sélection du vol",
+      "selectSeats": "Choix des sièges",
       "passengerInfo": "Informations passagers",
-      "arrivalTransport": "Transport a l'arrivee",
+      "arrivalTransport": "Transport à l'arrivée",
       "services": "Services",
       "payment": "Paiement",
       "confirmation": "Confirmation"
     },
     "arrivalTransport": {
-      "eyebrow": "Etape IV · L'autre moitie",
-      "title": "Qu'est-ce qui vous attend a l'arrivee ?",
-      "subtitle": "Un chauffeur avec une pancarte a votre nom. Ou un jeu de cles et la route ouverte. Choisissez — ou passez et improvisez sur place.",
+      "eyebrow": "Étape IV · L'autre moitié",
+      "title": "Qu'est-ce qui vous attend à l'arrivée ?",
+      "subtitle": "Un chauffeur avec une pancarte à votre nom. Ou un jeu de clés et la route ouverte. Choisissez — ou passez et improvisez sur place.",
       "skip": "Passer — je vais improviser",
       "pickOne": "Choisissez une option pour continuer",
       "taxi": {
         "eyebrow": "Chauffeur avec pancarte",
-        "title": "Recevez-moi a l'arrivee",
-        "description": "Un chauffeur qui vous attend a la sortie de l'avion avec une pancarte a votre nom. Porte-a-porte, tarif fixe.",
+        "title": "Recevez-moi à l'arrivée",
+        "description": "Un chauffeur qui vous attend à la sortie de l'avion avec une pancarte à votre nom. Porte-à-porte, tarif fixe.",
         "priceLabel": "Tarif fixe",
         "priceStubLabel": "Chauffeur qui attend · tout compris",
         "formTitle": "Brief chauffeur",
         "formSubtitle": "Dites-nous qui chercher",
         "placardName": "Nom sur la pancarte",
-        "contactPhone": "Telephone de contact",
+        "contactPhone": "Téléphone de contact",
         "meetingPoint": "Point de rencontre",
-        "defaultMeetingPoint": "Hall des arrivees — porte de sortie",
-        "dropoffAddress": "Adresse de depose"
+        "defaultMeetingPoint": "Hall des arrivées — porte de sortie",
+        "dropoffAddress": "Adresse de dépose"
       },
       "rental": {
         "eyebrow": "Voiture en libre-service",
-        "title": "Les cles a l'aeroport",
-        "description": "Recuperez une voiture de location des l'atterrissage — rendez-la ou et quand vous voulez.",
-        "priceLabel": "A partir de / jour",
+        "title": "Les clés à l'aéroport",
+        "description": "Récupérez une voiture de location des l'atterrissage — rendez-la ou et quand vous voulez.",
+        "priceLabel": "À partir de / jour",
         "priceStubLabel": "Location · {{days}} jour(s)",
         "formTitle": "Brief location",
         "formSubtitle": "Choisissez votre voiture",
-        "carClass": "Categorie",
+        "carClass": "Catégorie",
         "pickupDate": "Date de prise en charge",
         "returnDate": "Date de retour",
         "returnLocation": "Lieu de retour",
         "classes": {
-          "ECONOMY": "Economique",
+          "ECONOMY": "Économique",
           "COMPACT": "Compacte",
           "SUV": "SUV",
           "PREMIUM": "Premium"
         },
         "return": {
-          "SAME": "Meme aeroport",
+          "SAME": "Même aéroport",
           "DIFFERENT": "Autre ville"
         }
       }
     },
     "seats": {
-      "title": "Choisissez vos sieges",
+      "title": "Choisissez vos sièges",
       "legend": {
         "available": "Disponible",
-        "occupied": "Occupe",
-        "selected": "Selectionne",
+        "occupied": "Occupé",
+        "selected": "Sélectionné",
         "premium": "Premium"
       },
       "info": {
-        "row": "Rangee",
-        "seat": "Siege",
+        "row": "Rangée",
+        "seat": "Siège",
         "class": "Classe",
         "window": "Hublot",
         "aisle": "Couloir",
         "exit": "Issue de secours"
       },
-      "selected": "Sieges selectionnes",
-      "noSelection": "Aucun siege selectionne"
+      "selected": "Sièges sélectionnés",
+      "noSelection": "Aucun siège sélectionné"
     },
     "passenger": {
       "title": "Informations des passagers",
-      "firstName": "Prenom",
+      "firstName": "Prénom",
       "lastName": "Nom",
       "email": "Email",
-      "phone": "Telephone",
+      "phone": "Téléphone",
       "dateOfBirth": "Date de naissance",
-      "passportNumber": "Numero de passeport",
+      "passportNumber": "Numéro de passeport",
       "addPassenger": "Ajouter un passager",
       "removePassenger": "Retirer ce passager",
       "passenger": "Passager"
     },
     "services": {
-      "title": "Services supplementaires",
-      "subtitle": "Ajoutez des services a votre reservation",
-      "taxi": "Reservation Taxi",
-      "baggage": "Declaration Bagages",
+      "title": "Services supplémentaires",
+      "subtitle": "Ajoutez des services à votre réservation",
+      "taxi": "Réservation Taxi",
+      "baggage": "Déclaration Bagages",
       "insurance": "Assurance Voyage",
       "priorityBoarding": "Embarquement Prioritaire",
-      "added": "Ajoute",
-      "notAdded": "Non ajoute"
+      "added": "Ajouté",
+      "notAdded": "Non ajouté"
     },
     "confirmation": {
-      "title": "Reservation confirmee !",
-      "subtitle": "Votre reservation a ete effectuee avec succes",
-      "reference": "Reference de reservation",
-      "flightSummary": "Resume du vol",
+      "title": "Réservation confirmée !",
+      "subtitle": "Votre réservation a ete effectuée avec succès",
+      "reference": "Référence de réservation",
+      "flightSummary": "Résumé du vol",
       "passengers": "Passagers",
       "totalPrice": "Prix total",
-      "downloadBoardingPass": "Telecharger la carte d'embarquement",
+      "downloadBoardingPass": "Télécharger la carte d'embarquement",
       "backToDashboard": "Retour au tableau de bord",
-      "bookAnother": "Reserver un autre vol"
+      "bookAnother": "Réserver un autre vol"
     },
     "status": {
       "PENDING": "En attente",
-      "CONFIRMED": "Confirme",
-      "CANCELLED": "Annule",
-      "COMPLETED": "Termine"
+      "CONFIRMED": "Confirmé",
+      "CANCELLED": "Annulé",
+      "COMPLETED": "Terminé"
     }
   },
   "payment": {
     "title": "Paiement",
-    "subtitle": "Finalisez votre reservation",
-    "orderSummary": "Resume de la commande",
+    "subtitle": "Finalisez votre réservation",
+    "orderSummary": "Résumé de la commande",
     "flight": "Vol",
-    "seats": "Sieges",
+    "seats": "Sièges",
     "services": "Services",
     "subtotal": "Sous-total",
     "taxes": "Taxes et frais",
     "total": "Total",
-    "cardDetails": "Details de la carte",
+    "cardDetails": "Détails de la carte",
     "payButton": "Payer {{amount}}",
     "processing": "Traitement en cours...",
-    "success": "Paiement reussi !",
-    "failed": "Le paiement a echoue",
-    "retry": "Reessayer",
-    "secure": "Paiement securise par Stripe"
+    "success": "Paiement réussi !",
+    "failed": "Le paiement a échoué",
+    "retry": "Réessayer",
+    "secure": "Paiement sécurisé par Stripe"
   },
   "auth": {
     "login": {
       "title": "Connexion",
-      "subtitle": "Connectez-vous a votre compte Fly & Taxi",
+      "subtitle": "Connectez-vous à votre compte Fly & taxi",
       "email": "Adresse email",
       "password": "Mot de passe",
       "rememberMe": "Se souvenir de moi",
-      "forgotPassword": "Mot de passe oublie ?",
+      "forgotPassword": "Mot de passe oublié ?",
       "loginButton": "Se connecter",
       "noAccount": "Pas encore de compte ?",
       "signUp": "Inscrivez-vous",
@@ -485,26 +396,32 @@
     },
     "register": {
       "title": "Inscription",
-      "subtitle": "Creez votre compte Fly & Taxi",
-      "firstName": "Prenom",
+      "subtitle": "Créez votre compte Fly & taxi",
+      "firstName": "Prénom",
       "lastName": "Nom",
       "email": "Adresse email",
-      "phone": "Telephone",
+      "phone": "Téléphone",
       "password": "Mot de passe",
       "confirmPassword": "Confirmer le mot de passe",
-      "terms": "J'accepte les conditions d'utilisation et la politique de confidentialite",
+      "terms": "J'accepte les conditions d'utilisation et la politique de confidentialité",
       "registerButton": "S'inscrire",
-      "hasAccount": "Vous avez deja un compte ?",
+      "hasAccount": "Vous avez déjà un compte ?",
       "signIn": "Connectez-vous",
-      "orContinueWith": "Ou continuer avec"
+      "orContinueWith": "Ou continuer avec",
+      "termsParts": {
+        "pre": "J'accepte les",
+        "terms": "conditions d'utilisation",
+        "and": "et la",
+        "privacy": "politique de confidentialité"
+      }
     },
     "validation": {
       "emailRequired": "L'email est requis",
       "emailInvalid": "L'email n'est pas valide",
       "passwordRequired": "Le mot de passe est requis",
-      "passwordMin": "Le mot de passe doit contenir au moins 8 caracteres",
+      "passwordMin": "Le mot de passe doit contenir au moins 8 caractères",
       "passwordMatch": "Les mots de passe ne correspondent pas",
-      "firstNameRequired": "Le prenom est requis",
+      "firstNameRequired": "Le prénom est requis",
       "lastNameRequired": "Le nom est requis",
       "termsRequired": "Vous devez accepter les conditions"
     }
@@ -513,119 +430,113 @@
     "title": "Tableau de bord",
     "welcome": "Bienvenue, {{name}} !",
     "overview": {
-      "upcomingFlights": "Vols a venir",
-      "pastBookings": "Reservations passees",
-      "totalSpent": "Total depense"
+      "upcomingFlights": "Vols à venir",
+      "pastBookings": "Réservations passées",
+      "totalSpent": "Total dépensé"
     },
     "upcoming": {
       "title": "Prochains vols",
-      "noFlights": "Aucun vol a venir",
-      "bookNow": "Reservez un vol maintenant"
+      "noFlights": "Aucun vol à venir",
+      "bookNow": "Réservez un vol maintenant"
     },
     "recent": {
-      "title": "Reservations recentes",
-      "noBookings": "Aucune reservation",
+      "title": "Réservations récentes",
+      "noBookings": "Aucune réservation",
       "viewAll": "Voir tout"
     },
     "quickActions": {
       "title": "Actions rapides",
-      "newBooking": "Nouvelle reservation",
+      "newBooking": "Nouvelle réservation",
       "checkIn": "Enregistrement",
-      "manageProfile": "Gerer le profil"
+      "manageProfile": "Gérer le profil"
     }
   },
   "services": {
     "taxi": {
-      "title": "Reservation de taxi",
+      "title": "Réservation de taxi",
       "pickupAddress": "Adresse de prise en charge",
       "pickupDate": "Date de prise en charge",
       "pickupTime": "Heure de prise en charge",
-      "estimatedPrice": "Prix estime",
-      "estimatedDuration": "Duree estimee",
-      "mapPlaceholder": "L'integration de la carte Mapbox sera disponible prochainement",
-      "addToBooking": "Ajouter a la reservation"
+      "estimatedPrice": "Prix estimé",
+      "estimatedDuration": "Durée estimée",
+      "mapPlaceholder": "L'intégration de la carte Mapbox sera disponible prochainement",
+      "addToBooking": "Ajouter à la réservation"
     },
     "baggage": {
-      "title": "Declaration de bagages",
+      "title": "Déclaration de bagages",
       "type": "Type de bagage",
       "cabin": "Bagage cabine",
       "checked": "Bagage en soute",
-      "special": "Bagage special",
+      "special": "Bagage spécial",
       "weight": "Poids (kg)",
       "dimensions": "Dimensions (L x l x H cm)",
       "addBag": "Ajouter un bagage",
-      "totalCharge": "Frais supplementaires"
+      "totalCharge": "Frais supplémentaires"
     }
   },
   "transport": {
-    "eyebrow": "Porte-a-porte · sans avion",
-    "title": "Au sol, a votre rythme",
-    "subtitle": "Reservez un chauffeur qui vous attend a n'importe quel aeroport avec une pancarte a votre nom, ou louez une voiture et prenez la route. Sans reserver de vol.",
+    "eyebrow": "Porte-à-porte · sans avion",
+    "title": "Au sol, à votre rythme",
+    "subtitle": "Réservez un chauffeur qui vous attend à n'importe quel aéroport avec une pancarte à votre nom, ou louez une voiture et prenez la route. Sans réserver de vol.",
     "modes": {
-      "taxi": "Accueil aeroport",
+      "taxi": "Accueil aéroport",
       "rental": "Louer une voiture"
     },
     "form": {
-      "pickupAirport": "Aeroport de prise en charge",
-      "rentalAirport": "Lieu de location · aeroport",
+      "pickupAirport": "Aéroport de prise en charge",
+      "rentalAirport": "Lieu de location · aéroport",
       "pickupDate": "Date de prise en charge",
-      "rentalPickupDate": "Debut de location",
+      "rentalPickupDate": "Début de location",
       "returnDate": "Date de retour",
       "passengers": "Voyageurs",
-      "ready": "Pret a partir",
+      "ready": "Prêt à partir",
       "search": "Rechercher"
     },
     "empty": {
-      "taxi": "Dites-nous ou vous accueillir.",
-      "rental": "Dites-nous ou vous atterrissez.",
-      "helper": "Choisissez un aeroport ci-dessus pour voir les offres."
+      "taxi": "Dites-nous où vous accueillir.",
+      "rental": "Dites-nous où vous atterrissez.",
+      "helper": "Choisissez un aéroport ci-dessus pour voir les offres."
     },
     "results": {
       "taxiHeader": "Chauffeurs disponibles",
       "rentalHeader": "Voitures de location a",
       "count": "{{count}} offre(s)",
-      "none": "Aucune offre pour cet aeroport — essayez-en un autre."
+      "none": "Aucune offre pour cet aéroport — essayez-en un autre."
     },
     "card": {
       "placard": "Avec pancarte",
-      "vehicle": "Vehicule",
+      "vehicle": "Véhicule",
       "car": "Voiture",
-      "capacity": "Jusqu'a {{count}} pax",
+      "capacity": "Jusqu'à {{count}} pax",
       "flatFare": "Tarif fixe",
       "perDay": "Par jour",
-      "book": "Reserver"
+      "book": "Réserver"
     }
   },
   "notFound": {
-    "title": "Page non trouvee",
-    "subtitle": "La page que vous recherchez n'existe pas ou a ete deplacee",
-    "backHome": "Retour a l'accueil"
+    "title": "Page introuvable.",
+    "subtitle": "La page que vous cherchez n'existe pas ou a été déplacée.",
+    "backHome": "Retour à l'accueil"
   },
   "footer": {
-    "about": "A propos",
-    "aboutText": "Fly & Taxi est votre plateforme de reservation de vols en ligne. Trouvez les meilleurs prix et voyagez en toute serenite.",
-    "links": {
-      "title": "Liens utiles",
+    "tagline": "Vols et transferts, dans une seule réservation.",
+    "travel": {
+      "title": "Voyager",
       "flights": "Rechercher un vol",
-      "services": "Nos services",
-      "faq": "FAQ",
-      "contact": "Contact"
+      "transfers": "Être escorté",
+      "bookings": "Mes réservations"
     },
-    "legal": {
-      "title": "Informations legales",
-      "terms": "Conditions d'utilisation",
-      "privacy": "Politique de confidentialite",
-      "cookies": "Politique de cookies"
+    "account": {
+      "title": "Compte",
+      "login": "Connexion",
+      "register": "Inscription"
     },
-    "social": {
-      "title": "Suivez-nous"
-    },
-    "copyright": "Fly & Taxi. Tous droits reserves."
+    "copyright": "Fly & taxi. Tous droits réservés."
   },
   "theme": {
     "light": "Clair",
     "dark": "Sombre",
-    "system": "Systeme"
+    "system": "Système"
   },
   "language": {
     "fr": "Français",
@@ -640,5 +551,70 @@
       "skip": "Plus tard",
       "menuLabel": "Langue"
     }
+  },
+  "lookup": {
+    "title": "Retrouvez votre réservation.",
+    "guest": "Saisissez votre numéro de réservation et l'adresse e-mail utilisée lors de l'achat.",
+    "auth": "Vous êtes connecté. Vos réservations sont dans votre espace.",
+    "reference": "Numéro de réservation",
+    "email": "Adresse e-mail",
+    "emailPlaceholder": "vous@exemple.com",
+    "submit": "Continuer",
+    "viewBookings": "Voir mes réservations",
+    "orLogin": "Se connecter à mon compte"
+  },
+  "cookies": {
+    "title": "Mesure d'audience",
+    "text": "Nous aimerions compter les visites pour améliorer le site. Aucun cookie publicitaire, aucun suivi entre sites.",
+    "learnMore": "En savoir plus",
+    "accept": "Accepter",
+    "refuse": "Refuser",
+    "manage": "Gérer les cookies"
+  },
+  "legal": {
+    "title": "Informations légales",
+    "privacy": "Confidentialité",
+    "terms": "Conditions d'utilisation",
+    "cookies": "Cookies",
+    "updated": "Dernière mise à jour : {{date}}"
+  },
+  "meta": {
+    "home": {
+      "title": "Vols et transferts en une seule réservation",
+      "description": "Réservez votre vol et la voiture qui vous attend à l'arrivée, dans une seule réservation."
+    },
+    "flights": {
+      "title": "Rechercher un vol",
+      "description": "Comparez les tarifs des compagnies et des agences, et réservez votre vol."
+    },
+    "transport": {
+      "title": "Être escorté",
+      "description": "Un agent vous accueille à la sortie de l'avion et vous conduit à destination. Trois niveaux de protection."
+    },
+    "login": {
+      "title": "Connexion"
+    },
+    "register": {
+      "title": "Inscription"
+    },
+    "dashboard": {
+      "title": "Mes réservations"
+    },
+    "booking": {
+      "title": "Réservation"
+    },
+    "checkin": {
+      "title": "Enregistrement"
+    },
+    "admin": {
+      "title": "Administration"
+    },
+    "notFound": {
+      "title": "Page introuvable"
+    }
+  },
+  "contact": {
+    "sent": "Votre messagerie s'ouvre avec votre demande. Il ne reste qu'à l'envoyer.",
+    "unavailable": "Ce formulaire est indisponible pour le moment."
   }
 }

@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface PaymentMethodsProps {
   className?: string;
-  /** Compact = small inline strip; Editorial = full hero panel. */
-  variant?: "editorial" | "compact";
+  /** Compact = small inline strip; grid = one tile per method. */
+  variant?: "grid" | "compact";
 }
 
 interface PaymentMethod {
@@ -98,60 +97,61 @@ const METHODS: PaymentMethod[] = [
 ];
 
 /**
- * PaymentMethods — an editorial strip listing every payment method
- * Fly & Taxi accepts. Each tile is a bordered card with the real
- * brand logo centred inside, and the full name in small-caps
- * underneath. If a logo fails to load the card gracefully falls
+ * PaymentMethods — lists every payment method Fly & taxi accepts,
+ * one brand logo per tile. If a logo fails to load the tile falls
  * back to the typographic short-code so nothing ever looks broken.
  */
 export function PaymentMethods({
   className,
-  variant = "editorial",
+  variant = "grid",
 }: PaymentMethodsProps) {
   if (variant === "compact") {
     return (
       <div className={cn("flex flex-wrap items-center gap-2", className)}>
         {METHODS.map((m) => (
-          <CompactTile key={m.code} method={m} />
+          <span
+            key={m.code}
+            title={m.label}
+            className="inline-flex h-7 w-11 items-center justify-center rounded-[6px] bg-secondary px-1.5"
+          >
+            <Logo method={m} className="max-h-4 max-w-full" />
+          </span>
         ))}
       </div>
     );
   }
 
   return (
-    <div className={cn("w-full", className)}>
-      <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
-        {METHODS.map((m, i) => (
-          <motion.div
-            key={m.code}
-            initial={{ opacity: 0, y: 8 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: i * 0.04 }}
-            viewport={{ once: true, margin: "-10%" }}
-            className="group flex aspect-[3/2] flex-col items-center justify-center gap-1 border-2 border-ink bg-paper p-3 shadow-[3px_3px_0_0_var(--ink)] transition-all hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[5px_5px_0_0_var(--coral)]"
-          >
-            <EditorialTile method={m} />
-            <span className="small-caps text-[0.55rem] text-ink-faded">
-              {m.label}
-            </span>
-          </motion.div>
-        ))}
-      </div>
-    </div>
+    <ul
+      className={cn(
+        "grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6",
+        className
+      )}
+    >
+      {METHODS.map((m) => (
+        <li
+          key={m.code}
+          className="flex aspect-[3/2] items-center justify-center rounded-xl bg-secondary p-4"
+        >
+          <Logo method={m} className="h-7 max-w-[80%] sm:h-8" />
+        </li>
+      ))}
+    </ul>
   );
 }
 
-/**
- * Tile body — tries to render the real brand logo as an <img>.
- * If the image fails to load we swap in the typographic short-code
- * in the same editorial style as the original component.
- */
-function EditorialTile({ method }: { method: PaymentMethod }) {
+function Logo({
+  method,
+  className,
+}: {
+  method: PaymentMethod;
+  className?: string;
+}) {
   const [failed, setFailed] = useState(false);
 
   if (failed) {
     return (
-      <span className="display-serif text-2xl text-ink group-hover:text-coral">
+      <span className="text-[13px] font-semibold text-muted-foreground">
         {method.short}
       </span>
     );
@@ -164,38 +164,7 @@ function EditorialTile({ method }: { method: PaymentMethod }) {
       loading="lazy"
       decoding="async"
       onError={() => setFailed(true)}
-      className="h-8 max-w-[85%] object-contain transition-transform duration-300 group-hover:scale-[1.04] sm:h-9"
+      className={cn("object-contain", className)}
     />
-  );
-}
-
-function CompactTile({ method }: { method: PaymentMethod }) {
-  const [failed, setFailed] = useState(false);
-
-  if (failed) {
-    return (
-      <span
-        title={method.label}
-        className="inline-flex items-center justify-center border border-ink/60 bg-paper px-2 py-0.5 font-mono text-[0.55rem] tracking-wider text-ink"
-      >
-        {method.short}
-      </span>
-    );
-  }
-
-  return (
-    <span
-      title={method.label}
-      className="inline-flex h-6 w-10 items-center justify-center border border-ink/60 bg-paper px-1"
-    >
-      <img
-        src={method.logo}
-        alt={method.label}
-        loading="lazy"
-        decoding="async"
-        onError={() => setFailed(true)}
-        className="max-h-4 max-w-full object-contain"
-      />
-    </span>
   );
 }

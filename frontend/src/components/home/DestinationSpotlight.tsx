@@ -12,34 +12,33 @@ import {
   Bus,
   Plug,
   Clock,
-  ArrowRight,
 } from "lucide-react";
 
 import { destinationsApi } from "@/api/destinations.api";
+import { Reveal } from "@/components/ui/reveal";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import type { DestinationInsights, SafetyLevel } from "@/types";
 
 const ROTATION = [
-  { iata: "CDG", hero: "Paris", tagline: "City of cafés and Sunday walks." },
-  { iata: "NRT", hero: "Tokyo", tagline: "The quietest megacity on earth." },
-  { iata: "BCN", hero: "Barcelona", tagline: "Modernista lines, Mediterranean sea." },
-  { iata: "JFK", hero: "New York", tagline: "Loud, fast, astonishingly walkable." },
-  { iata: "IST", hero: "Istanbul", tagline: "Two continents, one long breakfast." },
-  { iata: "SIN", hero: "Singapore", tagline: "A tropical city built for strangers." },
+  { iata: "CDG", city: "Paris" },
+  { iata: "NRT", city: "Tokyo" },
+  { iata: "BCN", city: "Barcelona" },
+  { iata: "JFK", city: "New York" },
+  { iata: "IST", city: "Istanbul" },
+  { iata: "SIN", city: "Singapore" },
 ];
 
 const SAFETY_TONES: Record<SafetyLevel, string> = {
-  LOW: "bg-emerald-700 text-paper",
-  MODERATE: "bg-gold text-ink",
-  ELEVATED: "bg-orange-700 text-paper",
-  HIGH: "bg-postmark-red text-paper",
+  LOW: "bg-success/10 text-success",
+  MODERATE: "bg-warning/10 text-warning",
+  ELEVATED: "bg-warning/10 text-warning",
+  HIGH: "bg-destructive/10 text-destructive",
 };
 
 /**
- * Rotating spotlight of a featured city with AI-powered insights
- * (safety, events, must-do, tips, practicals). Lazily fetches
- * only when the section scrolls into view.
+ * City guide for a featured destination with AI-powered insights
+ * (safety, events, must-do, tips, practicals), one city at a time.
  */
 export function DestinationSpotlight() {
   const { t } = useTranslation();
@@ -53,102 +52,77 @@ export function DestinationSpotlight() {
   });
 
   return (
-    <section className="border-t-2 border-ink bg-paper-deep py-20 lg:py-28">
-      <div className="container mx-auto px-6">
-        <div className="mb-10 flex flex-col items-baseline justify-between gap-4 sm:flex-row">
-          <div className="max-w-2xl">
-            <p className="small-caps mb-3 text-coral">
-              {t("home.spotlight.eyebrow")}
-            </p>
-            <h2 className="display-serif text-5xl leading-[0.95] sm:text-6xl">
-              {t("home.spotlight.titlePre")}{" "}
-              <span className="display-serif-italic text-coral">
-                {t("home.spotlight.titleItalic")}
-              </span>
-              {t("home.spotlight.titleDot")}
-            </h2>
-            <p className="body-serif mt-4 text-pretty text-ink-soft">
-              {t("home.spotlight.description")}
-            </p>
-          </div>
+    <section className="section bg-background">
+      <div className="content-wide">
+        <Reveal className="text-center">
+          <h2 className="type-headline">{t("home.spotlight.title")}</h2>
+          <p className="type-lede mx-auto mt-4 max-w-[44ch]">
+            {t("home.spotlight.description")}
+          </p>
+        </Reveal>
 
-          {/* City pills */}
-          <div className="flex flex-wrap gap-2">
-            {ROTATION.map((r, i) => (
-              <button
-                key={r.iata}
-                type="button"
-                onClick={() => setActive(i)}
-                className={cn(
-                  "border-2 border-ink px-3 py-1.5 text-xs tracking-wider uppercase transition-all",
-                  active === i
-                    ? "bg-ink text-paper shadow-[3px_3px_0_0_var(--coral)]"
-                    : "bg-paper hover:bg-ink/5"
-                )}
-              >
-                {r.hero}
-              </button>
-            ))}
-          </div>
+        <div className="mt-10 flex flex-wrap justify-center gap-2">
+          {ROTATION.map((r, i) => (
+            <button
+              key={r.iata}
+              type="button"
+              onClick={() => setActive(i)}
+              aria-pressed={active === i}
+              className={cn(
+                "h-9 rounded-full px-4 text-[15px] transition-colors",
+                active === i
+                  ? "bg-foreground text-background"
+                  : "bg-secondary text-foreground hover:bg-accent"
+              )}
+            >
+              {r.city}
+            </button>
+          ))}
         </div>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-          {/* Hero column */}
-          <motion.div
-            key={selection.iata + "-hero"}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="relative border-2 border-ink bg-paper p-8 shadow-[8px_8px_0_0_var(--ink)] lg:col-span-5 lg:p-10"
-          >
-            <div className="mb-6 flex items-center justify-between">
-              <span className="font-mono text-xs tracking-wider text-ink-faded">
-                {t("home.spotlight.airportLabel", { iata: selection.iata })}
-              </span>
-              <span className="small-caps text-coral">
-                {t("home.spotlight.concierge")}
-              </span>
-            </div>
-            <h3 className="display-serif text-7xl leading-[0.9] text-ink">
-              {data?.city ?? selection.hero}
+        <div className="mt-10 grid grid-cols-1 gap-5 lg:grid-cols-12">
+          <div className="rounded-xl bg-secondary p-8 lg:col-span-5 lg:p-10">
+            <p className="type-caption">
+              {t("home.spotlight.airportLabel", { iata: selection.iata })}
+            </p>
+            <h3 className="mt-2 text-[40px] font-semibold leading-[1.05] tracking-tight md:text-[48px]">
+              {data?.city ?? selection.city}
             </h3>
-            <p className="editorial-italic mt-2 text-lg text-ink-faded">
-              {data?.country ?? "…"}
-            </p>
-            <p className="body-serif mt-6 text-pretty text-lg">
-              {data?.tagline ?? selection.tagline}
-            </p>
+            {data && (
+              <>
+                <p className="type-body mt-1">{data.country}</p>
+                <p className="mt-6 text-[19px] leading-snug">{data.tagline}</p>
+              </>
+            )}
 
-            {/* Safety strip */}
-            <div className="mt-8 border-t border-ink/30 pt-6">
-              <div className="mb-3 flex items-center gap-2">
-                <ShieldCheck className="h-4 w-4 text-coral" />
-                <p className="small-caps text-ink-faded">
+            <div className="mt-8 border-t border-border pt-6">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="h-4 w-4 text-muted-foreground" />
+                <p className="type-caption">
                   {t("home.spotlight.safetySnapshot")}
                 </p>
               </div>
               {isLoading ? (
-                <Skeleton className="h-6 w-32" />
+                <Skeleton className="mt-3 h-6 w-32" />
               ) : data ? (
-                <div className="space-y-3">
+                <>
                   <span
                     className={cn(
-                      "inline-block px-3 py-1 text-xs uppercase tracking-wider",
+                      "mt-3 inline-block rounded-full px-3 py-1 text-[13px] font-medium",
                       SAFETY_TONES[data.safety.level]
                     )}
                   >
                     {t(`concierge.safetyLevels.${data.safety.level}`)}
                   </span>
-                  <p className="body-serif text-sm text-ink-soft">
+                  <p className="mt-3 text-[15px] leading-normal text-muted-foreground">
                     {data.safety.summary}
                   </p>
-                </div>
+                </>
               ) : null}
             </div>
 
-            {/* Practical strip */}
             {data && (
-              <div className="mt-6 grid grid-cols-3 gap-4 border-t border-ink/30 pt-6 text-xs">
+              <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-border pt-6 sm:grid-cols-3">
                 <Practical
                   icon={<Wallet className="h-3.5 w-3.5" />}
                   label={t("home.spotlight.currency")}
@@ -177,48 +151,44 @@ export function DestinationSpotlight() {
                 />
               </div>
             )}
-          </motion.div>
+          </div>
 
-          {/* Insights column */}
-          <div className="space-y-6 lg:col-span-7">
+          <div className="lg:col-span-7">
             <AnimatePresence mode="wait">
               <motion.div
-                key={selection.iata + "-insights"}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.45 }}
-                className="space-y-6"
+                key={selection.iata}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25 }}
+                className="space-y-5"
               >
                 {isError ? (
-                  <div className="border-2 border-dashed border-ink/40 p-6">
-                    <p className="body-serif text-ink-faded">
-                      {t("home.spotlight.error")}
-                    </p>
+                  <div className="rounded-xl bg-secondary p-8">
+                    <p className="type-body">{t("home.spotlight.error")}</p>
                   </div>
                 ) : isLoading || !data ? (
                   <SpotlightSkeleton />
                 ) : (
                   <>
-                    {/* Must do */}
                     <Card
                       title={t("home.spotlight.whatNotToMiss")}
-                      icon={<Sparkles className="h-4 w-4 text-coral" />}
+                      icon={<Sparkles className="h-4 w-4" />}
                     >
-                      <ul className="divide-y divide-ink/15">
+                      <ul className="divide-y divide-border">
                         {data.mustDo.slice(0, 4).map((x, i) => (
-                          <li key={i} className="py-3">
+                          <li key={i} className="py-3 first:pt-0 last:pb-0">
                             <div className="flex items-baseline justify-between gap-3">
-                              <p className="display-serif text-lg leading-tight">
+                              <p className="font-semibold leading-snug">
                                 {x.title}
                               </p>
                               {x.neighbourhood && (
-                                <span className="font-mono text-[11px] uppercase tracking-wider text-ink-faded whitespace-nowrap">
+                                <span className="type-caption whitespace-nowrap">
                                   {x.neighbourhood}
                                 </span>
                               )}
                             </div>
-                            <p className="body-serif mt-1 text-sm text-ink-soft">
+                            <p className="mt-1 text-[15px] leading-normal text-muted-foreground">
                               {x.description}
                             </p>
                           </li>
@@ -226,24 +196,23 @@ export function DestinationSpotlight() {
                       </ul>
                     </Card>
 
-                    {/* Events */}
                     {data.events.length > 0 && (
                       <Card
                         title={t("home.spotlight.inSeason")}
-                        icon={<CalendarDays className="h-4 w-4 text-coral" />}
+                        icon={<CalendarDays className="h-4 w-4" />}
                       >
                         <div className="space-y-4">
                           {data.events.slice(0, 3).map((e, i) => (
                             <div key={i}>
                               <div className="flex items-baseline justify-between gap-3">
-                                <p className="display-serif text-lg leading-tight">
+                                <p className="font-semibold leading-snug">
                                   {e.title}
                                 </p>
-                                <span className="small-caps text-ink-faded whitespace-nowrap">
+                                <span className="type-caption whitespace-nowrap">
                                   {e.window}
                                 </span>
                               </div>
-                              <p className="body-serif mt-1 text-sm text-ink-soft">
+                              <p className="mt-1 text-[15px] leading-normal text-muted-foreground">
                                 {e.description}
                               </p>
                             </div>
@@ -252,39 +221,28 @@ export function DestinationSpotlight() {
                       </Card>
                     )}
 
-                    {/* Daily tips */}
                     <Card
                       title={t("home.spotlight.dailyTips")}
-                      icon={<Compass className="h-4 w-4 text-coral" />}
+                      icon={<Compass className="h-4 w-4" />}
                     >
                       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                        {data.dailyTips.slice(0, 4).map((t, i) => (
-                          <div
-                            key={i}
-                            className="border border-ink/20 bg-paper-deep/40 px-4 py-3"
-                          >
-                            <p className="small-caps text-ink-faded">
-                              {t.icon}
+                        {data.dailyTips.slice(0, 4).map((tip, i) => (
+                          <div key={i} className="rounded-md bg-background p-4">
+                            <p className="text-[15px] font-semibold leading-snug">
+                              {tip.title}
                             </p>
-                            <p className="display-serif mt-1 text-base leading-tight">
-                              {t.title}
-                            </p>
-                            <p className="body-serif mt-1 text-xs text-ink-soft">
-                              {t.detail}
-                            </p>
+                            <p className="type-caption mt-1">{tip.detail}</p>
                           </div>
                         ))}
                       </div>
                     </Card>
 
-                    {/* Footer attribution */}
-                    <p className="font-mono text-[10px] uppercase tracking-wider text-ink-faded">
+                    <p className="type-caption">
                       {t("home.spotlight.briefingBy")}{" "}
                       {data.source === "claude"
                         ? t("home.spotlight.byAI")
-                        : t("home.spotlight.byEditors")}{" "}
-                      · <ArrowRight className="inline h-3 w-3" />{" "}
-                      {t("home.spotlight.verifyNotice")}
+                        : t("home.spotlight.byEditors")}
+                      . {t("home.spotlight.verifyNotice")}.
                     </p>
                   </>
                 )}
@@ -307,10 +265,10 @@ function Card({
   children: React.ReactNode;
 }) {
   return (
-    <div className="border-2 border-ink bg-paper p-6 shadow-[4px_4px_0_0_var(--ink)] lg:p-7">
-      <div className="mb-4 flex items-center gap-2 border-b border-ink/30 pb-3">
+    <div className="rounded-xl bg-secondary p-7">
+      <div className="mb-4 flex items-center gap-2 text-muted-foreground">
         {icon}
-        <p className="small-caps text-ink">{title}</p>
+        <p className="type-caption">{title}</p>
       </div>
       {children}
     </div>
@@ -330,20 +288,20 @@ function Practical({
 }) {
   return (
     <div className={cn(span === 2 && "col-span-2")}>
-      <div className="mb-1 flex items-center gap-1.5 text-ink-faded">
+      <div className="flex items-center gap-1.5 text-muted-foreground">
         {icon}
-        <p className="small-caps text-[10px]">{label}</p>
+        <p className="type-caption">{label}</p>
       </div>
-      <p className="body-serif text-sm text-ink">{value || "—"}</p>
+      <p className="mt-1 text-[15px] leading-snug">{value || "—"}</p>
     </div>
   );
 }
 
 function SpotlightSkeleton() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {[0, 1, 2].map((i) => (
-        <div key={i} className="border-2 border-ink/30 bg-paper p-6">
+        <div key={i} className="rounded-xl bg-secondary p-7">
           <Skeleton className="mb-4 h-4 w-32" />
           <div className="space-y-3">
             <Skeleton className="h-5 w-2/3" />

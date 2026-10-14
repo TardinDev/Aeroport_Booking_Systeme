@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
-import { ArrowRight, Plane } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 import { flightsApi } from "@/api/flights.api";
+import { Reveal } from "@/components/ui/reveal";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatCurrency, formatDuration, formatTime } from "@/lib/utils";
 import { useCurrencyStore } from "@/stores/useCurrencyStore";
 import type { Flight } from "@/types";
 
 /**
- * Live deals strip — a handful of the cheapest offers across
+ * Live deals grid — a handful of the cheapest offers across
  * airlines and OTAs, refreshed on the server every 30 minutes.
  * Each card links directly to the seller's booking page.
  */
@@ -25,44 +25,28 @@ export function LiveDealsSection() {
   });
 
   return (
-    <section className="border-t-2 border-ink py-20 lg:py-28">
-      <div className="container mx-auto px-6">
-        <div className="mb-12 flex flex-col items-baseline justify-between gap-4 sm:flex-row">
-          <div className="max-w-2xl">
-            <p className="small-caps mb-3 text-coral">
-              {t("home.deals.eyebrow")}
-            </p>
-            <h2 className="display-serif text-5xl leading-[0.95] sm:text-6xl">
-              {t("home.deals.titlePre")}{" "}
-              <span className="display-serif-italic text-coral">
-                {t("home.deals.titleItalic")}
-              </span>{" "}
-              {t("home.deals.titlePost")}
-            </h2>
-          </div>
-          <p className="editorial-italic max-w-sm text-ink-faded">
+    <section className="section bg-background">
+      <div className="content-wide">
+        <Reveal className="text-center">
+          <h2 className="type-headline">{t("home.deals.title")}</h2>
+          <p className="type-lede mx-auto mt-4 max-w-[40ch]">
             {t("home.deals.caption")}
           </p>
-        </div>
+        </Reveal>
 
-        {isError ? (
-          <div className="rule-top-thick border-ink/40 py-8">
-            <p className="body-serif text-ink-faded">{t("home.deals.error")}</p>
-          </div>
-        ) : isLoading ? (
-          <DealsSkeleton />
-        ) : (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {data?.map((flight, i) => (
-              <DealCard
-                key={flight.id}
-                flight={flight}
-                index={i}
-                currency={currency}
-              />
-            ))}
-          </div>
-        )}
+        <div className="mt-12">
+          {isError ? (
+            <p className="type-body text-center">{t("home.deals.error")}</p>
+          ) : isLoading ? (
+            <DealsSkeleton />
+          ) : (
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {data?.map((flight) => (
+                <DealCard key={flight.id} flight={flight} currency={currency} />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );
@@ -70,11 +54,9 @@ export function LiveDealsSection() {
 
 function DealCard({
   flight,
-  index,
   currency,
 }: {
   flight: Flight;
-  index: number;
   currency: string;
 }) {
   const { t } = useTranslation();
@@ -92,26 +74,19 @@ function DealCard({
       : t("home.deals.viaAgency");
 
   return (
-    <motion.a
+    <a
       href={href}
       target={href === "#" ? undefined : "_blank"}
       rel="noopener noreferrer"
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.55, delay: Math.min(index * 0.06, 0.3) }}
-      viewport={{ once: true, margin: "-10%" }}
-      whileHover={{ y: -3 }}
-      className="group relative block border-2 border-ink bg-paper p-6 shadow-[4px_4px_0_0_var(--ink)] transition-shadow hover:shadow-[8px_8px_0_0_var(--coral)]"
+      className="group flex flex-col rounded-xl bg-secondary p-7 transition-colors hover:bg-accent"
     >
-      {/* Top row: route + seller chip */}
-      <div className="mb-5 flex items-start justify-between gap-4">
+      <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="small-caps text-ink-faded">
-            {flight.originCity} → {flight.destinationCity}
+          <p className="type-caption">
+            {flight.originCity} – {flight.destinationCity}
           </p>
-          <p className="display-serif mt-1 text-3xl leading-none">
-            {flight.originCode}{" "}
-            <span className="text-coral">·</span> {flight.destinationCode}
+          <p className="type-title mt-1">
+            {flight.originCode} – {flight.destinationCode}
           </p>
         </div>
         {flight.sellerLogoUrl && !sellerLogoFailed ? (
@@ -121,77 +96,55 @@ function DealCard({
             loading="lazy"
             decoding="async"
             onError={() => setSellerLogoFailed(true)}
-            className="h-7 w-auto max-w-[110px] object-contain opacity-90"
+            className="h-6 w-auto max-w-[96px] object-contain"
           />
         ) : (
-          <span className="small-caps text-xs text-ink-faded">
+          <span className="type-caption">
             {flight.sellerName ?? flight.airlineName}
           </span>
         )}
       </div>
 
-      {/* Middle row: airline + timing */}
-      <div className="flex items-center gap-3 border-y border-dashed border-ink/30 py-4">
-        <Plane className="h-4 w-4 -rotate-45 text-ink-faded" />
-        <div className="flex-1 min-w-0">
-          <p className="truncate body-serif text-sm">{flight.airlineName}</p>
-          <p className="font-mono text-[11px] uppercase tracking-wider text-ink-faded">
-            {flight.flightNumber} · {formatTime(flight.departureTime)} —{" "}
-            {formatTime(flight.arrivalTime)}
-          </p>
-        </div>
-        <p className="small-caps text-ink-faded">
+      <div className="mt-6 text-[15px] leading-snug text-muted-foreground">
+        <p className="truncate text-foreground">
+          {flight.airlineName} · {flight.flightNumber}
+        </p>
+        <p className="mt-1 tabular-nums">
+          {formatTime(flight.departureTime)} – {formatTime(flight.arrivalTime)}
+          {" · "}
           {formatDuration(flight.duration)}
+        </p>
+        <p className="mt-1">
+          {stopsLabel} · {sellerTypeLabel}
         </p>
       </div>
 
-      {/* Bottom row: price + CTA */}
-      <div className="mt-5 flex items-end justify-between">
+      <div className="mt-8 flex items-end justify-between">
         <div>
-          <p className="small-caps text-ink-faded">{t("home.deals.from")}</p>
-          <p className="display-serif text-4xl leading-none text-ink">
+          <p className="type-caption">{t("home.deals.from")}</p>
+          <p className="text-[28px] font-semibold leading-tight tracking-tight tabular-nums">
             {formatCurrency(Number(flight.basePrice), currency)}
           </p>
-          <p className="editorial-italic mt-1 text-xs text-ink-faded">
-            {stopsLabel} · {sellerTypeLabel}
-          </p>
         </div>
-        <span className="flex items-center gap-1 text-ink link-ink">
-          <span className="small-caps">{t("home.deals.book")}</span>
-          <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+        <span className="inline-flex items-center gap-0.5 text-[17px] text-link group-hover:underline">
+          {t("home.deals.book")}
+          <ChevronRight className="h-4 w-4" />
         </span>
       </div>
-    </motion.a>
+    </a>
   );
 }
 
 function DealsSkeleton() {
   return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+    <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
       {Array.from({ length: 6 }).map((_, i) => (
-        <div
-          key={i}
-          className="border-2 border-ink/30 bg-paper p-6"
-          aria-hidden
-        >
-          <div className="mb-4 flex items-start justify-between gap-4">
-            <div className="space-y-2">
-              <Skeleton className="h-3 w-24" />
-              <Skeleton className="h-8 w-40" />
-            </div>
-            <Skeleton className="h-6 w-20" />
-          </div>
-          <div className="space-y-3 border-y border-dashed border-ink/20 py-4">
-            <Skeleton className="h-3 w-full" />
-            <Skeleton className="h-3 w-2/3" />
-          </div>
-          <div className="mt-5 flex items-end justify-between">
-            <div className="space-y-2">
-              <Skeleton className="h-3 w-12" />
-              <Skeleton className="h-10 w-28" />
-            </div>
-            <Skeleton className="h-4 w-16" />
-          </div>
+        <div key={i} className="rounded-xl bg-secondary p-7" aria-hidden>
+          <Skeleton className="h-3 w-24" />
+          <Skeleton className="mt-3 h-7 w-36" />
+          <Skeleton className="mt-8 h-3 w-full" />
+          <Skeleton className="mt-3 h-3 w-2/3" />
+          <Skeleton className="mt-10 h-9 w-28" />
         </div>
       ))}
     </div>

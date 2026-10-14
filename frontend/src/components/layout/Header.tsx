@@ -2,20 +2,10 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Menu,
-  X,
-  Moon,
-  Sun,
-  User,
-  LogOut,
-  LayoutDashboard,
-  Settings,
-  ChevronDown,
-} from "lucide-react";
+import { Menu, X, LogOut, LayoutDashboard, ChevronDown } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,7 +15,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuthStore } from "@/stores/useAuthStore";
-import { useTheme } from "@/providers/ThemeProvider";
 import { cn } from "@/lib/utils";
 import { CurrencySelector } from "@/components/shared/CurrencySelector";
 import { LanguageMenu } from "@/components/layout/LanguageMenu";
@@ -35,7 +24,6 @@ export function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, isAuthenticated, logout } = useAuthStore();
-  const { theme, setTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -49,10 +37,6 @@ export function Header() {
   const isActive = (to: string) =>
     location.pathname === to || location.pathname.startsWith(`${to}/`);
 
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  };
-
   const handleLogout = async () => {
     await logout();
     navigate("/");
@@ -60,286 +44,163 @@ export function Header() {
 
   const navLinks = [
     { to: "/flights", label: t("nav.flights") },
-    { to: "/transport", label: t("nav.transport") },
-    { to: "/dashboard", label: t("nav.myBookings") },
+    { to: "/transport", label: t("nav.beEscorted") },
+    ...(isAuthenticated
+      ? [{ to: "/dashboard", label: t("nav.myBookings") }]
+      : []),
   ];
 
   return (
-    <motion.header
-      initial={{ y: -60, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    <header
       className={cn(
-        "sticky top-0 z-50 w-full paper-bg transition-shadow duration-300",
-        scrolled ? "border-b-2 border-ink shadow-sm" : "border-b border-ink/30"
+        "sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-xl backdrop-saturate-150 transition-colors duration-300",
+        scrolled || mobileMenuOpen ? "border-black/10" : "border-transparent"
       )}
     >
-      {/* Top rule — editorial masthead flourish */}
-      <div className="h-[3px] w-full bg-ink" />
-      <div className="h-[1px] w-full bg-ink" />
+      <div className="content-wide flex h-12 items-center justify-between gap-6">
+        <Link
+          to="/"
+          className="text-[19px] font-semibold tracking-tight text-foreground"
+        >
+          Fly &amp; taxi
+        </Link>
 
-      <div className="container mx-auto px-6">
-        <div className="flex h-20 items-center justify-between gap-4">
-          {/* LEFT — Wordmark */}
-          <Link
-            to="/"
-            className="group flex flex-col items-start focus-visible:outline-none"
-          >
-            <span className="display-serif text-3xl leading-none tracking-tight">
-              <span className="display-serif-italic text-coral">Fly</span>
-              <span className="text-ink-faded"> & </span>
-              <span className="display-serif-italic">Taxi</span>
-            </span>
-            <span className="small-caps mt-1 text-[0.55rem] text-ink-faded">
-              {t("header.tagline")}
-            </span>
-          </Link>
-
-          {/* CENTER — Sections nav (desktop only) */}
-          <nav className="hidden items-center gap-8 md:flex">
-            {navLinks.map((link) => {
-              const active = isActive(link.to);
-              return (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  className={cn(
-                    "small-caps group relative py-2 transition-colors",
-                    active ? "text-ink" : "text-ink-faded hover:text-ink"
-                  )}
-                >
-                  {link.label}
-                  <span
-                    className={cn(
-                      "absolute bottom-0 left-0 right-0 h-[2px] origin-left bg-coral transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                      active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-                    )}
-                  />
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* RIGHT — Actions */}
-          <div className="hidden items-center gap-1 md:flex">
-            <CurrencySelector />
-
-            <LanguageMenu compact />
-
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleTheme}
-              className="rounded-none text-ink hover:bg-ink/5"
-            >
-              {theme === "dark" ? (
-                <Sun className="h-4 w-4" />
-              ) : (
-                <Moon className="h-4 w-4" />
+        <nav className="hidden items-center gap-8 md:flex">
+          {navLinks.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              aria-current={isActive(link.to) ? "page" : undefined}
+              className={cn(
+                "text-[13px] transition-colors",
+                isActive(link.to)
+                  ? "text-foreground"
+                  : "text-foreground/70 hover:text-foreground"
               )}
-              <span className="sr-only">Toggle theme</span>
-            </Button>
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
 
-            <span className="mx-2 h-5 w-px bg-ink/30" />
+        <div className="hidden items-center gap-1 md:flex">
+          <CurrencySelector />
+          <LanguageMenu compact />
 
-            {isAuthenticated && user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="small-caps flex items-center gap-2 rounded-none text-ink hover:bg-ink/5"
-                  >
-                    <Avatar className="h-7 w-7 rounded-none border border-ink">
-                      <AvatarImage src={user.avatarUrl} alt={user.firstName} />
-                      <AvatarFallback className="rounded-none bg-coral text-paper">
-                        {user.firstName[0]}
-                        {user.lastName[0]}
-                      </AvatarFallback>
-                    </Avatar>
-                    <span>{user.firstName}</span>
-                    <ChevronDown className="h-3 w-3" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  className="w-56 rounded-none border-2 border-ink shadow-[4px_4px_0_0_var(--ink)]"
-                >
-                  <DropdownMenuLabel className="font-normal">
-                    <p className="display-serif text-lg">
-                      {user.firstName} {user.lastName}
-                    </p>
-                    <p className="text-xs text-ink-faded">{user.email}</p>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator className="bg-ink/30" />
-                  <DropdownMenuItem
-                    onClick={() => navigate("/dashboard")}
-                    className="small-caps rounded-none"
-                  >
-                    <LayoutDashboard className="mr-2 h-4 w-4" />
-                    {t("nav.dashboard")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => navigate("/profile")}
-                    className="small-caps rounded-none"
-                  >
-                    <User className="mr-2 h-4 w-4" />
-                    {t("nav.profile")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => navigate("/settings")}
-                    className="small-caps rounded-none"
-                  >
-                    <Settings className="mr-2 h-4 w-4" />
-                    {t("nav.settings")}
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator className="bg-ink/30" />
-                  <DropdownMenuItem
-                    onClick={handleLogout}
-                    className="small-caps rounded-none text-postmark"
-                  >
-                    <LogOut className="mr-2 h-4 w-4" />
-                    {t("nav.logout")}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <>
-                <Button
-                  variant="ghost"
-                  onClick={() => navigate("/login")}
-                  className="small-caps rounded-none text-ink hover:bg-ink/5"
-                >
-                  {t("nav.login")}
-                </Button>
-                <Button
-                  onClick={() => navigate("/register")}
-                  className="small-caps rounded-none border-2 border-ink bg-ink text-paper shadow-[3px_3px_0_0_var(--coral)] transition-all hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0_0_var(--coral)]"
-                >
-                  {t("nav.register")}
-                </Button>
-              </>
-            )}
-          </div>
-
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="rounded-none text-ink md:hidden"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Menu className="h-5 w-5" />
-            )}
-          </Button>
+          {isAuthenticated && user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="group ml-2 inline-flex items-center gap-2 rounded-full py-1 pl-1 pr-2.5 text-[13px] transition-colors hover:bg-foreground/5">
+                  <Avatar className="h-7 w-7">
+                    <AvatarImage src={user.avatarUrl} alt="" />
+                    <AvatarFallback className="bg-secondary text-[11px] font-medium">
+                      {user.firstName[0]}
+                      {user.lastName[0]}
+                    </AvatarFallback>
+                  </Avatar>
+                  {user.firstName}
+                  <ChevronDown className="h-3 w-3 transition-transform group-data-[state=open]:rotate-180" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-60">
+                <DropdownMenuLabel className="font-normal">
+                  <p className="text-[15px] font-semibold">
+                    {user.firstName} {user.lastName}
+                  </p>
+                  <p className="type-caption">{user.email}</p>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => navigate("/dashboard")}>
+                  <LayoutDashboard />
+                  {t("nav.dashboard")}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  <LogOut />
+                  {t("nav.logout")}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="px-3 text-[13px] text-foreground/70 transition-colors hover:text-foreground"
+              >
+                {t("nav.login")}
+              </Link>
+              <Button size="sm" onClick={() => navigate("/register")}>
+                {t("nav.register")}
+              </Button>
+            </>
+          )}
         </div>
+
+        <button
+          className="-mr-2 inline-flex h-11 w-11 items-center justify-center md:hidden"
+          onClick={() => setMobileMenuOpen((open) => !open)}
+          aria-label={mobileMenuOpen ? t("common.close") : t("nav.menu")}
+          aria-expanded={mobileMenuOpen}
+        >
+          {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </div>
 
-      {/* Bottom rule */}
-      <div className="h-[1px] w-full bg-ink/80" />
-
-      {/* Mobile Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25 }}
-            className="overflow-hidden border-b-2 border-ink bg-paper md:hidden"
+            transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+            className="overflow-hidden bg-background md:hidden"
           >
-            <div className="container mx-auto space-y-5 px-6 py-6">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block display-serif text-3xl text-ink link-ink"
-                >
-                  {link.label}
-                </Link>
-              ))}
+            <div className="content-wide pb-8 pt-4">
+              <nav className="flex flex-col">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="border-b border-black/10 py-4 text-[28px] font-semibold tracking-tight"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
 
-              <div className="rule-top flex flex-wrap items-center gap-3 pt-4">
-                <CurrencySelector variant="editorial" />
+              <div className="mt-6 flex items-center gap-1">
+                <CurrencySelector />
                 <LanguageMenu />
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={toggleTheme}
-                  className="small-caps rounded-none"
-                >
-                  {theme === "dark" ? (
-                    <Sun className="mr-2 h-4 w-4" />
-                  ) : (
-                    <Moon className="mr-2 h-4 w-4" />
-                  )}
-                  {theme === "dark" ? t("theme.light") : t("theme.dark")}
-                </Button>
               </div>
 
               {isAuthenticated && user ? (
-                <div className="space-y-3 rule-top pt-4">
-                  <div className="flex items-center gap-3">
-                    <Avatar className="h-10 w-10 rounded-none border-2 border-ink">
-                      <AvatarImage src={user.avatarUrl} alt={user.firstName} />
-                      <AvatarFallback className="rounded-none bg-coral text-paper">
-                        {user.firstName[0]}
-                        {user.lastName[0]}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="display-serif text-lg">
-                        {user.firstName} {user.lastName}
-                      </p>
-                      <p className="text-xs text-ink-faded">{user.email}</p>
-                    </div>
-                  </div>
+                <div className="mt-6">
+                  <p className="text-[15px] font-semibold">
+                    {user.firstName} {user.lastName}
+                  </p>
+                  <p className="type-caption">{user.email}</p>
                   <Button
-                    variant="outline"
-                    className="small-caps w-full rounded-none border-2 border-ink"
+                    variant="secondary"
+                    className="mt-4 w-full"
                     onClick={() => {
-                      navigate("/dashboard");
                       setMobileMenuOpen(false);
-                    }}
-                  >
-                    <LayoutDashboard className="mr-2 h-4 w-4" />
-                    {t("nav.dashboard")}
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="small-caps w-full rounded-none text-postmark"
-                    onClick={() => {
                       handleLogout();
-                      setMobileMenuOpen(false);
                     }}
                   >
-                    <LogOut className="mr-2 h-4 w-4" />
                     {t("nav.logout")}
                   </Button>
                 </div>
               ) : (
-                <div className="flex flex-col gap-2 rule-top pt-4">
-                  <Button
-                    variant="outline"
-                    className="small-caps rounded-none border-2 border-ink"
-                    onClick={() => {
-                      navigate("/login");
-                      setMobileMenuOpen(false);
-                    }}
-                  >
-                    {t("nav.login")}
+                <div className="mt-6 grid grid-cols-2 gap-3">
+                  <Button variant="secondary" asChild>
+                    <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
+                      {t("nav.login")}
+                    </Link>
                   </Button>
-                  <Button
-                    className="small-caps rounded-none border-2 border-ink bg-ink text-paper shadow-[3px_3px_0_0_var(--coral)]"
-                    onClick={() => {
-                      navigate("/register");
-                      setMobileMenuOpen(false);
-                    }}
-                  >
-                    {t("nav.register")}
+                  <Button asChild>
+                    <Link to="/register" onClick={() => setMobileMenuOpen(false)}>
+                      {t("nav.register")}
+                    </Link>
                   </Button>
                 </div>
               )}
@@ -347,6 +208,6 @@ export function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </header>
   );
 }

@@ -25,8 +25,12 @@ import { toast } from "sonner";
 import { bookingsApi } from "@/api/bookings.api";
 import { checkInApi } from "@/api/checkin.api";
 import { formatDate, formatTime } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 export function CheckInPage() {
+  const { t: translate } = useTranslation();
+  usePageMeta({ title: translate("meta.checkin.title"), noindex: true });
   const { bookingId } = useParams<{ bookingId: string }>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -78,7 +82,7 @@ export function CheckInPage() {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto px-4 py-8 max-w-4xl space-y-4">
+      <div className="content-wide py-8 max-w-4xl space-y-4">
         <Skeleton className="h-10 w-1/3" />
         <Skeleton className="h-32 w-full" />
         <Skeleton className="h-48 w-full" />
@@ -88,7 +92,7 @@ export function CheckInPage() {
 
   if (isError || !booking) {
     return (
-      <div className="container mx-auto px-4 py-12 max-w-xl">
+      <div className="content-wide py-12 max-w-xl">
         <Card>
           <CardContent className="flex flex-col items-center gap-4 py-12">
             <AlertCircle className="h-12 w-12 text-destructive" />
@@ -108,7 +112,7 @@ export function CheckInPage() {
   const alreadyCheckedIn = booking.status === "COMPLETED";
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <div className="content-wide py-8 max-w-4xl">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -126,7 +130,7 @@ export function CheckInPage() {
         <h1 className="text-3xl font-bold">Online Check-in</h1>
         <p className="text-muted-foreground">
           Booking reference{" "}
-          <span className="font-mono font-semibold">
+          <span className="tabular-nums font-semibold">
             {booking.bookingReference}
           </span>
         </p>

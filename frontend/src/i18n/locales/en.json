@@ -1,15 +1,13 @@
 {
   "nav": {
     "flights": "Flights",
-    "transport": "Ground Transport",
-    "myBookings": "My Bookings",
-    "services": "Services",
-    "login": "Login",
-    "register": "Register",
-    "logout": "Logout",
+    "beEscorted": "Get a driver",
+    "myBookings": "My bookings",
+    "login": "Sign in",
+    "register": "Sign up",
+    "logout": "Sign out",
     "dashboard": "Dashboard",
-    "profile": "Profile",
-    "settings": "Settings"
+    "menu": "Menu"
   },
   "common": {
     "search": "Search",
@@ -41,63 +39,31 @@
     "or": "or",
     "and": "and",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "currencyLabel": "Show prices in"
   },
   "home": {
     "hero": {
-      "eyebrow": "The travel essay · Departures",
-      "title": "The art of taking off.",
-      "titlePre": "The",
-      "titleItalicA": "art",
-      "titleOf": "of",
-      "titleItalicB": "taking",
-      "titlePost": "off.",
-      "subtitle": "Find the lowest fares across hundreds of airlines, then let us handle the rest — a taxi waiting at the kerb with your name on a placard, or a city ride the moment you land.",
-      "lede": "We hunt the cheapest fares across one hundred and twenty airlines, stitch together itineraries in five hundred cities — and arrange a taxi that meets you at arrivals with your name on a placard, or a metered cab to rent in the city you've just landed in. All that remains of the airport is the window seat.",
-      "readOn": "Read on",
-      "meta": "10 minutes · 4 sections",
-      "cta": "Search for a flight"
-    },
-    "request": {
-      "titlePre": "Request a",
-      "titleItalic": "flight.",
-      "description": "Fill in the coupons below as you would on a paper ticket. Departure, arrival, dates, party — the essentials of any itinerary, no more, no less. We search one hundred and twenty airlines on your behalf.",
-      "byEditors": "by the editors",
-      "formHeader": "Form № 001 · Travel request",
-      "formReceived": "Received · __ / __ / 26"
+      "title": "From the runway to your door.",
+      "subtitle": "Your flight, and the car waiting when you land. One booking.",
+      "cta": "Search flights",
+      "lookup": "Find a booking",
+      "imageAlt": "Airliner on approach with its landing gear down"
     },
     "deals": {
-      "eyebrow": "Live fares",
-      "titlePre": "Fares,",
-      "titleItalic": "live from",
-      "titlePost": "the wire.",
-      "caption": "Updated every half-hour. One cheapest offer per route, across carriers and agencies.",
-      "error": "The wire is quiet — please refresh in a moment.",
+      "caption": "The lowest price on each route, refreshed every thirty minutes.",
+      "error": "Fares are unavailable right now. Try again in a moment.",
       "direct": "Direct",
       "stopOne": "{{count}} stop",
       "stopOther": "{{count}} stops",
       "directAirline": "Direct airline",
       "viaAgency": "Via agency",
       "from": "From",
-      "book": "Book"
-    },
-    "numbers": {
-      "titlePre": "By the",
-      "titleItalic": "numbers.",
-      "caption": "A small compendium of figures, compiled with modest pride."
-    },
-    "stats": {
-      "flights": "Flights daily",
-      "destinations": "Destinations",
-      "airlines": "Partner airlines",
-      "customers": "Travellers served"
+      "book": "Book",
+      "title": "Today's best fares."
     },
     "spotlight": {
-      "eyebrow": "Concierge",
-      "titlePre": "A city,",
-      "titleItalic": "fully briefed",
-      "titleDot": ".",
-      "description": "Our concierge reads the room for you. Safety at a glance, what's on this season, the five things locals would do before leaving town — all in one page, no tabs, no ads.",
+      "description": "Safety, what's on, must-sees and practical details, all on one page.",
       "safetySnapshot": "Safety snapshot",
       "whatNotToMiss": "What not to miss",
       "inSeason": "In season",
@@ -108,118 +74,58 @@
       "plug": "Plug",
       "transport": "Transport",
       "airportLabel": "Airport {{iata}}",
-      "concierge": "Concierge",
-      "briefingBy": "Briefing by",
-      "byAI": "SkyBooker AI concierge",
-      "byEditors": "SkyBooker editors",
       "verifyNotice": "Verify with official sources before travel",
-      "error": "The concierge desk is unreachable. Please try again."
-    },
-    "kindnesses": {
-      "titlePre": "Small",
-      "titleItalic": "kindnesses",
-      "titlePost": ", at every step.",
-      "learnMore": "Learn more",
-      "items": {
-        "taxi": {
-          "title": "Taxi at the kerb",
-          "lede": "A driver waits with your name on a card. No hailing, no queuing, no haggling — only the soft thud of the boot closing."
-        },
-        "baggage": {
-          "title": "Baggage, accounted for",
-          "lede": "Declare your luggage in advance. Avoid the surcharge, the lost-and-found, the uneasy wait at the carousel."
-        },
-        "checkin": {
-          "title": "Check-in on your phone",
-          "lede": "Forty-eight hours before departure, a boarding pass lands in your inbox. Walk past the queue. Find a coffee."
-        },
-        "insurance": {
-          "title": "Insured, reassured",
-          "lede": "Lost passports, delayed flights, an umbrella stolen in Lisbon. Our policies cover the small catastrophes of travel."
-        }
-      }
-    },
-    "dispatches": {
-      "titlePre": "Three",
-      "titleItalic": "dispatches",
-      "titlePost": "to consider.",
-      "caption": "Curated by our editors this month. All prices per person, return.",
-      "nightsMinimum": "{{count}} nights minimum",
-      "fromPrice": "from",
-      "readDispatch": "Read dispatch",
-      "items": {
-        "nyc": {
-          "note": "The classic crossing. Eight hours above the Atlantic, then the skyline.",
-          "nights": "3 nights minimum"
-        },
-        "tokyo": {
-          "note": "A quiet morning in Shinjuku, a bowl of ramen before midnight.",
-          "nights": "7 nights minimum"
-        },
-        "buenosAires": {
-          "note": "Tango on cobblestones. Malbec and steak at half past ten.",
-          "nights": "10 nights minimum"
-        }
-      }
-    },
-    "taxiSection": {
-      "titlePre": "The other half:",
-      "titleItalic": "a taxi",
-      "titlePost": ", waiting.",
-      "description": "Anyone can sell you a cheap flight. We do something quietly more useful: we make sure a driver is there when the cabin doors open. Reserve a meet-and-greet at arrivals, or a metered cab to rent in the destination city — both attached to the same booking, both billed in the currency of your choosing.",
-      "citiesAvailable": "Available in 220+ cities",
-      "items": {
-        "arrivals": {
-          "title": "A driver waiting at arrivals",
-          "lede": "Step out of customs and find your name on a card. The boot is open, the engine is warm, the city is twenty minutes away."
-        },
-        "cityRental": {
-          "title": "A cab to rent in the city",
-          "lede": "Need wheels for a day, a week, a month? Reserve a metered cab in your destination city — same booking, same currency, same trust."
-        }
-      }
+      "error": "This guide is unavailable right now. Try again in a moment.",
+      "title": "Your destination at a glance.",
+      "briefingBy": "Briefing by",
+      "byAI": "Fly & taxi AI concierge",
+      "byEditors": "Fly & taxi editors"
     },
     "payments": {
-      "titlePre": "Pay the way",
-      "titleItalic": "you prefer",
-      "titleDot": ".",
-      "description": "From a Visa swipe in Paris to Alipay in Shanghai or M-Pesa in Nairobi — we accept the world's payment methods, in any of twelve currencies."
+      "title": "Pay your way.",
+      "description": "Card, mobile wallet or bank transfer. Use whichever suits you."
     },
     "closing": {
-      "eyebrow": "A closing word",
-      "quoteLead": "Travel makes",
-      "quoteItalic": "one modest",
-      "quoteTail": ". You see what a tiny place you occupy in the world.",
-      "author": "— Gustave Flaubert, 1849",
-      "cta": "Begin your journey"
+      "title": "Ready to go?",
+      "subtitle": "Find your flight in seconds.",
+      "cta": "Search flights"
     },
     "services": {
-      "title": "Our Services",
-      "subtitle": "Everything you need for a perfect trip",
-      "taxi": {
-        "title": "Taxi at the kerb",
-        "description": "Pre-book a driver to wait for you at arrivals — name placard included — or rent a cab in the city you're flying to"
-      },
+      "title": "Travel light.",
       "baggage": {
-        "title": "Baggage Declaration",
-        "description": "Declare your baggage in advance and avoid surprises at the airport"
+        "title": "Bags declared ahead",
+        "description": "Add your bags before you leave and skip the extra fees at the counter."
       },
       "checkin": {
-        "title": "Online Check-in",
-        "description": "Check in online and save time at the airport"
+        "title": "Online check-in",
+        "description": "Check in from your phone and get your boarding pass."
       },
       "insurance": {
-        "title": "Travel Insurance",
-        "description": "Protect your trip with our comprehensive insurance"
+        "title": "Travel insurance",
+        "description": "Delays, cancellations, lost bags. You're covered."
+      },
+      "taxi": {
+        "title": "A driver on arrival",
+        "description": "Waiting at the exit, holding a sign with your name."
       }
     },
-    "airlines": {
-      "title": "Partner Airlines",
-      "subtitle": "Travel with the world's best airlines"
+    "search": {
+      "title": "Where to?",
+      "subtitle": "Compare fares from airlines and agencies in one search."
+    },
+    "transfer": {
+      "title": "Your driver is waiting.",
+      "description": "Book your transfer with your flight. When you land, the car is already there.",
+      "cta": "See the service",
+      "arrivals": {
+        "title": "Airport pickup",
+        "description": "Your driver meets you at arrivals, holding a sign with your name."
+      },
+      "cityRental": {
+        "title": "A car in town",
+        "description": "Need to get around? Book a taxi for a day, a week or longer."
+      }
     }
-  },
-  "header": {
-    "tagline": "Cheap flights · Door-to-door · Est. MMXXVI"
   },
   "events": {
     "gate": {
@@ -255,7 +161,7 @@
   },
   "concierge": {
     "openLabel": "Ask the concierge",
-    "brand": "SkyBooker",
+    "brand": "Fly & taxi",
     "panelTitle": "Travel concierge",
     "searchLabel": "Any city in the world",
     "searchPlaceholder": "Tokyo, Paris, BCN…",
@@ -264,8 +170,8 @@
     "events": "Events",
     "whatLocalsDo": "What locals would do",
     "dailyTips": "Daily tips",
-    "footerAi": "Answer generated by SkyBooker AI — verify before travel",
-    "footerStub": "Answers curated by SkyBooker editors",
+    "footerAi": "Answer generated by Fly & taxi AI — verify before travel",
+    "footerStub": "Answers curated by Fly & taxi editors",
     "error": "The concierge desk is closed for the moment.",
     "close": "Close",
     "clear": "Clear",
@@ -309,7 +215,12 @@
       "duration": "Duration",
       "seatsLeft": "seats left",
       "selectFlight": "Select this flight",
-      "perPerson": "/ person"
+      "perPerson": "per person",
+      "departure": "Departure",
+      "arrival": "Arrival",
+      "soldBy": "Sold by",
+      "taxesIncluded": "Taxes and fees included",
+      "bookOnSeller": "Book on {{seller}}"
     },
     "filters": {
       "title": "Filters",
@@ -473,7 +384,7 @@
   "auth": {
     "login": {
       "title": "Login",
-      "subtitle": "Sign in to your Fly & Taxi account",
+      "subtitle": "Sign in to your Fly & taxi account",
       "email": "Email address",
       "password": "Password",
       "rememberMe": "Remember me",
@@ -485,7 +396,7 @@
     },
     "register": {
       "title": "Register",
-      "subtitle": "Create your Fly & Taxi account",
+      "subtitle": "Create your Fly & taxi account",
       "firstName": "First name",
       "lastName": "Last name",
       "email": "Email address",
@@ -496,7 +407,13 @@
       "registerButton": "Sign up",
       "hasAccount": "Already have an account?",
       "signIn": "Sign in",
-      "orContinueWith": "Or continue with"
+      "orContinueWith": "Or continue with",
+      "termsParts": {
+        "pre": "I accept the",
+        "terms": "terms of use",
+        "and": "and the",
+        "privacy": "privacy policy"
+      }
     },
     "validation": {
       "emailRequired": "Email is required",
@@ -597,30 +514,24 @@
     }
   },
   "notFound": {
-    "title": "Page not found",
-    "subtitle": "The page you are looking for does not exist or has been moved",
+    "title": "Page not found.",
+    "subtitle": "The page you are looking for does not exist or has been moved.",
     "backHome": "Back to home"
   },
   "footer": {
-    "about": "About",
-    "aboutText": "Fly & Taxi is your online flight booking platform. Find the best prices and travel with peace of mind.",
-    "links": {
-      "title": "Useful links",
-      "flights": "Search a flight",
-      "services": "Our services",
-      "faq": "FAQ",
-      "contact": "Contact"
+    "tagline": "Flights and transfers in a single booking.",
+    "travel": {
+      "title": "Travel",
+      "flights": "Search flights",
+      "transfers": "Get a driver",
+      "bookings": "My bookings"
     },
-    "legal": {
-      "title": "Legal information",
-      "terms": "Terms of service",
-      "privacy": "Privacy policy",
-      "cookies": "Cookie policy"
+    "account": {
+      "title": "Account",
+      "login": "Sign in",
+      "register": "Sign up"
     },
-    "social": {
-      "title": "Follow us"
-    },
-    "copyright": "Fly & Taxi. All rights reserved."
+    "copyright": "Fly & taxi. All rights reserved."
   },
   "theme": {
     "light": "Light",
@@ -640,5 +551,70 @@
       "skip": "Skip for now",
       "menuLabel": "Language"
     }
+  },
+  "lookup": {
+    "title": "Find your booking.",
+    "guest": "Enter your booking reference and the email address used for the purchase.",
+    "auth": "You're signed in. Your bookings are in your account.",
+    "reference": "Booking reference",
+    "email": "Email address",
+    "emailPlaceholder": "you@example.com",
+    "submit": "Continue",
+    "viewBookings": "View my bookings",
+    "orLogin": "Sign in to my account"
+  },
+  "cookies": {
+    "title": "Audience measurement",
+    "text": "We would like to count visits to improve the site. No advertising cookies, no cross-site tracking.",
+    "learnMore": "Learn more",
+    "accept": "Accept",
+    "refuse": "Decline",
+    "manage": "Manage cookies"
+  },
+  "legal": {
+    "title": "Legal",
+    "privacy": "Privacy",
+    "terms": "Terms of use",
+    "cookies": "Cookies",
+    "updated": "Last updated: {{date}}"
+  },
+  "meta": {
+    "home": {
+      "title": "Flights and transfers in one booking",
+      "description": "Book your flight and the car that meets you on arrival, in a single booking."
+    },
+    "flights": {
+      "title": "Search flights",
+      "description": "Compare fares from airlines and agencies and book your flight."
+    },
+    "transport": {
+      "title": "Get a driver",
+      "description": "An agent meets you off the plane and drives you to your destination. Three levels of protection."
+    },
+    "login": {
+      "title": "Sign in"
+    },
+    "register": {
+      "title": "Sign up"
+    },
+    "dashboard": {
+      "title": "My bookings"
+    },
+    "booking": {
+      "title": "Booking"
+    },
+    "checkin": {
+      "title": "Check-in"
+    },
+    "admin": {
+      "title": "Administration"
+    },
+    "notFound": {
+      "title": "Page not found"
+    }
+  },
+  "contact": {
+    "sent": "Your mail app is opening with your request. Just press send.",
+    "unavailable": "This form is unavailable right now."
   }
 }

@@ -26,10 +26,10 @@ const SUGGESTIONS = [
 ];
 
 const SAFETY_TONE: Record<SafetyLevel, string> = {
-  LOW: "bg-emerald-700 text-paper",
-  MODERATE: "bg-gold text-ink",
-  ELEVATED: "bg-orange-700 text-paper",
-  HIGH: "bg-postmark-red text-paper",
+  LOW: "bg-success/10 text-success",
+  MODERATE: "bg-warning/10 text-warning",
+  ELEVATED: "bg-warning/10 text-warning",
+  HIGH: "bg-destructive/10 text-destructive",
 };
 
 type AirportMatch = {
@@ -83,17 +83,14 @@ export function AIConcierge() {
   return (
     <>
       {/* Floating trigger */}
-      <motion.button
+      <button
         type="button"
         onClick={() => setOpen(true)}
-        whileHover={{ y: -2 }}
-        whileTap={{ scale: 0.97 }}
-        aria-label={t("concierge.openLabel")}
-        className="fixed bottom-6 right-6 z-40 flex items-center gap-2 border-2 border-ink bg-paper px-5 py-3 shadow-[4px_4px_0_0_var(--ink)] transition-shadow hover:shadow-[6px_6px_0_0_var(--coral)]"
+        className="fixed bottom-6 right-6 z-40 flex h-11 items-center gap-2 rounded-full bg-background/80 px-5 text-[15px] shadow-card backdrop-blur-xl transition-shadow hover:shadow-card-hover"
       >
-        <Sparkles className="h-4 w-4 text-coral" />
-        <span className="small-caps text-xs">{t("concierge.openLabel")}</span>
-      </motion.button>
+        <Sparkles className="h-4 w-4 text-link" />
+        {t("concierge.openLabel")}
+      </button>
 
       {/* Slide-in panel */}
       <AnimatePresence>
@@ -104,7 +101,7 @@ export function AIConcierge() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setOpen(false)}
-              className="fixed inset-0 z-50 bg-ink/50 backdrop-blur-sm"
+              className="fixed inset-0 z-50 bg-black/40"
             />
             <motion.aside
               role="dialog"
@@ -112,15 +109,15 @@ export function AIConcierge() {
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", stiffness: 280, damping: 32 }}
-              className="paper-bg grain fixed inset-y-0 right-0 z-50 flex w-full max-w-xl flex-col border-l-2 border-ink shadow-[-8px_0_0_0_var(--ink)]"
+              transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+              className="fixed inset-y-0 right-0 z-50 flex w-full max-w-xl flex-col bg-background shadow-modal"
             >
-              <header className="flex items-center justify-between border-b-2 border-ink px-6 py-4">
+              <header className="flex items-center justify-between border-b border-border px-6 py-5">
                 <div>
-                  <p className="small-caps text-coral">
+                  <p className="type-caption">
                     {t("concierge.brand")}
                   </p>
-                  <h2 className="display-serif text-2xl leading-tight">
+                  <h2 className="type-title">
                     {t("concierge.panelTitle")}
                   </h2>
                 </div>
@@ -128,7 +125,7 @@ export function AIConcierge() {
                   type="button"
                   onClick={() => setOpen(false)}
                   aria-label={t("concierge.close")}
-                  className="rounded-full border border-ink/40 p-1.5 hover:bg-ink/5"
+                  className="rounded-full bg-secondary p-2 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -137,11 +134,11 @@ export function AIConcierge() {
               <div className="flex-1 overflow-y-auto px-6 py-6">
                 {/* Search bar */}
                 <label className="block">
-                  <span className="small-caps text-ink-faded">
+                  <span className="type-caption text-muted-foreground">
                     {t("concierge.searchLabel")}
                   </span>
-                  <div className="mt-2 flex items-center gap-2 border-2 border-ink bg-paper px-3 py-2 shadow-[3px_3px_0_0_var(--ink)] focus-within:shadow-[4px_4px_0_0_var(--coral)]">
-                    <Search className="h-4 w-4 text-ink-faded" />
+                  <div className="mt-2 flex h-11 items-center gap-2 rounded-md border border-input px-3.5 focus-within:border-ring focus-within:ring-4 focus-within:ring-ring/20">
+                    <Search className="h-4 w-4 text-muted-foreground" />
                     <input
                       type="text"
                       value={query}
@@ -150,14 +147,14 @@ export function AIConcierge() {
                         setSelected(null);
                       }}
                       placeholder={t("concierge.searchPlaceholder")}
-                      className="flex-1 bg-transparent text-base outline-none placeholder:text-ink-faded/60"
+                      className="flex-1 bg-transparent text-[17px] outline-none placeholder:text-muted-foreground"
                     />
                     {selected && (
                       <button
                         type="button"
                         onClick={handleReset}
                         aria-label={t("concierge.clear")}
-                        className="text-ink-faded hover:text-ink"
+                        className="text-muted-foreground hover:text-foreground"
                       >
                         <X className="h-3.5 w-3.5" />
                       </button>
@@ -167,23 +164,23 @@ export function AIConcierge() {
 
                 {/* Autocomplete */}
                 {!selected && matches.length > 0 && (
-                  <div className="mt-2 border-2 border-ink bg-paper shadow-[4px_4px_0_0_var(--ink)]">
+                  <div className="mt-2 overflow-hidden rounded-lg bg-secondary">
                     {matches.map((m) => (
                       <button
                         key={m.iata}
                         type="button"
                         onClick={() => handleSelect(m.iata, m.city)}
-                        className="flex w-full items-baseline justify-between border-b border-ink/20 px-4 py-3 text-left last:border-0 hover:bg-ink/5"
+                        className="flex w-full items-baseline justify-between px-4 py-3 text-left hover:bg-accent"
                       >
                         <div>
-                          <p className="display-serif text-lg leading-none">
+                          <p className="font-semibold leading-snug">
                             {m.city}
                           </p>
-                          <p className="editorial-italic mt-0.5 text-xs text-ink-faded">
+                          <p className="mt-0.5 text-xs text-muted-foreground">
                             {m.country}
                           </p>
                         </div>
-                        <span className="font-mono text-xs tracking-wider text-ink-faded">
+                        <span className="tabular-nums text-xs text-muted-foreground">
                           {m.iata}
                         </span>
                       </button>
@@ -194,7 +191,7 @@ export function AIConcierge() {
                 {/* Suggestion chips */}
                 {!selected && (
                   <div className="mt-6">
-                    <p className="small-caps mb-3 text-ink-faded">
+                    <p className="type-caption mb-3 text-muted-foreground">
                       {t("concierge.jumpTo")}
                     </p>
                     <div className="flex flex-wrap gap-2">
@@ -203,7 +200,7 @@ export function AIConcierge() {
                           key={s.iata}
                           type="button"
                           onClick={() => handleSelect(s.iata, s.label)}
-                          className="border-2 border-ink bg-paper px-3 py-1.5 text-xs uppercase tracking-wider transition-all hover:bg-ink hover:text-paper hover:shadow-[3px_3px_0_0_var(--coral)]"
+                          className="h-9 rounded-full bg-secondary px-4 text-[15px] transition-colors hover:bg-accent"
                         >
                           {s.label}
                         </button>
@@ -216,16 +213,16 @@ export function AIConcierge() {
                 {selected && (
                   <div className="mt-8 space-y-6">
                     {isError ? (
-                      <div className="border-2 border-dashed border-ink/40 p-4">
-                        <p className="body-serif text-ink-faded">
+                      <div className="rounded-lg bg-secondary p-5">
+                        <p className="type-body text-muted-foreground">
                           {t("concierge.error")}
                         </p>
                       </div>
                     ) : isLoading || !data ? (
                       <div className="space-y-3">
-                        <div className="h-8 w-1/2 animate-pulse bg-ink/10" />
-                        <div className="h-4 w-full animate-pulse bg-ink/10" />
-                        <div className="h-4 w-4/5 animate-pulse bg-ink/10" />
+                        <div className="h-8 w-1/2 animate-pulse rounded-sm bg-foreground/[0.06]" />
+                        <div className="h-4 w-full animate-pulse rounded-sm bg-foreground/[0.06]" />
+                        <div className="h-4 w-4/5 animate-pulse rounded-sm bg-foreground/[0.06]" />
                       </div>
                     ) : (
                       <ConciergeAnswer data={data} />
@@ -234,8 +231,8 @@ export function AIConcierge() {
                 )}
               </div>
 
-              <footer className="border-t-2 border-ink px-6 py-3">
-                <p className="font-mono text-[10px] uppercase tracking-wider text-ink-faded">
+              <footer className="border-t border-border px-6 py-3">
+                <p className="type-caption">
                   {data?.source === "claude"
                     ? t("concierge.footerAi")
                     : t("concierge.footerStub")}
@@ -254,36 +251,36 @@ function ConciergeAnswer({ data }: { data: DestinationInsights }) {
   return (
     <div className="space-y-6">
       <header>
-        <p className="font-mono text-xs tracking-wider text-ink-faded">
+        <p className="tabular-nums text-xs text-muted-foreground">
           {data.iata} · {data.country}
         </p>
-        <h3 className="display-serif mt-1 text-5xl leading-[0.95]">
+        <h3 className="mt-1 text-[40px] font-semibold leading-[1.05] tracking-tight">
           {data.city}
         </h3>
-        <p className="body-serif mt-3 text-pretty text-base">{data.tagline}</p>
+        <p className="mt-3 text-[19px] leading-snug">{data.tagline}</p>
       </header>
 
       {/* Safety */}
       <section>
-        <SectionTitle icon={<ShieldCheck className="h-4 w-4 text-coral" />}>
+        <SectionTitle icon={<ShieldCheck className="h-4 w-4 text-muted-foreground" />}>
           {t("concierge.safety")}
         </SectionTitle>
         <span
           className={cn(
-            "mt-3 inline-block px-3 py-1 text-xs uppercase tracking-wider",
+            "mt-3 inline-block rounded-full px-3 py-1 text-[13px] font-medium",
             SAFETY_TONE[data.safety.level]
           )}
         >
           {t(`concierge.safetyLevels.${data.safety.level}`)}
         </span>
-        <p className="body-serif mt-3 text-sm text-ink-soft">
+        <p className="type-body mt-3 text-sm text-muted-foreground">
           {data.safety.summary}
         </p>
         {data.safety.watchouts.length > 0 && (
-          <ul className="mt-3 space-y-1.5 text-sm text-ink-soft">
+          <ul className="mt-3 space-y-1.5 text-sm text-muted-foreground">
             {data.safety.watchouts.slice(0, 4).map((w, i) => (
               <li key={i} className="flex gap-2">
-                <span className="text-coral">·</span>
+                <span aria-hidden="true">·</span>
                 <span>{w}</span>
               </li>
             ))}
@@ -294,21 +291,21 @@ function ConciergeAnswer({ data }: { data: DestinationInsights }) {
       {/* Events */}
       {data.events.length > 0 && (
         <section>
-          <SectionTitle icon={<CalendarDays className="h-4 w-4 text-coral" />}>
+          <SectionTitle icon={<CalendarDays className="h-4 w-4 text-muted-foreground" />}>
             {t("concierge.events")}
           </SectionTitle>
           <div className="mt-3 space-y-3">
             {data.events.slice(0, 3).map((e, i) => (
-              <div key={i} className="border-l-2 border-ink/30 pl-3">
+              <div key={i}>
                 <div className="flex items-baseline justify-between gap-3">
-                  <p className="display-serif text-base leading-tight">
+                  <p className="font-semibold leading-snug">
                     {e.title}
                   </p>
-                  <span className="small-caps text-xs text-ink-faded whitespace-nowrap">
+                  <span className="type-caption text-xs text-muted-foreground whitespace-nowrap">
                     {e.window}
                   </span>
                 </div>
-                <p className="body-serif mt-1 text-xs text-ink-soft">
+                <p className="type-body mt-1 text-xs text-muted-foreground">
                   {e.description}
                 </p>
               </div>
@@ -319,19 +316,19 @@ function ConciergeAnswer({ data }: { data: DestinationInsights }) {
 
       {/* Must do */}
       <section>
-        <SectionTitle icon={<Compass className="h-4 w-4 text-coral" />}>
+        <SectionTitle icon={<Compass className="h-4 w-4 text-muted-foreground" />}>
           {t("concierge.whatLocalsDo")}
         </SectionTitle>
         <ul className="mt-3 space-y-3">
           {data.mustDo.slice(0, 4).map((x, i) => (
             <li key={i}>
-              <p className="display-serif text-base leading-tight">
+              <p className="font-semibold leading-snug">
                 {x.title}
               </p>
-              <p className="body-serif mt-1 text-xs text-ink-soft">
+              <p className="type-body mt-1 text-xs text-muted-foreground">
                 {x.description}
                 {x.neighbourhood && (
-                  <span className="ml-1 text-ink-faded">· {x.neighbourhood}</span>
+                  <span className="ml-1 text-muted-foreground">· {x.neighbourhood}</span>
                 )}
               </p>
             </li>
@@ -341,20 +338,20 @@ function ConciergeAnswer({ data }: { data: DestinationInsights }) {
 
       {/* Daily tips */}
       <section>
-        <SectionTitle icon={<Sparkles className="h-4 w-4 text-coral" />}>
+        <SectionTitle icon={<Sparkles className="h-4 w-4 text-muted-foreground" />}>
           {t("concierge.dailyTips")}
         </SectionTitle>
         <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
           {data.dailyTips.slice(0, 4).map((tip, i) => (
             <div
               key={i}
-              className="border border-ink/20 bg-paper-deep/40 px-3 py-2"
+              className="rounded-md bg-secondary p-4"
             >
-              <p className="small-caps text-[10px] text-ink-faded">
+              <p className="type-caption">
                 {tip.icon}
               </p>
-              <p className="body-serif mt-1 text-sm font-medium">{tip.title}</p>
-              <p className="body-serif mt-0.5 text-xs text-ink-soft">
+              <p className="type-body mt-1 text-sm font-medium">{tip.title}</p>
+              <p className="type-body mt-0.5 text-xs text-muted-foreground">
                 {tip.detail}
               </p>
             </div>
@@ -373,9 +370,9 @@ function SectionTitle({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center gap-2 border-b border-ink/20 pb-2">
+    <div className="flex items-center gap-2 text-muted-foreground">
       {icon}
-      <p className="small-caps text-ink">{children}</p>
+      <p className="type-caption">{children}</p>
     </div>
   );
 }
